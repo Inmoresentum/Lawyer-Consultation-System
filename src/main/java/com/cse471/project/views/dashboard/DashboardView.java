@@ -33,7 +33,7 @@ import javax.annotation.security.RolesAllowed;
 
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
+@RouteAlias(value = "admin-dashboard", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class DashboardView extends Main {
 

@@ -25,7 +25,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import javax.annotation.security.PermitAll;
 
 @PageTitle("User List")
-@Route(value = "user-list", layout = MainLayout.class)
+@Route(value = "", layout = MainLayout.class)
 @PermitAll
 public class UserListView extends Main implements HasComponents, HasStyle {
 

@@ -29,6 +29,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+
 import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
@@ -39,8 +40,8 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
 
-    private AuthenticatedUser authenticatedUser;
-    private AccessAnnotationChecker accessChecker;
+    private final AuthenticatedUser authenticatedUser;
+    private final AccessAnnotationChecker accessChecker;
 
     public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
         this.authenticatedUser = authenticatedUser;
@@ -76,12 +77,12 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
-        if (accessChecker.hasAccess(DashboardView.class)) {
-            nav.addItem(new AppNavItem("Dashboard", DashboardView.class, "la la-chart-area"));
-
-        }
         if (accessChecker.hasAccess(UserListView.class)) {
             nav.addItem(new AppNavItem("User List", UserListView.class, "la la-user-circle"));
+
+        }
+        if (accessChecker.hasAccess(DashboardView.class)) {
+            nav.addItem(new AppNavItem("Dashboard", DashboardView.class, "la la-chart-area"));
 
         }
         if (accessChecker.hasAccess(AllUsersView.class)) {

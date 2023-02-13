@@ -2,12 +2,14 @@
   "name": "no-name",
   "license": "UNLICENSED",
   "dependencies": {
+    "@fontsource/montserrat": "4.5.0",
     "@polymer/iron-icon": "3.0.1",
     "@polymer/iron-iconset-svg": "3.0.1",
     "@polymer/iron-list": "3.1.0",
     "@polymer/iron-meta": "3.0.1",
     "@polymer/iron-resizable-behavior": "3.0.1",
     "@polymer/polymer": "3.5.1",
+    "@vaadin-component-factory/vcf-nav": "1.0.6",
     "@vaadin/accordion": "23.3.7",
     "@vaadin/app-layout": "23.3.7",
     "@vaadin/avatar": "23.3.7",
@@ -119,6 +121,7 @@
     "@vaadin/virtual-list": "23.3.7",
     "construct-style-sheets-polyfill": "3.1.0",
     "date-fns": "2.29.3",
+    "line-awesome": "1.3.0",
     "lit": "2.6.1",
     "proj4": "2.8.1"
   },
@@ -257,16 +260,21 @@
     "@vaadin/multi-select-combo-box": "$@vaadin/multi-select-combo-box",
     "proj4": "$proj4",
     "@vaadin/tabsheet": "$@vaadin/tabsheet",
-    "@vaadin/tooltip": "$@vaadin/tooltip"
+    "@vaadin/tooltip": "$@vaadin/tooltip",
+    "@fontsource/montserrat": "$@fontsource/montserrat",
+    "line-awesome": "$line-awesome",
+    "@vaadin-component-factory/vcf-nav": "$@vaadin-component-factory/vcf-nav"
   },
   "vaadin": {
     "dependencies": {
+      "@fontsource/montserrat": "4.5.0",
       "@polymer/iron-icon": "3.0.1",
       "@polymer/iron-iconset-svg": "3.0.1",
       "@polymer/iron-list": "3.1.0",
       "@polymer/iron-meta": "3.0.1",
       "@polymer/iron-resizable-behavior": "3.0.1",
       "@polymer/polymer": "3.5.1",
+      "@vaadin-component-factory/vcf-nav": "1.0.6",
       "@vaadin/accordion": "23.3.7",
       "@vaadin/app-layout": "23.3.7",
       "@vaadin/avatar": "23.3.7",
@@ -378,6 +386,7 @@
       "@vaadin/virtual-list": "23.3.7",
       "construct-style-sheets-polyfill": "3.1.0",
       "date-fns": "2.29.3",
+      "line-awesome": "1.3.0",
       "lit": "2.6.1",
       "proj4": "2.8.1"
     },
@@ -397,6 +406,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "745b38194bab250a3dc9f77cfa90180d3654aadaab709d603e18e98dddaf0bbb"
+    "hash": "d2ef409e42cf4459ee417b896f63cb4b7f1e5e0409f8c8325b4ef0e269e720ae"
   }
 }
