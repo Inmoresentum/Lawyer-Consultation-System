@@ -1,0 +1,13 @@
+@import url('./main-layout.css');
+@import url('./views/dashboard-view.css');
+@import url('./views/user-list-view.css');
+@import url('./views/all-users-view.css');
+@import url('./views/community-chat-view.css');
+@import url('./views/feedback-view.css');
+@import url('./views/support-view.css');
+@import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
+@import url('@fontsource/montserrat');    html {
+      --lumo-primary-text-color: hsl(241, 79%, 44%);
+--lumo-font-family: Montserrat;
+
+    }
