@@ -2,6 +2,11 @@ package com.cse471.project.data.entity;
 
 import com.cse471.project.data.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -11,14 +16,24 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "application_user")
+@Getter
+@Setter
+@ToString
 public class User extends AbstractEntity {
 
+//    @Min(1)
+//    @Max(32)
     private String username;
+    @NotNull
     private String name;
     @JsonIgnore
+    @NotNull
     private String hashedPassword;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -30,30 +45,39 @@ public class User extends AbstractEntity {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getHashedPassword() {
         return hashedPassword;
     }
+
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
+
     public Set<Role> getRoles() {
         return roles;
     }
+
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
     public byte[] getProfilePicture() {
         return profilePicture;
     }
+
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }

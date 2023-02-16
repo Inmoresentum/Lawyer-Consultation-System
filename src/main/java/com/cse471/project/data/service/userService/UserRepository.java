@@ -1,4 +1,4 @@
-package com.cse471.project.data.service;
+package com.cse471.project.data.service.userService;
 
 import com.cse471.project.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

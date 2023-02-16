@@ -1,7 +1,7 @@
 package com.cse471.project.security;
 
 import com.cse471.project.data.entity.User;
-import com.cse471.project.data.service.UserRepository;
+import com.cse471.project.data.service.userService.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
