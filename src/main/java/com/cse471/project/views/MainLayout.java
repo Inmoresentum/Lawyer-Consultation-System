@@ -140,9 +140,7 @@ public class MainLayout extends AppLayout {
             div.getElement().getStyle().set("align-items", "center");
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
-            userName.getSubMenu().addItem("Sign out", e -> {
-                authenticatedUser.logout();
-            });
+            userName.getSubMenu().addItem("Sign out", e -> authenticatedUser.logout());
 
             layout.add(userMenu);
         } else {
