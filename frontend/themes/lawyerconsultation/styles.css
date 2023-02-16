@@ -7,23 +7,12 @@
 @import url('./views/support-view.css');
 @import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
 @import url('@fontsource/montserrat');
+@import url('./views/login-view.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);
     --lumo-font-family: Montserrat;
 
-}
-
-.container {
-    background-color: rgba(200, 200, 229, 0.75);
-}
-
-.parent-login-view {
-    background-color: rgba(239, 228, 228, 0.75);
-}
-
-.container:hover {
-    background-color: #E41B17;
 }
 
 vaadin-button {

@@ -1,0 +1,74 @@
+/*.container {*/
+/*    background-color: rgba(200, 200, 229, 0.75);*/
+/*}*/
+
+/*.parent-login-view {*/
+/*    background-color: rgba(239, 228, 228, 0.75);*/
+/*}*/
+
+/*.container:hover {*/
+/*    background-color: #17b4e4;*/
+/*}*/
+.parent-login-view {
+    background-color: #F2F2F2;
+    background-image: linear-gradient(to bottom right, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 200% 200%;
+    overflow: hidden;
+}
+
+.container {
+    background-color: #F2F2F2;
+    background-image: linear-gradient(to bottom right, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 200% 200%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+    transition: background-color 0.5s ease;
+}
+
+.container:hover {
+    background-image: linear-gradient(to bottom right, #F46B45, #FEC57F, #8BC6EC, #4F86C6);
+    background-color: #F46B45;
+    background-size: 200% 200%;
+}
+
+.container h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.container p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.container a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    background-color: #69D74B;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+/* Style for the button on hover */
+.button:hover {
+    background-color: #BB6BD9;
+    transition: background-color 0.3s ease;
+}
