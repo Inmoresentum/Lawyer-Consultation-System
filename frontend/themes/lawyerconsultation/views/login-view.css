@@ -1,14 +1,3 @@
-/*.container {*/
-/*    background-color: rgba(200, 200, 229, 0.75);*/
-/*}*/
-
-/*.parent-login-view {*/
-/*    background-color: rgba(239, 228, 228, 0.75);*/
-/*}*/
-
-/*.container:hover {*/
-/*    background-color: #17b4e4;*/
-/*}*/
 .parent-login-view {
     background-color: #F2F2F2;
     background-image: linear-gradient(to bottom right, #EE7752, #E73C7E, #23A6D5, #23D5AB);
