@@ -2,7 +2,7 @@ package com.cse471.project.views.forgotpassword;
 
 
 import com.cse471.project.views.login.LoginView;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -27,32 +27,21 @@ public class ForgotPassword extends VerticalLayout {
         add(new H1("Forgot Password?"));
         add(new Text("Please enter your email address so that we can send you the password reset link."));
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        setAlignItems(Alignment.CENTER);
         EmailField emailField = new EmailField("Enter your email here");
-        emailField.addThemeVariants(TextFieldVariant.LUMO_ALIGN_CENTER);
         emailField.setRequiredIndicatorVisible(true);
         emailField.setTitle("Enter your EMAIL here to get the reset password link!");
         AtomicBoolean containsError = new AtomicBoolean(true);
-        emailField.addValueChangeListener(event -> {
-            String email = event.getValue();
-            String pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-            if (!email.isEmpty()) {
-                if (!email.matches(pattern)) {
-                    emailField.setErrorMessage("Invalid email address!!");
-                    containsError.set(true);
-                } else {
-                    emailField.setErrorMessage(null);
-                    containsError.set(false);
-                }
-            }
-        });
+        emailField.addValueChangeListener(event -> emailChecker(emailField,
+                containsError, event));
         Button submitRequest = new Button("Submit");
         submitRequest.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
         emailField.getStyle().set("width", "45%");
         submitRequest.getStyle().set("width", "25%");
+        submitRequest.addClassName("forgot-password-submit-button");
+        submitRequest.addClickShortcut(Key.ENTER);
         submitRequest.addClickListener(event -> {
             if (!containsError.get()) {
-                // We call the password reset service and do the thing.
+                // We will call the password reset service and do the thing.
                 removeAll();
                 add(new Text("If the provided email address have any account associated with us" +
                         " then you should receive an email with further instructions!"));
@@ -66,7 +55,25 @@ public class ForgotPassword extends VerticalLayout {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
-        var link = new RouterLink("Already have an account? Login", LoginView.class);
+        var link = new RouterLink("Already have an account? Login",
+                LoginView.class);
+        link.addClassName("forgot-password-router-link");
         add(emailField, submitRequest, link);
+    }
+
+    private static void emailChecker(EmailField emailField, AtomicBoolean containsError,
+                                     AbstractField.ComponentValueChangeEvent<EmailField,
+                                             String> event) {
+        String email = event.getValue();
+        String pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        if (!email.isEmpty()) {
+            if (!email.matches(pattern)) {
+                emailField.setErrorMessage("Invalid email address!!");
+                containsError.set(true);
+            } else {
+                emailField.setErrorMessage(null);
+                containsError.set(false);
+            }
+        }
     }
 }

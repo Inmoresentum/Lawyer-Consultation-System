@@ -8,6 +8,7 @@
 @import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
 @import url('@fontsource/montserrat');
 @import url('./views/login-view.css');
+@import url('./views/forgot-password.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);
@@ -15,7 +16,7 @@ html {
 
 }
 
-vaadin-button {
+vaadin-button, vaadin-text-field {
     cursor: pointer;
 }
 

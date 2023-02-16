@@ -36,21 +36,26 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login.setClassName("login-form", true);
         VerticalLayout header = new VerticalLayout();
         header.addClassName("header");
-        header.add(new H1("Lawyer Consultation"), new Paragraph("This is our CSE471 Project"),
+        header.add(new H1("Lawyer Consultation"),
+                new Paragraph("This is our CSE471 Project"),
                 new Paragraph("Currently we are just adding features."));
         header.setAlignItems(Alignment.CENTER);
         Button register = new Button("Register");
         register.addClassName("button");
-        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_SUCCESS);
         var footer = new HorizontalLayout(new Span("New Here? "), register);
         footer.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         var cookie = new CookieConsent();
         cookie.setCookieName("Analytic Cookies");
         cookie.setDismissLabel("This is a cookie that we can't eat xD!!");
         cookie.setLearnMoreLabel("Click to learn more");
-        cookie.setLearnMoreLink("https://www.eatthis.com/surprising-side-effects-eating-cookies/");
-        login.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().navigate("forgot-password"));
-        register.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("register-user"));
+        cookie.setLearnMoreLink("https://www.eatthis.com/surprising-" +
+                "side-effects-eating-cookies/");
+        login.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().
+                navigate("forgot-password"));
+        register.addClickListener(buttonClickEvent -> UI.getCurrent()
+                .navigate("register-user"));
         vl.add(header, login, footer, cookie);
         add(div);
     }
@@ -58,7 +63,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if (beforeEnterEvent.getLocation().getQueryParameters().getParameters().containsKey("error")) {
+        if (beforeEnterEvent.getLocation().getQueryParameters().
+                getParameters().containsKey("error")) {
             login.setError(true);
         }
     }
