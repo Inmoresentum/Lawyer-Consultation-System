@@ -1,9 +1,9 @@
-package com.cse471.project.service.sampleuserservice;
+package com.cse471.project.service.SampleUserService;
 
 import com.cse471.project.entity.SamplePerson;
 import java.util.Optional;
 
-import com.cse471.project.service.sampleuserservice.SamplePersonRepository;
+import com.cse471.project.repository.SamplePersonRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

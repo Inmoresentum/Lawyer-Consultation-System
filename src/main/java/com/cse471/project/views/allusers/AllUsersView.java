@@ -1,7 +1,7 @@
 package com.cse471.project.views.allusers;
 
 import com.cse471.project.entity.SamplePerson;
-import com.cse471.project.service.sampleuserservice.SamplePersonService;
+import com.cse471.project.service.SampleUserService.SamplePersonService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
 import com.vaadin.collaborationengine.CollaborationBinder;

@@ -1,15 +1,19 @@
 package com.cse471.project.security;
 
 import com.cse471.project.entity.User;
-import com.cse471.project.service.userService.UserRepository;
+import com.cse471.project.repository.UserRepository;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import javax.security.auth.login.AccountLockedException;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -23,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if (user == null) {
+        if (user == null || !user.isActive()) {
             throw new UsernameNotFoundException("No user present with username: " + username);
         } else {
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getHashedPassword(),

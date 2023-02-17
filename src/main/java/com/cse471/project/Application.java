@@ -6,6 +6,7 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.Async;
 
 
 /**
@@ -13,7 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>
  * Use the @PWA annotation make the application installable on phones, tablets
  * and some desktop browsers.
- *
  */
 @SpringBootApplication
 @NpmPackage(value = "@fontsource/montserrat", version = "4.5.0")
@@ -21,6 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Push
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
+@Async
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
