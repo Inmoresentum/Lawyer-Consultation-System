@@ -13,18 +13,17 @@
     border-radius: 15px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     color: white;
-    /*transition: background-color 0.5s ease;*/
     transition: all 0.6s ease-in-out;
 }
 
 .container:hover {
     background-image: linear-gradient(to bottom right, #F46B45, #FEC57F, #8BC6EC, #4F86C6);
     background-color: #F46B45;
-    background-size: 150% 150%;
-    transform: scale(1.01);
+    background-size: 200% 200%;
+    transform: scale(1.1);
 }
 
-.container h1 {
+.container h2 {
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -62,4 +61,26 @@
 .button:hover {
     background-color: #BB6BD9;
     transition: background-color 0.3s ease;
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .container h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .container p {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .button {
+        padding: 6px 16px;
+        font-size: 14px;
+    }
 }
