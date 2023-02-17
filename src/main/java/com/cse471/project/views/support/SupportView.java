@@ -1,7 +1,7 @@
 package com.cse471.project.views.support;
 
-import com.cse471.project.data.entity.SamplePerson;
-import com.cse471.project.data.service.SamplePersonService;
+import com.cse471.project.entity.SamplePerson;
+import com.cse471.project.service.sampleuserservice.SamplePersonService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;

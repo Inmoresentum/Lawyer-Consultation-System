@@ -1,4 +1,4 @@
-package com.cse471.project.data.entity;
+package com.cse471.project.entity;
 
 import java.time.LocalDate;
 import javax.persistence.Entity;

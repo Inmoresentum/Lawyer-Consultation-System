@@ -1,8 +1,8 @@
 package com.cse471.project.views.RegisterUser;
 
-import com.cse471.project.data.Role;
-import com.cse471.project.data.entity.User;
-import com.cse471.project.data.service.userService.UserService;
+import com.cse471.project.entity.Role;
+import com.cse471.project.entity.User;
+import com.cse471.project.service.userService.UserService;
 import com.cse471.project.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;

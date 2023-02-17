@@ -2,7 +2,7 @@ package com.cse471.project.views;
 
 import com.cse471.project.components.appnav.AppNav;
 import com.cse471.project.components.appnav.AppNavItem;
-import com.cse471.project.data.entity.User;
+import com.cse471.project.entity.User;
 import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.views.about.AboutView;
 import com.cse471.project.views.allusers.AllUsersView;
@@ -26,11 +26,9 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 /**

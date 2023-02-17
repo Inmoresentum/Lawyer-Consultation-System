@@ -1,6 +1,6 @@
-package com.cse471.project.data.service.userService;
+package com.cse471.project.service.userService;
 
-import com.cse471.project.data.entity.User;
+import com.cse471.project.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
