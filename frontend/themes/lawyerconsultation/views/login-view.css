@@ -20,8 +20,8 @@
 .container:hover {
     background-image: linear-gradient(to bottom right, #F46B45, #FEC57F, #8BC6EC, #4F86C6);
     background-color: #F46B45;
-    background-size: 200% 200%;
-    transform: scale(1.1);
+    background-size: 150% 150%;
+    transform: scale(1.01);
 }
 
 .container h1 {
