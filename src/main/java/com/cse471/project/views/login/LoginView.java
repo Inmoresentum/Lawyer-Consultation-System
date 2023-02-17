@@ -4,10 +4,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.cookieconsent.CookieConsent;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -36,9 +33,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login.setClassName("login-form", true);
         VerticalLayout header = new VerticalLayout();
         header.addClassName("header");
-        header.add(new H1("Lawyer Consultation"),
-                new Paragraph("This is our CSE471 Project"),
-                new Paragraph("Currently we are just adding features."));
+        header.add(new H2("Lawyer Consultation"));
         header.setAlignItems(Alignment.CENTER);
         Button register = new Button("Register");
         register.addClassName("button");
