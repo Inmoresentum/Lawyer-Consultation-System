@@ -9,4 +9,4 @@ with more information.
 * SHORNALI ISLAM SNIKDHA [20301108]
 
 ### Todo:
- * _Complete the project ASAP[On going]_
+ * _Complete the project ASAP[Waiting for the approval of the facutly]_
