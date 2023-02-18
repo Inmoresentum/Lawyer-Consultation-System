@@ -6,7 +6,7 @@ with more information.
 ## Group Members
 * ATHAR NOOR MOHAMMAD RAFEE [20101396]
 * FARIA ISLAM LAIBA [20301176]
-* Shornali Islam Snikdha [20301108]
+* SHORNALI ISLAM SNIKDHA [20301108]
 
 ### Todo:
  * _Complete the project ASAP[On going]_
