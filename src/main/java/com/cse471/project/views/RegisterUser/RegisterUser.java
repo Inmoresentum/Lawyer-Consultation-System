@@ -49,7 +49,7 @@ public class RegisterUser extends VerticalLayout {
         this.userService = userService;
         Div layout = new Div();
         layout.addClassName("r-div");
-        var header = new H3("Register");
+        var header = new H3("Registration Form");
         header.addClassName("r-v-h3");
         var registerButton = new Button("Register", e -> register());
         registerButton.addClassName("r-v-button");
@@ -105,7 +105,7 @@ public class RegisterUser extends VerticalLayout {
     private void setUpNameField() {
         name.setPlaceholder("Enter your name");
         name.setRequiredIndicatorVisible(true);
-        name.setErrorMessage("You provide a valid username");
+        name.setErrorMessage("Please provide a valid username");
         name.setRequired(true);
         name.addClassName("r-v-text-field");
     }

@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: auto;
     background: linear-gradient(to bottom, #75ebd5, #9face6);
 }
 
@@ -26,7 +26,7 @@
 
 .r-div:hover {
     transform: scale(1.0134);
-    transition: all 0.4s ease-in-out;
+    transition: all 0.6s ease-in-out;
     background-position: 100% 0;
 }
 
@@ -82,14 +82,17 @@
 }
 
 .r-v-button:hover {
-    background-color: #3f8f47;
+    background-color: #e900f9;
 }
 
-/* Style the H3 element */
-.r-h3 {
+.r-v-h3 {
     font-size: 2.5rem;
     color: #ffffff;
     text-align: center;
     margin-top: 1.5rem;
     margin-bottom: 2rem;
+}
+
+.r-v-h3:hover {
+    color: #8200ff;
 }
