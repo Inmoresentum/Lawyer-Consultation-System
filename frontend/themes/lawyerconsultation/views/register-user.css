@@ -147,7 +147,7 @@
     font-size: 64px;
     color: white;
     margin-right: 20px;
-    animation: rotate-animation 3s infinite;
+    animation: rotate-animation 6s infinite;
 }
 
 @keyframes rotate-animation {
