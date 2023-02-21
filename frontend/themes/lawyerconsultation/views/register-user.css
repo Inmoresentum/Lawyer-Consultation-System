@@ -3,8 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: auto;
-    background: linear-gradient(to bottom, #75ebd5, #9face6);
+    height: 100%;
+    background: linear-gradient(to bottom right, #75ebd5, #9face6);
 }
 
 /* Style the registration form container */
@@ -59,6 +59,19 @@
     color: #404040;
 }
 
+.r-v-confirm-password-field {
+    width: 100%;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: #404040;
+}
+
 .r-v-text-field::placeholder,
 .r-v-password-field::placeholder,
 .r-v-email-field::placeholder {
@@ -95,4 +108,49 @@
 
 .r-v-h3:hover {
     color: #8200ff;
+}
+
+/* Writing css for confirmation animation */
+.success-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+.checkmark-icon {
+    color: #2ecc71;
+    animation: checkmark 0.5s ease-in-out;
+}
+
+.success-message {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+@keyframes checkmark {
+    0% {
+        transform: scale(0.1) rotate(0deg);
+    }
+    70% {
+        transform: scale(1.2) rotate(0deg);
+    }
+    100% {
+        transform: scale(1) rotate(720deg);
+    }
 }

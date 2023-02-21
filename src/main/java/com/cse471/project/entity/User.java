@@ -44,9 +44,8 @@ public class User extends AbstractEntity {
     //Todo: Must need to fix the size later
     @Size(min = 4, max = 34)
     private String phoneNumber;
-    @NotNull
     @Size(min = 5, max = 65)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private boolean isActive = false;

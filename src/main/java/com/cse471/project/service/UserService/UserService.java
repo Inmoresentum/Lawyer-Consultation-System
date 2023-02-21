@@ -70,4 +70,11 @@ public class UserService {
         return (int) userRepository.count();
     }
 
+    public boolean findUserByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean userNameIsInUse(String username) {
+        return userRepository.existsByUsername(username);
+    }
 }

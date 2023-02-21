@@ -1,18 +1,21 @@
 package com.cse471.project.views.RegisterUser;
 
-import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.login.LoginView;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -26,7 +29,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @PageTitle("User Registration")
 @Uses(Icon.class)
@@ -34,7 +38,6 @@ import java.util.Collections;
 @AnonymousAllowed
 public class RegisterUser extends VerticalLayout {
     private final TextField name = new TextField("Name");
-
     private final TextField username = new TextField("Username");
     private final EmailField email = new EmailField("Email");
     private final PhoneNumberField phoneNumberField = new PhoneNumberField("Phone number");
@@ -47,67 +50,195 @@ public class RegisterUser extends VerticalLayout {
         addClassName("r-v-registration-view");
         setAlignItems(FlexComponent.Alignment.CENTER);
         this.userService = userService;
+        Div layout = getDivLayout();
+        add(layout);
+    }
+
+    private Div getDivLayout() {
         Div layout = new Div();
         layout.addClassName("r-div");
         var header = new H3("Registration Form");
         header.addClassName("r-v-h3");
-        var registerButton = new Button("Register", e -> register());
+        var registerButton = new Button("Register", e -> registerUser());
         registerButton.addClassName("r-v-button");
         var link = new RouterLink("Already have an account? Login",
                 LoginView.class);
-        // Adding the same css className so that I
-        // can reuse the previous css.
+        FormLayout formLayout = getFormLayout(link);
+        layout.add(header, formLayout,
+                registerButton, link);
+        return layout;
+    }
+
+    private FormLayout getFormLayout(RouterLink link) {
         link.addClassName("forgot-password-router-link");
         setUpUserNameTextField();
         setUpNameField();
+        setUpPhoneNumberField();
         setUpPasswordFiled();
         setUpConfirmPasswordFiled();
         setEmailField();
         FormLayout formLayout = new FormLayout(name, username, email, phoneNumberField,
                 password, confirmPassword);
         formLayout.addClassName("r-v-form-layout");
-        layout.add(header, formLayout,
-                registerButton, link);
-        add(layout);
+        return formLayout;
     }
 
-    private void register() {
+    private void registerUser() {
         // Add register button login here to check if everything is correct or not
         // If not correct, then show an error message
         // based on the error.
+        if (!isTheFormOkay()) {
+            Notification notification = new Notification();
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+            Div text = new Div(new Text("Please fill up the properly" +
+                    " before proceeding any further"));
+
+            Button closeButton = new Button(new Icon("lumo", "cross"));
+            closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+            closeButton.getElement().setAttribute("aria-label", "Close");
+            closeButton.addClickListener(event -> notification.close());
+            HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+            layout.setAlignItems(Alignment.CENTER);
+            notification.add(layout);
+            notification.setPosition(Notification.Position.BOTTOM_CENTER);
+            notification.setDuration(10000);
+            notification.open();
+            return;
+        }
         User user = new User();
-        if (name.getValue() != null) {
-            user.setName(name.getValue());
-        }
-        if (username.getValue() != null) {
-            user.setUsername(username.getValue());
-        }
-        if (email.getValue() != null && email.getValue().endsWith("@g.bracu.ac.bd")) {
-            user.setRoles(Collections.singleton(Role.ADMIN));
-            user.setEmail(email.getValue());
-        } else if (email.getValue() != null) {
-            user.setRoles(Collections.singleton(Role.USER));
-            user.setEmail(email.getValue());
-        }
-        if (phoneNumberField.number.getValue() != null) {
-            user.setPhoneNumber(phoneNumberField.number.getValue());
-        }
+        user.setEmail(email.getValue());
+        user.setPhoneNumber(phoneNumberField.countryCode.getValue()
+                + phoneNumberField.number.getValue());
+        user.setName(name.getValue());
+        user.setUsername(username.getValue());
+        // Todo: probably do a try catch to catch any error
+        // and log it out.
         userService.registerUser(user, password.getValue());
-        removeAll();
-        add(new Text("User registration successfully!! Please check email For further instructions!"));
-        Notification.show("Registration successful!")
-                .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        showSuccessConfirmation();
     }
 
-    private void checkError() {
+    private void showSuccessConfirmation() {
+        removeAll();
+        /// Create a card with success message and animated icons
+        Div successCard = new Div();
+        successCard.addClassName("success-card");
+
+        // Create an animated checkmark icon
+        Icon checkmarkIcon = new Icon(VaadinIcon.CHECK);
+        checkmarkIcon.addClassName("checkmark-icon");
+        checkmarkIcon.setSize("56px");
+
+        // Create a text message
+        Span messageSpan = new Span("Registration successful! Please check your email for further instructions.");
+        messageSpan.addClassName("success-message");
+
+        // Add the checkmark icon and text message to the success card
+        successCard.add(checkmarkIcon, messageSpan);
+
+        // Add a class to the body element to disable scrolling while the success card is visible
+        UI ui = UI.getCurrent();
+        if (ui != null) {
+            ui.getPage().executeJs("document.body.classList.add('no-scroll');");
+        }
+
+        // Add a click listener to the success card to hide it when clicked
+        successCard.addClickListener(event -> {
+            if (ui != null) {
+                ui.getPage().executeJs("document.body.classList.remove('no-scroll');");
+            }
+        });
+
+        // Create an animation for the checkmark icon
+        String animation = "@keyframes checkmark {\n"
+                + "  0% {stroke-dashoffset: 48;}\n"
+                + "  100% {stroke-dashoffset: 0;}\n"
+                + "}\n";
+        UI.getCurrent().getPage().executeJs(animation);
+
+        // Add the animation to the checkmark icon
+        checkmarkIcon.getElement().getStyle().set("cursor", "default");
+        checkmarkIcon.getElement().getStyle().set("animation", "checkmark 0.5s forwards");
+
+        // Add styles to the success card
+        successCard.getElement().getStyle().set("position", "fixed");
+        successCard.getElement().getStyle().set("top", "50%");
+        successCard.getElement().getStyle().set("left", "50%");
+        successCard.getElement().getStyle().set("transform", "translate(-50%, -50%)");
+        successCard.getElement().getStyle().set("padding", "24px");
+        successCard.getElement().getStyle().set("background-color", "#FFFFFF");
+        successCard.getElement().getStyle().set("box-shadow", "0 2px 5px rgba(0, 0, 0, 0.1)");
+        successCard.getElement().getStyle().set("border-radius", "8px");
+        successCard.getElement().getStyle().set("text-align", "center");
+        successCard.getElement().getStyle().set("z-index", "1000");
+
+        // Add styles to the checkmark icon
+        checkmarkIcon.getElement().getStyle().set("stroke-dasharray", "48");
+        checkmarkIcon.getElement().getStyle().set("stroke-dashoffset", "48");
+        checkmarkIcon.getElement().getStyle().set("stroke-width", "4px");
+        checkmarkIcon.getElement().getStyle().set("stroke", "#2ecc71");
+
+        // Add styles to the text message
+        messageSpan.getElement().getStyle().set("display", "block");
+        messageSpan.getElement().getStyle().set("margin-top", "16px");
+        messageSpan.getElement().getStyle().set("font-size", "18px");
+        messageSpan.getElement().getStyle().set("font-weight", "bold");
+
+        successCard.setVisible(true);
+        add(successCard);
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private boolean isTheFormOkay() {
+        boolean isOkay = true;
+        if (name.isEmpty() || name.isInvalid()) {
+            name.setInvalid(true);
+            isOkay = false;
+        }
+        if (username.isInvalid() || username.isEmpty()) {
+            username.setInvalid(true);
+            isOkay = false;
+        }
+        if (password.isEmpty() || password.isInvalid()) {
+            password.setInvalid(true);
+            isOkay = false;
+        }
+        if (confirmPassword.isEmpty() ||
+                confirmPassword.isInvalid()) {
+            confirmPassword.setInvalid(true);
+            isOkay = false;
+        }
+        if (phoneNumberField.isEmpty() ||
+                phoneNumberField.isInvalid()) {
+            phoneNumberField.setInvalid(true);
+            isOkay = false;
+        }
+        if (email.isEmpty() || email.isInvalid()) {
+            email.setInvalid(true);
+            isOkay = false;
+        }
+        return isOkay;
     }
 
     private void setUpNameField() {
-        name.setPlaceholder("Enter your name");
+        name.setPlaceholder("Enter your full name");
         name.setRequiredIndicatorVisible(true);
-        name.setErrorMessage("Please provide a valid username");
+        name.setErrorMessage("This field is required and can't be empty");
         name.setRequired(true);
         name.addClassName("r-v-text-field");
+        name.addValueChangeListener(event -> checkIfEmpty(event.getValue()));
+    }
+
+    private void setUpPhoneNumberField() {
+        phoneNumberField.setErrorMessage("Please enter a valid phone number");
+        phoneNumberField.setRequiredIndicatorVisible(true);
+    }
+
+    private void checkIfEmpty(String value) {
+        System.out.println(value.equals(""));
+        System.out.println("Value = " + value);
+        name.setErrorMessage("Please enter your fullname. It's can't be empty");
+        name.setInvalid(value.equals(""));
     }
 
     private void setEmailField() {
@@ -116,14 +247,44 @@ public class RegisterUser extends VerticalLayout {
         email.setClearButtonVisible(true);
         email.setErrorMessage("Please enter a valid email address");
         email.addClassName("r-v-email-field");
+        email.addValueChangeListener(event ->
+                isEmailInUse(event.getValue()
+                ));
+    }
+
+    private void isEmailInUse(String emailAddress) {
+        final String pattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,63}$";
+        if (userService.findUserByEmail(emailAddress)) {
+            email.setErrorMessage("This email address is already in use");
+            email.setInvalid(true);
+        } else if (email.getValue().equals("")) {
+            email.setErrorMessage("Email address can't be empty!");
+            email.setInvalid(true);
+        } else if (!emailAddress.matches(pattern)) {
+            email.setErrorMessage("Please enter a valid email address");
+        } else email.setInvalid(false);
     }
 
     private void setUpUserNameTextField() {
         username.setPlaceholder("Enter your username");
         username.setRequiredIndicatorVisible(true);
+        username.setClearButtonVisible(true);
         username.setErrorMessage("Username must be between 6-25 char");
         username.setRequired(true);
         username.addClassName("r-v-text-field");
+        username.addValueChangeListener(event ->
+                usernameIsInUse(event.getValue()));
+    }
+
+    private void usernameIsInUse(String curUsernameValue) {
+        if (userService.userNameIsInUse(curUsernameValue)) {
+            username.setErrorMessage("This username is already taken");
+            username.setInvalid(true);
+        } else if (username.getValue().equals("")) {
+            username.setErrorMessage("username can't be empty");
+            username.setInvalid(true);
+        } else
+            username.setInvalid(false);
     }
 
     private void setUpPasswordFiled() {
@@ -134,17 +295,20 @@ public class RegisterUser extends VerticalLayout {
                 "valid password between 1-16");
         password.setMinLength(1);
         password.setMaxLength(16);
-        password.addValueChangeListener(event -> {
-            if (!confirmPassword.isEmpty() &&
-                    !confirmPassword.getValue()
-                            .equals(password.getValue())) {
-                password.setErrorMessage("The passwords do not match");
-                password.setInvalid(true);
-            } else {
-                password.setInvalid(false);
-            }
-        });
+        password.addValueChangeListener(event ->
+                checkIfPasswordsMatches());
         password.addClassName("r-v-password-field");
+    }
+
+    private void checkIfPasswordsMatches() {
+        if (!confirmPassword.isEmpty() &&
+                !confirmPassword.getValue()
+                        .equals(password.getValue())) {
+            password.setErrorMessage("The passwords do not match");
+            password.setInvalid(true);
+        } else {
+            password.setInvalid(false);
+        }
     }
 
     private void setUpConfirmPasswordFiled() {
@@ -159,20 +323,24 @@ public class RegisterUser extends VerticalLayout {
             }
             confirmPassword.setInvalid(false);
         });
-        addClassName("r-v-password-field");
+        confirmPassword.addClassName("r-v-password-field");
     }
 
+    // Setting up a custom field.
     private static class PhoneNumberField extends CustomField<String> {
         private final ComboBox<String> countryCode = new ComboBox<>();
         private final TextField number = new TextField();
 
         public PhoneNumberField(String label) {
             setLabel(label);
+            number.addClassName("r-v-text-field");
+            countryCode.addClassName("r-v-text-field");
             countryCode.setWidth("120px");
             countryCode.setPlaceholder("Country");
-            countryCode.setAllowedCharPattern("[\\+\\d]");
-            countryCode.setItems("+880", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
-            countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
+            ArrayList<String> list = new ArrayList<>(Arrays.asList("+880", "+91", "+62", "+98",
+                    "+964", "+353", "+44", "+972", "+39", "+225"));
+            countryCode.setItems(list);
+            countryCode.setValue("+880");
             number.setAllowedCharPattern("\\d");
             HorizontalLayout layout = new HorizontalLayout(countryCode, number);
             layout.setFlexGrow(1.0, number);
@@ -188,8 +356,11 @@ public class RegisterUser extends VerticalLayout {
         }
 
         @Override
+        @SuppressWarnings("DuplicatedCode")
         protected void setPresentationValue(String phoneNumber) {
-            String[] parts = phoneNumber != null ? phoneNumber.split(" ", 2) : new String[0];
+            String[] parts = phoneNumber != null ?
+                    phoneNumber.split(" ", 2)
+                    : new String[0];
             if (parts.length == 1) {
                 countryCode.clear();
                 number.setValue(parts[0]);
