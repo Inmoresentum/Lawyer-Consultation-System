@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    min-height: 100vh;
     background: linear-gradient(to bottom right, #75ebd5, #9face6);
 }
 
@@ -167,4 +167,90 @@
 
 .success-card:hover {
     animation-play-state: paused;
+}
+/* Responsive styles for small screens */
+@media screen and (max-width: 600px) {
+    .r-div {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .r-v-h3 {
+        font-size: 2rem;
+    }
+
+    .r-v-form-layout {
+        padding: 1rem;
+    }
+
+    .r-v-text-field,
+    .r-v-password-field,
+    .r-v-email-field,
+    .r-v-confirm-password-field {
+        font-size: 0.9rem;
+        padding: 0.3rem;
+    }
+
+    .r-v-button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* Responsive styles for medium screens */
+@media screen and (min-width: 600px) and (max-width: 960px) {
+    .r-div {
+        width: 85%;
+        padding: 1.5rem;
+    }
+
+    .r-v-h3 {
+        font-size: 2.25rem;
+    }
+
+    .r-v-form-layout {
+        padding: 1.5rem;
+    }
+
+    .r-v-text-field,
+    .r-v-password-field,
+    .r-v-email-field,
+    .r-v-confirm-password-field {
+        font-size: 1rem;
+        padding: 0.4rem;
+    }
+
+    .r-v-button {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Responsive styles for large screens */
+@media screen and (min-width: 960px) {
+    .r-div {
+        width: 80%;
+        padding: 2rem;
+    }
+
+    .r-v-h3 {
+        font-size: 2.5rem;
+    }
+
+    .r-v-form-layout {
+        padding: 2rem;
+    }
+
+    .r-v-text-field,
+    .r-v-password-field,
+    .r-v-email-field,
+    .r-v-confirm-password-field {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+
+    .r-v-button {
+        font-size: 1.1rem;
+        padding: 0.5rem 1.2rem;
+    }
 }
