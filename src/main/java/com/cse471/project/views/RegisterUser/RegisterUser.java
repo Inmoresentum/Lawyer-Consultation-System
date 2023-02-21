@@ -120,17 +120,14 @@ public class RegisterUser extends VerticalLayout {
 
     private void showSuccessConfirmation() {
         removeAll();
-        /// Create a card with success message and animated icons
-        // Step 1: Create a new Div element
-        Div successCard = new Div();
-        successCard.addClassName("success-card");
-
-// Step 2: Create a new Span element
-        Span successMessage = new Span("Registration successful! Please check your email for further instructions.");
-
-// Step 3: Add the Span element to the Div element
-        successCard.add(successMessage);
-        add(successCard);
+        Icon checkIcon = new Icon(VaadinIcon.CHECK_CIRCLE);
+        checkIcon.setColor("white");
+        checkIcon.setSize("72px");
+        Div successMessage = new Div(checkIcon,
+                new Span("Registration successful!" +
+                        " Please check your email for further instructions."));
+        successMessage.addClassName("success-card");
+        add(successMessage);
     }
 
     @SuppressWarnings("DuplicatedCode")
