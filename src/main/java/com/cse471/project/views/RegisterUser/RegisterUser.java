@@ -121,70 +121,15 @@ public class RegisterUser extends VerticalLayout {
     private void showSuccessConfirmation() {
         removeAll();
         /// Create a card with success message and animated icons
+        // Step 1: Create a new Div element
         Div successCard = new Div();
         successCard.addClassName("success-card");
 
-        // Create an animated checkmark icon
-        Icon checkmarkIcon = new Icon(VaadinIcon.CHECK);
-        checkmarkIcon.addClassName("checkmark-icon");
-        checkmarkIcon.setSize("56px");
+// Step 2: Create a new Span element
+        Span successMessage = new Span("Registration successful! Please check your email for further instructions.");
 
-        // Create a text message
-        Span messageSpan = new Span("Registration successful! Please check your email for further instructions.");
-        messageSpan.addClassName("success-message");
-
-        // Add the checkmark icon and text message to the success card
-        successCard.add(checkmarkIcon, messageSpan);
-
-        // Add a class to the body element to disable scrolling while the success card is visible
-        UI ui = UI.getCurrent();
-        if (ui != null) {
-            ui.getPage().executeJs("document.body.classList.add('no-scroll');");
-        }
-
-        // Add a click listener to the success card to hide it when clicked
-        successCard.addClickListener(event -> {
-            if (ui != null) {
-                ui.getPage().executeJs("document.body.classList.remove('no-scroll');");
-            }
-        });
-
-        // Create an animation for the checkmark icon
-        String animation = "@keyframes checkmark {\n"
-                + "  0% {stroke-dashoffset: 48;}\n"
-                + "  100% {stroke-dashoffset: 0;}\n"
-                + "}\n";
-        UI.getCurrent().getPage().executeJs(animation);
-
-        // Add the animation to the checkmark icon
-        checkmarkIcon.getElement().getStyle().set("cursor", "default");
-        checkmarkIcon.getElement().getStyle().set("animation", "checkmark 0.5s forwards");
-
-        // Add styles to the success card
-        successCard.getElement().getStyle().set("position", "fixed");
-        successCard.getElement().getStyle().set("top", "50%");
-        successCard.getElement().getStyle().set("left", "50%");
-        successCard.getElement().getStyle().set("transform", "translate(-50%, -50%)");
-        successCard.getElement().getStyle().set("padding", "24px");
-        successCard.getElement().getStyle().set("background-color", "#FFFFFF");
-        successCard.getElement().getStyle().set("box-shadow", "0 2px 5px rgba(0, 0, 0, 0.1)");
-        successCard.getElement().getStyle().set("border-radius", "8px");
-        successCard.getElement().getStyle().set("text-align", "center");
-        successCard.getElement().getStyle().set("z-index", "1000");
-
-        // Add styles to the checkmark icon
-        checkmarkIcon.getElement().getStyle().set("stroke-dasharray", "48");
-        checkmarkIcon.getElement().getStyle().set("stroke-dashoffset", "48");
-        checkmarkIcon.getElement().getStyle().set("stroke-width", "4px");
-        checkmarkIcon.getElement().getStyle().set("stroke", "#2ecc71");
-
-        // Add styles to the text message
-        messageSpan.getElement().getStyle().set("display", "block");
-        messageSpan.getElement().getStyle().set("margin-top", "16px");
-        messageSpan.getElement().getStyle().set("font-size", "18px");
-        messageSpan.getElement().getStyle().set("font-weight", "bold");
-
-        successCard.setVisible(true);
+// Step 3: Add the Span element to the Div element
+        successCard.add(successMessage);
         add(successCard);
     }
 

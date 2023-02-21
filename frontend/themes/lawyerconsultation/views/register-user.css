@@ -116,41 +116,41 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #f2f2f2;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 30px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
-}
-
-.checkmark-icon {
-    color: #2ecc71;
-    animation: checkmark 0.5s ease-in-out;
-}
-
-.success-message {
-    font-size: 24px;
+    padding: 2rem;
+    background-color: var(--lumo-primary-color);
+    color: white;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-top: 20px;
-    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    animation: change-background-color 10s infinite;
+    position: relative;
 }
 
-.no-scroll {
-    overflow: hidden;
+.success-card::before {
+    /*content: url('https://cdn-icons-png.flaticon.com/512/190/190411.png');*/
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3rem;
+    height: 3rem;
 }
 
-@keyframes checkmark {
+@keyframes change-background-color {
     0% {
-        transform: scale(0.1) rotate(0deg);
+        background-color: var(--lumo-primary-color);
     }
-    70% {
-        transform: scale(1.2) rotate(0deg);
+    25% {
+        background-color: #8E44AD;
+    }
+    50% {
+        background-color: #E74C3C;
+    }
+    75% {
+        background-color: #27AE60;
     }
     100% {
-        transform: scale(1) rotate(720deg);
+        background-color: var(--lumo-primary-color);
     }
 }
