@@ -4,7 +4,6 @@ import com.cse471.project.entity.User;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.login.LoginView;
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -180,6 +179,7 @@ public class RegisterUser extends VerticalLayout {
     private void setUpPhoneNumberField() {
         phoneNumberField.setErrorMessage("Please enter a valid phone number");
         phoneNumberField.setRequiredIndicatorVisible(true);
+        phoneNumberField.number.setPlaceholder("Please enter your phone number");
     }
 
     private void checkIfEmpty(String value) {
