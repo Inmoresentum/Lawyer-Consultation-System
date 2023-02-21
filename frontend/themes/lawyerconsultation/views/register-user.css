@@ -112,45 +112,59 @@
 
 /* Writing css for confirmation animation */
 .success-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background-color: var(--lumo-primary-color);
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
+    padding: 20px;
     border-radius: 1rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-    animation: change-background-color 10s infinite;
-    position: relative;
+    animation: card-animation 10s infinite;
 }
 
-.success-card::before {
-    /*content: url('https://cdn-icons-png.flaticon.com/512/190/190411.png');*/
-    position: absolute;
-    top: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3rem;
-    height: 3rem;
-}
-
-@keyframes change-background-color {
+@keyframes card-animation {
     0% {
-        background-color: var(--lumo-primary-color);
+        background-color: #1abc9c;
     }
     25% {
-        background-color: #8E44AD;
+        background-color: #3498db;
     }
     50% {
-        background-color: #E74C3C;
+        background-color: #9b59b6;
     }
     75% {
-        background-color: #27AE60;
+        background-color: #e67e22;
     }
     100% {
-        background-color: var(--lumo-primary-color);
+        background-color: #e74c3c;
     }
+}
+
+.success-icon {
+    font-size: 64px;
+    color: white;
+    margin-right: 20px;
+    animation: rotate-animation 3s infinite;
+}
+
+@keyframes rotate-animation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.success-message {
+    font-size: 24px;
+    color: white;
+    text-align: center;
+}
+
+.success-card:hover {
+    animation-play-state: paused;
 }
