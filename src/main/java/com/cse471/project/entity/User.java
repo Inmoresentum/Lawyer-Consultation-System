@@ -15,7 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -46,6 +46,7 @@ public class User extends AbstractEntity {
     private String phoneNumber;
     @Size(min = 5, max = 65)
     @Column(nullable = false, unique = true)
+    @Email
     private String email;
 
     private boolean isActive = false;

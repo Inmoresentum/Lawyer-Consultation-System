@@ -220,6 +220,8 @@ public class RegisterUser extends VerticalLayout {
         username.setErrorMessage("Username must be between 6-25 char");
         username.setRequired(true);
         username.addClassName("r-v-text-field");
+        username.setMaxLength(12);
+        username.setMinLength(4);
         username.addValueChangeListener(event ->
                 usernameIsInUse(event.getValue()));
     }
