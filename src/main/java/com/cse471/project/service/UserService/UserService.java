@@ -1,9 +1,11 @@
 package com.cse471.project.service.UserService;
 
+import com.cse471.project.entity.ForgotPasswordVerificationToken;
 import com.cse471.project.entity.User;
-import com.cse471.project.entity.VerificationToken;
+import com.cse471.project.entity.UserVerificationToken;
+import com.cse471.project.repository.UserForgotPasswordVerificationRepository;
 import com.cse471.project.repository.UserRepository;
-import com.cse471.project.repository.VerificationTokenRepository;
+import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.service.Email.EmailService;
 import com.cse471.project.service.Email.EmailUtils;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,10 +25,11 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final VerificationTokenRepository verificationTokenRepository;
+    private final UserVerificationTokenRepository verificationTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailUtils emailUtils;
     private final EmailService emailService;
+    private final UserForgotPasswordVerificationRepository forgotPasswordTokeRepo;
 
     public Optional<User> get(Long id) {
         return userRepository.findById(id);
@@ -35,6 +39,7 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    @Transactional
     public void registerUser(User user, String password) {
         user.setHashedPassword(passwordEncoder.encode(password));
         // Time to send the verification email
@@ -43,15 +48,32 @@ public class UserService {
         final String EMAIL_VERIFICATION_URL = "http://localhost:8080/activate?token=";
         final String activationLink = EMAIL_VERIFICATION_URL.concat(activationToken);
         // Also, have to save this activation token in the token repository.
-        VerificationToken verificationToken = new VerificationToken(activationToken,
+        UserVerificationToken userVerificationToken = new UserVerificationToken(activationToken,
                 LocalDateTime.now(), LocalDateTime.now().plusHours(3), user);
         // Saving the token
-        verificationTokenRepository.save(verificationToken);
+        verificationTokenRepository.save(userVerificationToken);
         System.out.println(activationLink);
         System.out.println(activationToken);
         System.out.println(user);
         emailService.send(user.getEmail(), "Account Activation", emailUtils
                 .buildConfirmationEmail(user.getName(), activationLink));
+    }
+
+    public void sendForgotPasswordResetLink(String emailAddress) {
+        final String forgotPasswordVerificationToken = UUID.randomUUID().toString();
+        final String EMAIL_VERIFICATION_URL = "http://localhost:8080/forgotpass-verify?token=";
+        final String resetLink = EMAIL_VERIFICATION_URL.concat(forgotPasswordVerificationToken);
+        var user = userRepository.findByEmail(emailAddress);
+        if (user.isEmpty()) throw new IllegalStateException("User details must need to be in the " +
+                "database");
+        emailService.send(user.get().getEmail(), "Password Resetting Link",
+                emailUtils.buildEmailPasswordResetRequest(user.get().getName(), resetLink));
+        ForgotPasswordVerificationToken verificationToken = new ForgotPasswordVerificationToken();
+        verificationToken.setToken(forgotPasswordVerificationToken);
+        verificationToken.setUser(user.get());
+        verificationToken.setCreatedAt(LocalDateTime.now());
+        verificationToken.setExpiresAt(LocalDateTime.now().plusMinutes(10));
+        forgotPasswordTokeRepo.save(verificationToken);
     }
 
     public void delete(Long id) {

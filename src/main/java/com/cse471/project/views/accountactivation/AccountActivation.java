@@ -1,13 +1,11 @@
 package com.cse471.project.views.accountactivation;
 
 import com.cse471.project.entity.User;
-import com.cse471.project.entity.VerificationToken;
+import com.cse471.project.entity.UserVerificationToken;
 import com.cse471.project.repository.UserRepository;
-import com.cse471.project.repository.VerificationTokenRepository;
+import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.views.login.LoginView;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -25,13 +23,14 @@ import java.util.Map;
 @Route("/activate")
 @AnonymousAllowed
 public class AccountActivation extends VerticalLayout implements BeforeEnterObserver {
-    private final VerificationTokenRepository verificationTokenRepository;
+    private final UserVerificationTokenRepository userVerificationTokenRepository;
     private final UserRepository userRepository;
 
-    public AccountActivation(VerificationTokenRepository verificationTokenRepository,
+    public AccountActivation(UserVerificationTokenRepository userVerificationTokenRepository,
                              UserRepository userRepository) {
-        this.verificationTokenRepository = verificationTokenRepository;
+        this.userVerificationTokenRepository = userVerificationTokenRepository;
         this.userRepository = userRepository;
+        addClassName("ac-verify");
     }
 
     @Override
@@ -40,19 +39,42 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
                 .getQueryParameters().getParameters();
         try {
             verifyToken(params);
-            createUnsuccessfulView();
-        } catch (IllegalStateException e) {
             createSuccessView();
+        } catch (IllegalStateException e) {
+            createUnsuccessfulView();
         }
     }
 
     private void createUnsuccessfulView() {
-        addClassName("ac-verify");
-        add(new H1("There is something with the link"));
+        setAlignItems(Alignment.CENTER);
+        Div div = new Div();
+        div.addClassName("ac-unsuccessful-card");
+        getStyle().set("position", "absolute");
+        getStyle().set("top", "50%");
+        getStyle().set("left", "50%");
+        getStyle().set("transform", "translate(-50%, -50%)");
+        Icon firstBrokenIcon = new Icon(VaadinIcon.WARNING);
+        firstBrokenIcon.getStyle().set("animation", "spin 2s linear infinite");
+        firstBrokenIcon.getStyle().set("font-size", "6rem");
+        firstBrokenIcon.getStyle().set("color", "#f00");
+        Icon secondBrokenIcon = new Icon(VaadinIcon.WARNING);
+        secondBrokenIcon.getStyle().set("animation", "spin 2s linear infinite");
+        secondBrokenIcon.getStyle().set("font-size", "6rem");
+        secondBrokenIcon.getStyle().set("color", "#f00");
+        Icon thirdBrokenIcon = new Icon(VaadinIcon.WARNING);
+        thirdBrokenIcon.getStyle().set("animation", "spin 2s linear infinite");
+        thirdBrokenIcon.getStyle().set("font-size", "6rem");
+        thirdBrokenIcon.getStyle().set("color", "#f00");
+        HorizontalLayout hl = new HorizontalLayout(firstBrokenIcon, secondBrokenIcon, thirdBrokenIcon);
+        div.add(hl);
+        H1 h1 = new H1("404");
+        Span span = new Span("The link is broken");
+        VerticalLayout vl = new VerticalLayout(h1, span);
+        div.add(vl);
+        add(div);
     }
 
     private void createSuccessView() {
-        addClassName("ac-verify");
         Div div = new Div();
         div.addClassName("ac-verify-card");
         H3 h3 = new H3("Verification Successful!");
@@ -71,18 +93,20 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
     private void verifyToken(Map<String, List<String>> params) {
         String token = params.get("token").get(0);
         System.out.println(token + " from activate view");
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(() ->
+        UserVerificationToken userVerificationToken = userVerificationTokenRepository.findByToken(token).orElseThrow(() ->
                 new IllegalStateException("Token Not Found"));
-        if (verificationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("Email already verified");
+        if (userVerificationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("USER already verified");
         }
 
         // Verify it later.
-        LocalDateTime expireAt = verificationToken.getExpiresAt();
-
+        LocalDateTime expireAt = userVerificationToken.getExpiresAt();
+        if (LocalDateTime.now().isAfter(expireAt)) {
+            throw new IllegalStateException("This is already experienced");
+        }
         //Used the query method that I created. We can also update it without the custom query method.
-        verificationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
-        User user = verificationToken.getUser();
+        userVerificationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
+        User user = userVerificationToken.getUser();
         user.setActive(true);
         userRepository.save(user);
     }

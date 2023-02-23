@@ -118,6 +118,7 @@ public class RegisterUser extends VerticalLayout {
     }
 
     private void showSuccessConfirmation() {
+        //noinspection DuplicatedCode
         removeAll();
         Div successCard = new Div();
         successCard.addClassName("success-card");
