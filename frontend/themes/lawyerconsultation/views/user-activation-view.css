@@ -1,58 +1,135 @@
-.ac-verify-card {
+.ac-verify {
+    background: linear-gradient(to bottom right, #f9a9d8, #87b0d6, #fbda61);
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #4d4dff, #ff3333, #f1c40f, #1abc9c);
-    border-radius: 20px;
-    padding: 40px;
-    color: white;
-    font-size: 24px;
-    text-align: center;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+.ac-verify-card {
+    border-radius: 10px;
+    animation: ac-verify-card-colors 4.5s ease-in-out infinite;
+    background-color: #f9a9d8;
+    padding: 2rem;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+.ac-verify-card:hover {
+    animation-play-state: paused;
+    transform: scale(1.01);
+    transition: transform 0.6s ease-in-out;
 }
 
 .ac-verify-icon {
+    animation: ac-verify-icon-colors 13s linear infinite;
     font-size: 64px;
-    animation-name: spin-and-color;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
 }
 
 .ac-verify-icon:hover {
     animation-play-state: paused;
-}
-
-@keyframes spin-and-color {
-    0% { transform: rotate(0deg); color: #ffffff; }
-    25% { color: #f1c40f; }
-    50% { color: #1abc9c; }
-    75% { color: #4d4dff; }
-    100% { transform: rotate(360deg); color: #ff3333; }
+    transform: rotate(180deg);
+    transition: transform 0.2s ease-in-out;
 }
 
 .ac-verify-hl-s {
-    margin-bottom: 20px;
-}
-
-.ac-verify-vl-s {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
 .ac-verify-router-link {
-    color: #ffffff;
+    color: #fff;
     text-decoration: none;
-    font-size: 20px;
     font-weight: bold;
+    font-size: medium;
 }
 
-.ac-verify {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #4d4dff, #ff3333, #f1c40f, #1abc9c);
+.ac-verify-router-link:hover {
+    color: #a824d3;
+}
+
+@keyframes ac-verify-card-colors {
+    0% {
+        background-color: #f9a9d8;
+    }
+    7.69% {
+        background-color: #d3a3e6;
+    }
+    15.38% {
+        background-color: #a7a0f2;
+    }
+    23.07% {
+        background-color: #87b0d6;
+    }
+    30.76% {
+        background-color: #8ecee4;
+    }
+    38.46% {
+        background-color: #e5c9b7;
+    }
+    46.15% {
+        background-color: #fbda61;
+    }
+    53.84% {
+        background-color: #d6c37b;
+    }
+    61.53% {
+        background-color: #f2c2a0;
+    }
+    69.23% {
+        background-color: #f5d5b5;
+    }
+    76.92% {
+        background-color: #d6b3b6;
+    }
+    84.61% {
+        background-color: #f2b2a7;
+    }
+    92.3% {
+        background-color: #f9a9d8;
+    }
+    100% {
+        background-color: #f9a9d8;
+    }
+}
+
+@keyframes ac-verify-icon-colors {
+    0% {
+        color: #FFD54F;
+    }
+    8.33% {
+        color: #E57373;
+    }
+    16.67% {
+        color: #BA68C8;
+    }
+    25% {
+        color: #4DD0E1;
+    }
+    33.33% {
+        color: #4DB6AC;
+    }
+    41.67% {
+        color: #81C784;
+    }
+    50% {
+        color: #7986CB;
+    }
+    58.33% {
+        color: #F06292;
+    }
+    66.67% {
+        color: #FF8A65;
+    }
+    75% {
+        color: #A1887F;
+    }
+    83.33% {
+        color: #4FC3F7;
+    }
+    91.67% {
+        color: #9CCC65;
+    }
+    100% {
+        color: #FFB74D;
+    }
 }
