@@ -49,21 +49,28 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         removeAll();
         Div div = new Div();
         div.addClassName("ac-unsuccessful-card");
+
         Icon firstBrokenIcon = new Icon(VaadinIcon.WARNING);
         firstBrokenIcon.addClassName("ac-warning-1");
+
         Icon secondBrokenIcon = new Icon(VaadinIcon.WARNING);
         secondBrokenIcon.addClassName("ac-warning-2");
+
         Icon thirdBrokenIcon = new Icon(VaadinIcon.WARNING);
         thirdBrokenIcon.addClassName("ac-warning-3");
-        HorizontalLayout hl = new HorizontalLayout(firstBrokenIcon,
-                secondBrokenIcon, thirdBrokenIcon);
+
+        HorizontalLayout hl = new HorizontalLayout(firstBrokenIcon, secondBrokenIcon, thirdBrokenIcon);
         hl.addClassName("ac-un-s-hl");
+
         div.add(hl);
+
         H1 h1 = new H1("404");
         h1.addClassName("ac-un-h1");
-        Span span = new Span("The link is broken");
+
+        Span span = new Span("This link is broken");
         span.addClassName("ac-un-span1");
         div.add(h1, span);
+
         add(div);
     }
 

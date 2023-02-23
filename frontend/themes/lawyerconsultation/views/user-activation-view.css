@@ -150,7 +150,7 @@
     }
 }
 
-/*Un successful view*/
+/* Unsuccessful view */
 .ac-unsuccessful-card {
     position: center;
     top: 50%;
@@ -196,7 +196,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: rotateY(180deg);
+    transform: rotateY(-180deg);
 }
 
 .ac-un-s-hl {
@@ -207,14 +207,14 @@
 .ac-warning-2,
 .ac-warning-3 {
     font-size: 6rem;
-    animation: spin 2s linear infinite;
+    animation: spin 3.5s linear infinite;
 }
 
 .ac-warning-1:hover,
 .ac-warning-2:hover,
 .ac-warning-3:hover {
     animation-play-state: paused;
-    color: #8B0000;
+    color: #f30961;
 }
 
 .ac-warning-1 {
@@ -230,14 +230,14 @@
 }
 
 .ac-un-h1 {
-    font-size: 5rem;
+    font-size: 6rem;
     margin: 0;
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
 
 .ac-un-span1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
@@ -291,5 +291,3 @@
         background: linear-gradient(to bottom, #f8961e, #f9d29e);
     }
 }
-
-
