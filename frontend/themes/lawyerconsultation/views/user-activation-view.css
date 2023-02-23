@@ -1,0 +1,63 @@
+.ac-verify-card {
+    background-color: #f5f5f5; /* set the background color of the card */
+    border-radius: 10px; /* make the border of the card rounded */
+
+    /* create an animation to infinitely cycle between 11 different colors */
+    animation-name: color-cycle;
+    animation-duration: 11s;
+    animation-iteration-count: infinite;
+}
+
+/* define the animation to cycle between 11 different colors */
+@keyframes color-cycle {
+    0% { background-color: #ff9aa2; }
+    9.09% { background-color: #ffbf69; }
+    18.18% { background-color: #ffee93; }
+    27.27% { background-color: #cfe5d5; }
+    36.36% { background-color: #9cc9e3; }
+    45.45% { background-color: #ff9aa2; }
+    54.54% { background-color: #ffbf69; }
+    63.63% { background-color: #ffee93; }
+    72.72% { background-color: #cfe5d5; }
+    81.81% { background-color: #9cc9e3; }
+    90.9% { background-color: #ff9aa2; }
+    100% { background-color: #ffbf69; }
+}
+
+/* on hover, pause the color cycle and add water effect */
+.ac-verify-card:hover {
+    animation-play-state: paused;
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.4) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.4) 75%);
+}
+
+/* change the color of the icon on each spin using a separate animation */
+.ac-verify-icon {
+    animation-name: spin-and-color;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+/* define the animation to spin the icon and change its color */
+@keyframes spin-and-color {
+    0% { transform: rotate(0deg); color: #ff9aa2; }
+    25% { color: #ffbf69; }
+    50% { color: #ffee93; }
+    75% { color: #cfe5d5; }
+    100% { transform: rotate(360deg); color: #9cc9e3; }
+}
+
+/* customize the router link */
+.ac-verify-router-link {
+    color: #9cc9e3; /* set the color of the link */
+    text-decoration: none; /* remove the underline */
+    font-weight: bold; /* make the text bold */
+}
+
+/* add a background image to the entire view */
+.ac-verify {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #75ebd5, #9face6);
+}

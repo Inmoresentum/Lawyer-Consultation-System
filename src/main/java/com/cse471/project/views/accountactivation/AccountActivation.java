@@ -5,7 +5,12 @@ import com.cse471.project.entity.VerificationToken;
 import com.cse471.project.repository.UserRepository;
 import com.cse471.project.repository.VerificationTokenRepository;
 import com.cse471.project.views.login.LoginView;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -14,6 +19,8 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Route("/activate")
 @AnonymousAllowed
@@ -31,6 +38,37 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         var params = beforeEnterEvent.getLocation()
                 .getQueryParameters().getParameters();
+        try {
+            verifyToken(params);
+            createSuccessView();
+        } catch (IllegalStateException e) {
+            createUnsuccessfulView();
+        }
+    }
+
+    private void createUnsuccessfulView() {
+        addClassName("ac-verify");
+        add(new H1("There is something with the link"));
+    }
+
+    private void createSuccessView() {
+        addClassName("ac-verify");
+        Div div = new Div();
+        div.addClassName("ac-verify-card");
+        Span span = new Span("Verification Successful");
+        Icon icon = new Icon(VaadinIcon.CHECK_CIRCLE);
+        icon.addClassName("ac-verify-icon");
+        HorizontalLayout hl = new HorizontalLayout(icon, span);
+        hl.addClassName("ac-verify-hl-s");
+        RouterLink routerLink = new RouterLink(LoginView.class);
+        routerLink.addClassName("ac-verify-router-link");
+        VerticalLayout vl = new VerticalLayout(hl, routerLink);
+        vl.addClassName("ac-verify-vl-s");
+        div.add(vl);
+        add(div);
+    }
+
+    private void verifyToken(Map<String, List<String>> params) {
         String token = params.get("token").get(0);
         System.out.println(token + " from activate view");
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(() ->
@@ -39,6 +77,7 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
             throw new IllegalStateException("Email already verified");
         }
 
+        // Verify it later.
         LocalDateTime expireAt = verificationToken.getExpiresAt();
 
         //Used the query method that I created. We can also update it without the custom query method.
@@ -46,8 +85,5 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         User user = verificationToken.getUser();
         user.setActive(true);
         userRepository.save(user);
-        setSpacing(true);
-        add(new VerticalLayout(new Text("Verification Successful!!!")),
-                new RouterLink("Click here to login", LoginView.class));
     }
 }

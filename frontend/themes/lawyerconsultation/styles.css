@@ -10,6 +10,7 @@
 @import url('./views/login-view.css');
 @import url('./views/forgot-password.css');
 @import url('./views/register-user.css');
+@import url('./views/user-activation-view.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);
