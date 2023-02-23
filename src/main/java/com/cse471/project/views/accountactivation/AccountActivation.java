@@ -56,12 +56,12 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         addClassName("ac-verify");
         Div div = new Div();
         div.addClassName("ac-verify-card");
-        H3 h3 = new H3("Verification Successful");
+        H3 h3 = new H3("Verification Successful!");
         Icon icon = new Icon(VaadinIcon.CHECK_CIRCLE);
         icon.addClassName("ac-verify-icon");
         HorizontalLayout hl = new HorizontalLayout(icon, h3);
         hl.addClassName("ac-verify-hl-s");
-        RouterLink routerLink = new RouterLink("Click here to login", LoginView.class);
+        RouterLink routerLink = new RouterLink("Please Click Here To Login", LoginView.class);
         routerLink.addClassName("ac-verify-router-link");
         VerticalLayout vl = new VerticalLayout(hl, routerLink);
         vl.addClassName("ac-verify-vl-s");

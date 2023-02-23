@@ -1,5 +1,6 @@
 .ac-verify {
-    background: linear-gradient(to bottom right, #f9a9d8, #87b0d6, #fbda61);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom right, #d7a111, #FF9800, #fd4e17);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -7,7 +8,7 @@
 }
 
 .ac-verify-card {
-    border-radius: 10px;
+    border-radius: 2em;
     animation: ac-verify-card-colors 4.5s ease-in-out infinite;
     background-color: #f9a9d8;
     padding: 2rem;
@@ -26,9 +27,9 @@
 }
 
 .ac-verify-icon:hover {
-    animation-play-state: paused;
-    transform: rotate(180deg);
-    transition: transform 0.2s ease-in-out;
+    /*animation-play-state: paused;*/
+    transform: rotate(360deg);
+    transition: transform 0.8s ease-in-out;
 }
 
 .ac-verify-hl-s {
@@ -45,6 +46,7 @@
 
 .ac-verify-router-link:hover {
     color: #a824d3;
+    font-size: x-large;
 }
 
 @keyframes ac-verify-card-colors {
@@ -92,33 +94,48 @@
     }
 }
 
+.ac-verify-card h3 {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+.ac-verify-card h3:hover {
+    color: #ff00c1;
+    font-size:  xx-large;
+}
 @keyframes ac-verify-icon-colors {
     0% {
         color: #FFD54F;
     }
-    8.33% {
+    7.69% {
         color: #E57373;
     }
-    16.67% {
+    15.38% {
         color: #BA68C8;
     }
-    25% {
+    23.07% {
         color: #4DD0E1;
     }
-    33.33% {
+    30.76% {
         color: #4DB6AC;
     }
-    41.67% {
+    38.46% {
         color: #81C784;
     }
-    50% {
+    46.15% {
         color: #7986CB;
     }
-    58.33% {
+    53.84% {
         color: #F06292;
     }
-    66.67% {
+    61.53% {
         color: #FF8A65;
+    }
+    69.23% {
+        color: #A1887F;
     }
     75% {
         color: #A1887F;
