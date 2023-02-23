@@ -7,6 +7,7 @@ import com.cse471.project.repository.VerificationTokenRepository;
 import com.cse471.project.views.login.LoginView;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -40,9 +41,9 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
                 .getQueryParameters().getParameters();
         try {
             verifyToken(params);
-            createSuccessView();
-        } catch (IllegalStateException e) {
             createUnsuccessfulView();
+        } catch (IllegalStateException e) {
+            createSuccessView();
         }
     }
 
@@ -55,12 +56,12 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         addClassName("ac-verify");
         Div div = new Div();
         div.addClassName("ac-verify-card");
-        Span span = new Span("Verification Successful");
+        H3 h3 = new H3("Verification Successful");
         Icon icon = new Icon(VaadinIcon.CHECK_CIRCLE);
         icon.addClassName("ac-verify-icon");
-        HorizontalLayout hl = new HorizontalLayout(icon, span);
+        HorizontalLayout hl = new HorizontalLayout(icon, h3);
         hl.addClassName("ac-verify-hl-s");
-        RouterLink routerLink = new RouterLink(LoginView.class);
+        RouterLink routerLink = new RouterLink("Click here to login", LoginView.class);
         routerLink.addClassName("ac-verify-router-link");
         VerticalLayout vl = new VerticalLayout(hl, routerLink);
         vl.addClassName("ac-verify-vl-s");
