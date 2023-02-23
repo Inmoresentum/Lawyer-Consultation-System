@@ -28,8 +28,8 @@
 
 .ac-verify-icon:hover {
     /*animation-play-state: paused;*/
-    transform: rotate(360deg);
-    transition: transform 0.8s ease-in-out;
+    transform: rotate(720deg);
+    transition: transform 0.99s ease-in-out;
 }
 
 .ac-verify-hl-s {
@@ -89,8 +89,7 @@
     92.3% {
         background-color: #f9a9d8;
     }
-    100% {
-        background-color: #f9a9d8;
+    100% {background-color: #f9a9d8;
     }
 }
 
@@ -107,9 +106,6 @@
     font-size:  xx-large;
 }
 @keyframes ac-verify-icon-colors {
-    0% {
-        color: #FFD54F;
-    }
     7.69% {
         color: #E57373;
     }
@@ -147,6 +143,6 @@
         color: #9CCC65;
     }
     100% {
-        color: #FFB74D;
+        color: #d23030;
     }
 }
