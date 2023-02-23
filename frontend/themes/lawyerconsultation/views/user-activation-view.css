@@ -171,7 +171,7 @@
 }
 
 .ac-unsuccessful-card:hover {
-    transform: rotateY(-180deg);
+    transform: rotateY(-360deg);
 }
 
 .ac-unsuccessful-card .ac-front, .ac-unsuccessful-card .ac-back {
@@ -188,7 +188,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: rotateY(0deg);
+    transform: rotateY(90deg);
 }
 
 .ac-unsuccessful-card .ac-back {
@@ -196,7 +196,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: rotateY(-180deg);
+    transform: rotateY(-360deg);
 }
 
 .ac-un-s-hl {
@@ -270,10 +270,10 @@
 
 @keyframes rainbow-background {
     0% {
-        background: linear-gradient(to bottom, #f9d29e, #ff9a9e);
+        background: linear-gradient(to bottom, #f9d29e, #fa595f);
     }
     16.66% {
-        background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+        background: linear-gradient(to bottom, #fc595f, #92f37d);
     }
     33.33% {
         background: linear-gradient(to bottom, #fad0c4, #ffe4e6);
@@ -288,6 +288,6 @@
         background: linear-gradient(to bottom, #577590, #f8961e);
     }
     100% {
-        background: linear-gradient(to bottom, #f8961e, #f9d29e);
+        background: linear-gradient(to bottom, #ff8d00, #f9d29e);
     }
 }

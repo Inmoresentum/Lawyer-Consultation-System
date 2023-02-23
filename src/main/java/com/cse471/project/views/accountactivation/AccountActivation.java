@@ -5,6 +5,8 @@ import com.cse471.project.entity.UserVerificationToken;
 import com.cse471.project.repository.UserRepository;
 import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.views.login.LoginView;
+import com.vaadin.flow.component.charts.events.PointMouseOutEvent;
+import com.vaadin.flow.component.charts.events.PointMouseOverEvent;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -70,7 +72,6 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         Span span = new Span("This link is broken");
         span.addClassName("ac-un-span1");
         div.add(h1, span);
-
         add(div);
     }
 
