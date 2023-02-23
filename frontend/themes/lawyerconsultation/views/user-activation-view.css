@@ -150,101 +150,146 @@
     }
 }
 
+/*Un successful view*/
 .ac-unsuccessful-card {
-    background: linear-gradient(to right, #FF4848, #FF8B3D, #FFCD3C, #87FF2A, #2AFFCE, #582AFF, #FF2AD0);
-    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    width: 400px;
-    height: 300px;
-    padding: 20px;
+    position: center;
+    top: 50%;
+    left: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease-in-out;
+    width: 400px;
+    height: 500px;
+    border-radius: 22px;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom, #FFA500, #FF4500);
+    animation: rainbow-background 15s linear infinite;
+    transform-style: preserve-3d;
+    transform-origin: center;
+    transition: transform 0.7s ease-in-out;
 }
 
 .ac-unsuccessful-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.4);
+    transform: rotateY(-180deg);
 }
 
-.ac-unsuccessful-card h1 {
-    font-size: 10rem;
-    font-weight: 800;
+.ac-unsuccessful-card .ac-front, .ac-unsuccessful-card .ac-back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.ac-unsuccessful-card .ac-front {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(0deg);
+}
+
+.ac-unsuccessful-card .ac-back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(180deg);
+}
+
+.ac-un-s-hl {
+    margin-bottom: 20px;
+}
+
+.ac-warning-1,
+.ac-warning-2,
+.ac-warning-3 {
+    font-size: 6rem;
+    animation: spin 2s linear infinite;
+}
+
+.ac-warning-1:hover,
+.ac-warning-2:hover,
+.ac-warning-3:hover {
+    animation-play-state: paused;
+    color: #8B0000;
+}
+
+.ac-warning-1 {
+    color: #FF0000;
+}
+
+.ac-warning-2 {
+    color: #0000FF;
+}
+
+.ac-warning-3 {
+    color: #8A2BE2;
+}
+
+.ac-un-h1 {
+    font-size: 5rem;
     margin: 0;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    text-shadow: 2px 2px 4px #000000;
 }
 
-.ac-unsuccessful-card span {
+.ac-un-span1 {
     font-size: 2rem;
-    font-weight: 500;
-    margin: 10px 0 0;
     color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 4px #000000;
 }
 
-.ac-unsuccessful-card .broken-link-icon {
-    animation: spin 2s linear infinite;
-    font-size: 6rem;
-    color: #f00;
+.ac-back h1 {
+    font-size: 5rem;
+    margin: 0;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
 }
 
-.ac-unsuccessful-card .broken-link-icon:hover {
-    animation-play-state: paused;
-    color: #a70000;
+.ac-back span {
+    font-size: 2rem;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
 }
 
-.ac-unsuccessful-card .broken-link-icon:nth-child(1) {
-    animation-delay: 0.5s;
+.ac-back h1 span {
+    font-weight: bold;
 }
 
-.ac-unsuccessful-card .broken-link-icon:nth-child(2) {
-    animation-delay: 1s;
-}
-
-.ac-unsuccessful-card .broken-link-icon:nth-child(3) {
-    animation-delay: 1.5s;
-}
-
-/* Define rainbow colors for background */
-@keyframes rainbow-bg {
+@keyframes spin {
     0% {
-        background: #FF4848;
+        transform: rotate(0deg);
     }
-
-    14.28% {
-        background: #FF8B3D;
-    }
-
-    28.56% {
-        background: #FFCD3C;
-    }
-
-    42.84% {
-        background: #87FF2A;
-    }
-
-    57.12% {
-        background: #2AFFCE;
-    }
-
-    71.4% {
-        background: #582AFF;
-    }
-
-    85.68% {
-        background: #FF2AD0;
-    }
-
     100% {
-        background: #FF4848;
+        transform: rotate(360deg);
     }
 }
 
-/* Apply rainbow animation to background */
-.ac-unsuccessful-card {
-    animation: rainbow-bg 10s ease infinite;
+@keyframes rainbow-background {
+    0% {
+        background: linear-gradient(to bottom, #f9d29e, #ff9a9e);
+    }
+    16.66% {
+        background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+    }
+    33.33% {
+        background: linear-gradient(to bottom, #fad0c4, #ffe4e6);
+    }
+    50% {
+        background: linear-gradient(to bottom, #ffe4e6, #a8dadc);
+    }
+    66.66% {
+        background: linear-gradient(to bottom, #a8dadc, #577590);
+    }
+    83.33% {
+        background: linear-gradient(to bottom, #577590, #f8961e);
+    }
+    100% {
+        background: linear-gradient(to bottom, #f8961e, #f9d29e);
+    }
 }
+
 
