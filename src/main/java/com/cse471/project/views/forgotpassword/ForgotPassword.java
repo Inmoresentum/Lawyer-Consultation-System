@@ -34,26 +34,33 @@ public class ForgotPassword extends VerticalLayout {
 
     public ForgotPassword(UserService userService) {
         this.userService = userService;
+        addClassName("forgot-password-form-view");
+//        getStyle().set("background", "transparent");
+//        getStyle().set("padding", "0");
         setSizeFull();
+        var div = new Div();
+        div.addClassName("forgot-password-form-view-content");
         var h1 = new H1("Forgot Password? ");
+        h1.addClassName("forgot-password-form-view-h1");
         Span span = new Span("Please enter your email address here so that we can send you the password reset link.");
+        span.addClassName("forgot-password-form-view-span");
         setUpSubmitButton();
         setUpEmailField();
         var link = new RouterLink("Already have an account? Login",
                 LoginView.class);
         link.addClassName("forgot-password-router-link");
-        add(emailField, submitRequest, link);
+        div.add(h1, span, emailField, submitRequest, link);
+        add(div);
     }
 
     private void setUpSubmitButton() {
+        submitRequest.addClassName("forgot-password-form-view-submit-button");
         submitRequest.addClickShortcut(Key.ENTER);
-        submitRequest.addClickListener(event -> {
-            handleRequest();
-        });
+        submitRequest.addClickListener(event -> handleRequest());
     }
 
     private void handleRequest() {
-        if (!emailField.isInvalid()) {
+        if (!emailField.isInvalid() && !emailField.isEmpty()) {
             // We will call the password reset service and do the thing.
             userService.sendForgotPasswordResetLink(emailField.getValue());
             //noinspection DuplicatedCode
@@ -75,7 +82,8 @@ public class ForgotPassword extends VerticalLayout {
         } else {
             Notification notification = new Notification();
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
+            emailField.setErrorMessage("Please properly fill this form");
+            emailField.setInvalid(true);
             Div text = new Div(new Text("Please fill up the email field properly" +
                     " before proceeding any further"));
 
@@ -93,6 +101,7 @@ public class ForgotPassword extends VerticalLayout {
     }
 
     private void setUpEmailField() {
+        emailField.addClassName("forgot-password-form-view-email-field");
         emailField.setRequiredIndicatorVisible(true);
         emailField.setTitle("Enter your email");
         emailField.setPlaceholder("Enter your EMAIL here to get the reset password link!");
@@ -105,10 +114,14 @@ public class ForgotPassword extends VerticalLayout {
             emailField.setErrorMessage("This is not a valid email address!" +
                     " Please enter a valid email address");
             emailField.setInvalid(true);
-        }
-        else if (!userService.findUserByEmail(emailFieldValue)) {
+        } else if (!userService.findUserByEmail(emailFieldValue)) {
             emailField.setErrorMessage("This email address is not associated with any user");
             emailField.setInvalid(true);
+        } else if (emailFieldValue.equals("")) {
+            emailField.setErrorMessage("You must fill up this form");
+            emailField.setInvalid(true);
+        } else {
+            emailField.setInvalid(false);
         }
     }
 }

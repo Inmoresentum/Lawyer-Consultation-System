@@ -8,9 +8,10 @@
 @import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
 @import url('@fontsource/montserrat');
 @import url('./views/login-view.css');
-@import url('./views/forgot-password.css');
 @import url('./views/register-user.css');
 @import url('./views/user-activation-view.css');
+@import url('./views/forgot-password-view.css');
+@import url('./views/forgot-password-token-verification.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);
