@@ -61,7 +61,7 @@ public class UserService {
 
     public void sendForgotPasswordResetLink(String emailAddress) {
         final String forgotPasswordVerificationToken = UUID.randomUUID().toString();
-        final String EMAIL_VERIFICATION_URL = "http://localhost:8080/forgotpass-verify?token=";
+        final String EMAIL_VERIFICATION_URL = "http://localhost:8080/forgot-pass-verify?token=";
         final String resetLink = EMAIL_VERIFICATION_URL.concat(forgotPasswordVerificationToken);
         var user = userRepository.findByEmail(emailAddress);
         if (user.isEmpty()) throw new IllegalStateException("User details must need to be in the " +

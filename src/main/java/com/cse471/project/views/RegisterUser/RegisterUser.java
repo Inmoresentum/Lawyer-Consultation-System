@@ -1,5 +1,6 @@
 package com.cse471.project.views.RegisterUser;
 
+import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.login.LoginView;
@@ -30,6 +31,8 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @PageTitle("User Registration")
 @Uses(Icon.class)
@@ -111,8 +114,13 @@ public class RegisterUser extends VerticalLayout {
                 + phoneNumberField.number.getValue());
         user.setName(name.getValue());
         user.setUsername(username.getValue());
+        user.setRoles(new HashSet<>());
         // Todo: probably do a try catch to catch any error
         // and log it out.
+        if (email.getValue().endsWith("@g.bracu.ac.bd")) {
+            user.getRoles().add(Role.ADMIN);
+        }
+        user.getRoles().add(Role.USER);
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();
     }

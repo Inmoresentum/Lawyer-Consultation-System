@@ -67,8 +67,8 @@ public class ForgotPassword extends VerticalLayout {
             successCard.add(successIcon);
 
             // Success message
-            Div successMessage = new Div(new Span("Registration " +
-                    "successful! Please check your email for further instructions."));
+            Div successMessage = new Div(new Span("Password " +
+                    " reset request successful! Please check your email for further instructions."));
             successMessage.addClassName("success-message");
             successCard.add(successMessage);
             add(successCard);
@@ -108,6 +108,7 @@ public class ForgotPassword extends VerticalLayout {
         }
         else if (!userService.findUserByEmail(emailFieldValue)) {
             emailField.setErrorMessage("This email address is not associated with any user");
+            emailField.setInvalid(true);
         }
     }
 }

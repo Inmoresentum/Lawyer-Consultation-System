@@ -5,11 +5,10 @@ import com.cse471.project.entity.UserVerificationToken;
 import com.cse471.project.repository.UserRepository;
 import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.views.login.LoginView;
-import com.vaadin.flow.component.charts.events.PointMouseOutEvent;
-import com.vaadin.flow.component.charts.events.PointMouseOverEvent;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -28,11 +27,13 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
     private final UserVerificationTokenRepository userVerificationTokenRepository;
     private final UserRepository userRepository;
 
-    public AccountActivation(UserVerificationTokenRepository userVerificationTokenRepository,
+    public AccountActivation(UserVerificationTokenRepository
+                                     userVerificationTokenRepository,
                              UserRepository userRepository) {
         this.userVerificationTokenRepository = userVerificationTokenRepository;
         this.userRepository = userRepository;
         addClassName("ac-verify");
+        setAlignItems(FlexComponent.Alignment.CENTER);
     }
 
     @Override
@@ -61,7 +62,8 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         Icon thirdBrokenIcon = new Icon(VaadinIcon.WARNING);
         thirdBrokenIcon.addClassName("ac-warning-3");
 
-        HorizontalLayout hl = new HorizontalLayout(firstBrokenIcon, secondBrokenIcon, thirdBrokenIcon);
+        HorizontalLayout hl = new HorizontalLayout(firstBrokenIcon,
+                secondBrokenIcon, thirdBrokenIcon);
         hl.addClassName("ac-un-s-hl");
 
         div.add(hl);
@@ -84,7 +86,8 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         icon.addClassName("ac-verify-icon");
         HorizontalLayout hl = new HorizontalLayout(icon, h3);
         hl.addClassName("ac-verify-hl-s");
-        RouterLink routerLink = new RouterLink("Please Click Here To Login", LoginView.class);
+        RouterLink routerLink = new RouterLink("Please Click Here To Login",
+                LoginView.class);
         routerLink.addClassName("ac-verify-router-link");
         VerticalLayout vl = new VerticalLayout(hl, routerLink);
         vl.addClassName("ac-verify-vl-s");

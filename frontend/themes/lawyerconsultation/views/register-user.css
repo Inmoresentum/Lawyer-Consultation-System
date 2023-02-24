@@ -168,6 +168,7 @@
 .success-card:hover {
     animation-play-state: paused;
 }
+
 /* Responsive styles for small screens */
 @media screen and (max-width: 600px) {
     .r-div {
