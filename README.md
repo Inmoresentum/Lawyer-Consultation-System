@@ -10,3 +10,4 @@ with more information.
 
 ### Todo:
  * _Complete the project ASAP[Waiting for the approval of the facutly]_
+ * _waiting for the application logo [assigned to laiba]_
