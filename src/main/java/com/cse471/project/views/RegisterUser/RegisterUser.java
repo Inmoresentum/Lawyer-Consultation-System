@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.customfield.CustomField;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -29,6 +30,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -45,6 +47,8 @@ public class RegisterUser extends VerticalLayout {
     private final PasswordField password = new PasswordField("Password");
     private final PasswordField confirmPassword = new PasswordField("Confirm" +
             " Password");
+    private final DatePicker datePicker = new DatePicker("Please" +
+            " enter your date of birth");
     private final UserService userService;
 
     public RegisterUser(UserService userService) {
@@ -78,8 +82,9 @@ public class RegisterUser extends VerticalLayout {
         setUpPasswordFiled();
         setUpConfirmPasswordFiled();
         setEmailField();
-        FormLayout formLayout = new FormLayout(name, username, email, phoneNumberField,
-                password, confirmPassword);
+        setUpDatePicker();
+        FormLayout formLayout = new FormLayout(name, username, email,
+                phoneNumberField, datePicker, password, confirmPassword);
         formLayout.addClassName("r-v-form-layout");
         return formLayout;
     }
@@ -120,6 +125,7 @@ public class RegisterUser extends VerticalLayout {
             user.getRoles().add(Role.ADMIN);
         }
         user.getRoles().add(Role.USER);
+        user.setDateOfBirth(datePicker.getValue());
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();
     }
@@ -170,6 +176,10 @@ public class RegisterUser extends VerticalLayout {
         }
         if (email.isEmpty() || email.isInvalid()) {
             email.setInvalid(true);
+            isOkay = false;
+        }
+        if (datePicker.isInvalid() || datePicker.isEmpty()) {
+            datePicker.setInvalid(true);
             isOkay = false;
         }
         return isOkay;
@@ -282,6 +292,16 @@ public class RegisterUser extends VerticalLayout {
             confirmPassword.setInvalid(false);
         });
         confirmPassword.addClassName("r-v-password-field");
+    }
+
+    private void setUpDatePicker() {
+        datePicker.setPlaceholder("Please select birth date here");
+        datePicker.setErrorMessage("You must need to be at 13 years old");
+        datePicker.setRequired(true);
+        datePicker.setRequiredIndicatorVisible(true);
+        datePicker.setMin(LocalDate.of(1940, 1, 1));
+        datePicker.setMax(LocalDate.of(2010, 12, 31));
+        datePicker.addClassName("r-v-email-field");
     }
 
     // Setting up a custom field.

@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -48,6 +51,7 @@ public class User extends AbstractEntity {
     @Column(nullable = false, unique = true)
     @Email
     private String email;
-
+    @Column(nullable = true, name = "date_of_birth")
+    private LocalDate dateOfBirth;
     private boolean isActive = false;
 }
