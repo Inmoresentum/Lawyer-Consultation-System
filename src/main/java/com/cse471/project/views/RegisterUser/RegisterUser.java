@@ -87,7 +87,7 @@ public class RegisterUser extends VerticalLayout {
         setUpConfirmPasswordFiled();
         setEmailField();
         setUpDatePicker();
-//        setUpProfilePicUpload();
+        //userProfilePictureUploadField.addClassName("r-v-email-field");
         FormLayout formLayout = new FormLayout(name, username, email,
                 phoneNumberField, datePicker, password,
                 confirmPassword, userProfilePictureUploadField);
@@ -154,22 +154,6 @@ public class RegisterUser extends VerticalLayout {
         successCard.add(successMessage);
         add(successCard);
     }
-
-//    private void setUpProfilePicUpload() {
-//        profilePicUpload.setAutoUpload(false);
-//        profilePicUpload.addClassName("profile-picture-upload");
-//        profilePicUpload.setAcceptedFileTypes(".png", ".jpeg");
-//        profilePicUpload.setDropLabel(new Paragraph("Profile picture " +
-//                "must need to be in jpeg or png format and size can't" +
-//                " get be more than 5 MB"));
-//        int maxFileSizeInBytes = 5 * 1024 * 1024;
-//        profilePicUpload.setMaxFiles(maxFileSizeInBytes);
-//        profilePicUpload.setDropLabelIcon(null);
-//        Button uploadButton = new Button("Upload Profile Picture");
-//        uploadButton.addClassName("profile-pic-upload-button");
-//        uploadButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-//        profilePicUpload.setUploadButton(uploadButton);
-//    }
 
     @SuppressWarnings("DuplicatedCode")
     private boolean isTheFormOkay() {
@@ -329,6 +313,7 @@ public class RegisterUser extends VerticalLayout {
     private static class UserProfilePictureUploadField extends CustomField<Upload> {
 
         private final Upload profilePicUpload;
+        private final H5 title = new H5("Profile Picture");
 
         public UserProfilePictureUploadField() {
             MemoryBuffer memoryBuffer = new MemoryBuffer();
@@ -339,7 +324,12 @@ public class RegisterUser extends VerticalLayout {
             profilePicUpload.setMaxFiles(5 * 1024 * 1024); // 5 MB
             profilePicUpload.setDropLabel(buildDropLabel());
             profilePicUpload.setUploadButton(buildUploadButton());
-            add(profilePicUpload);
+            profilePicUpload.addClassName("profile-picture-upload-pu");
+            title.addClassName("profile-pic-upload-title");
+            Div layout = new Div();
+            layout.add(title, profilePicUpload);
+            layout.addClassName("profile-picture-upload-div");
+            add(layout);
         }
 
         private Component buildDropLabel() {
