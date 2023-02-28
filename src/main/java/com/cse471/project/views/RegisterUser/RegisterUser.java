@@ -24,6 +24,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
@@ -31,6 +32,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,6 +135,14 @@ public class RegisterUser extends VerticalLayout {
         }
         user.getRoles().add(Role.USER);
         user.setDateOfBirth(datePicker.getValue());
+        // Saving user profile pic
+        try {
+            var profilePic = userProfilePictureUploadField.memoryBuffer
+                    .getInputStream().readAllBytes();
+            user.setProfilePicture(profilePic);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();
     }
@@ -313,10 +324,10 @@ public class RegisterUser extends VerticalLayout {
     private static class UserProfilePictureUploadField extends CustomField<Upload> {
 
         private final Upload profilePicUpload;
-        private final H5 title = new H5("Profile Picture");
+        private final MemoryBuffer memoryBuffer = new MemoryBuffer();
+        public byte[] imagesData;
 
         public UserProfilePictureUploadField() {
-            MemoryBuffer memoryBuffer = new MemoryBuffer();
             profilePicUpload = new Upload(memoryBuffer);
             profilePicUpload.addClassName("bg-contrast-20");
             profilePicUpload.setAutoUpload(false);
@@ -325,11 +336,24 @@ public class RegisterUser extends VerticalLayout {
             profilePicUpload.setDropLabel(buildDropLabel());
             profilePicUpload.setUploadButton(buildUploadButton());
             profilePicUpload.addClassName("profile-picture-upload-pu");
+            H5 title = new H5("Profile Picture");
             title.addClassName("profile-pic-upload-title");
             Div layout = new Div();
             layout.add(title, profilePicUpload);
             layout.addClassName("profile-picture-upload-div");
+            profilePicUpload.addSucceededListener(this::setImageData);
             add(layout);
+        }
+
+        private void setImageData(SucceededEvent succeededEvent) {
+            System.out.println("I am here");
+            try {
+                InputStream inputStream = memoryBuffer.getInputStream();
+                // Save imageData to your database as a String annotated with @Lob
+                imagesData = inputStream.readAllBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         private Component buildDropLabel() {

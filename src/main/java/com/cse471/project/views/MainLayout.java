@@ -26,9 +26,11 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 /**
@@ -128,9 +130,11 @@ public class MainLayout extends AppLayout {
 
             Avatar avatar = new Avatar(user.getName());
 
-//            StreamResource resource = new StreamResource("profile-pic",
-//                    () -> new ByteArrayInputStream(user.getProfilePicture()));
-//            avatar.setImageResource(resource);
+//            if (user.getProfilePicture() != null) {
+//                StreamResource resource = new StreamResource("profile-pic",
+//                        () -> new ByteArrayInputStream(user.getProfilePicture()));
+//                avatar.setImageResource(resource);
+//            }
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
 

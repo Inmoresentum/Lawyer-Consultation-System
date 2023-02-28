@@ -301,3 +301,18 @@
     background-color: #007bff;
 }
 
+/* Set the default background color of the button */
+.profile-pic-upload-button {
+    background-image: linear-gradient(135deg, #FF6B6B, #ee6060, #1873cf, #EF8E38, #FF6B6B);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Change the background color on hover */
+.profile-pic-upload-button:hover {
+    background-image: linear-gradient(135deg, #FF6B6B, #EF8E38, #F5D02E);
+}

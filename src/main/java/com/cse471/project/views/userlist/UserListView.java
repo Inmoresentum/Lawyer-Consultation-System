@@ -23,10 +23,11 @@ import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 
 @PageTitle("User List")
 @Route(value = "", layout = MainLayout.class)
-@PermitAll
+@RolesAllowed({"ADMIN", "USER", "SUPPORT", "LAWYER"})
 public class UserListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
