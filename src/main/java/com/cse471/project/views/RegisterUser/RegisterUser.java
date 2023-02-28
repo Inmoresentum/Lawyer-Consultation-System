@@ -4,6 +4,7 @@ import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.login.LoginView;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,9 +13,7 @@ import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -25,6 +24,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
@@ -43,12 +44,15 @@ public class RegisterUser extends VerticalLayout {
     private final TextField name = new TextField("Name");
     private final TextField username = new TextField("Username");
     private final EmailField email = new EmailField("Email");
-    private final PhoneNumberField phoneNumberField = new PhoneNumberField("Phone number");
+    private final PhoneNumberField phoneNumberField =
+            new PhoneNumberField("Phone number");
     private final PasswordField password = new PasswordField("Password");
     private final PasswordField confirmPassword = new PasswordField("Confirm" +
             " Password");
     private final DatePicker datePicker = new DatePicker("Please" +
             " enter your date of birth");
+    private final UserProfilePictureUploadField userProfilePictureUploadField
+            = new UserProfilePictureUploadField();
     private final UserService userService;
 
     public RegisterUser(UserService userService) {
@@ -83,8 +87,10 @@ public class RegisterUser extends VerticalLayout {
         setUpConfirmPasswordFiled();
         setEmailField();
         setUpDatePicker();
+//        setUpProfilePicUpload();
         FormLayout formLayout = new FormLayout(name, username, email,
-                phoneNumberField, datePicker, password, confirmPassword);
+                phoneNumberField, datePicker, password,
+                confirmPassword, userProfilePictureUploadField);
         formLayout.addClassName("r-v-form-layout");
         return formLayout;
     }
@@ -148,6 +154,22 @@ public class RegisterUser extends VerticalLayout {
         successCard.add(successMessage);
         add(successCard);
     }
+
+//    private void setUpProfilePicUpload() {
+//        profilePicUpload.setAutoUpload(false);
+//        profilePicUpload.addClassName("profile-picture-upload");
+//        profilePicUpload.setAcceptedFileTypes(".png", ".jpeg");
+//        profilePicUpload.setDropLabel(new Paragraph("Profile picture " +
+//                "must need to be in jpeg or png format and size can't" +
+//                " get be more than 5 MB"));
+//        int maxFileSizeInBytes = 5 * 1024 * 1024;
+//        profilePicUpload.setMaxFiles(maxFileSizeInBytes);
+//        profilePicUpload.setDropLabelIcon(null);
+//        Button uploadButton = new Button("Upload Profile Picture");
+//        uploadButton.addClassName("profile-pic-upload-button");
+//        uploadButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+//        profilePicUpload.setUploadButton(uploadButton);
+//    }
 
     @SuppressWarnings("DuplicatedCode")
     private boolean isTheFormOkay() {
@@ -303,6 +325,50 @@ public class RegisterUser extends VerticalLayout {
         datePicker.setMax(LocalDate.of(2010, 12, 31));
         datePicker.addClassName("r-v-email-field");
     }
+
+    private static class UserProfilePictureUploadField extends CustomField<Upload> {
+
+        private final Upload profilePicUpload;
+
+        public UserProfilePictureUploadField() {
+            MemoryBuffer memoryBuffer = new MemoryBuffer();
+            profilePicUpload = new Upload(memoryBuffer);
+            profilePicUpload.addClassName("bg-contrast-20");
+            profilePicUpload.setAutoUpload(false);
+            profilePicUpload.setAcceptedFileTypes(".png", ".jpeg");
+            profilePicUpload.setMaxFiles(5 * 1024 * 1024); // 5 MB
+            profilePicUpload.setDropLabel(buildDropLabel());
+            profilePicUpload.setUploadButton(buildUploadButton());
+            add(profilePicUpload);
+        }
+
+        private Component buildDropLabel() {
+            Icon icon = VaadinIcon.USER.create();
+            Paragraph label = new Paragraph("Drag and drop or click to select profile picture. " +
+                    "File must be in jpeg or png format and size can't be more than 5 MB.");
+            HorizontalLayout layout = new HorizontalLayout(icon, label);
+            layout.setAlignItems(Alignment.CENTER);
+            return layout;
+        }
+
+        private Button buildUploadButton() {
+            Button button = new Button("Upload Profile Picture");
+            button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            button.addClassName("profile-pic-upload-button");
+            return button;
+        }
+
+        @Override
+        protected Upload generateModelValue() {
+            return profilePicUpload;
+        }
+
+        @Override
+        protected void setPresentationValue(Upload upload) {
+            // No need to implement this method for this component
+        }
+    }
+
 
     // Setting up a custom field.
     private static class PhoneNumberField extends CustomField<String> {

@@ -76,35 +76,43 @@ public class MainLayout extends AppLayout {
         AppNav nav = new AppNav();
 
         if (accessChecker.hasAccess(UserListView.class)) {
-            nav.addItem(new AppNavItem("User List", UserListView.class, "la la-user-circle"));
+            nav.addItem(new AppNavItem("User List", UserListView.class,
+                    "la la-user-circle"));
 
         }
         if (accessChecker.hasAccess(DashboardView.class)) {
-            nav.addItem(new AppNavItem("Dashboard", DashboardView.class, "la la-chart-area"));
+            nav.addItem(new AppNavItem("Dashboard",
+                    DashboardView.class, "la la-chart-area"));
 
         }
         if (accessChecker.hasAccess(AllUsersView.class)) {
-            nav.addItem(new AppNavItem("All Users", AllUsersView.class, "la la-user-cog"));
+            nav.addItem(new AppNavItem("All Users", AllUsersView.class,
+                    "la la-user-cog"));
 
         }
         if (accessChecker.hasAccess(CommunityChatView.class)) {
-            nav.addItem(new AppNavItem("Community Chat", CommunityChatView.class, "la la-comments"));
+            nav.addItem(new AppNavItem("Community Chat",
+                    CommunityChatView.class, "la la-comments"));
 
         }
         if (accessChecker.hasAccess(PersonalNotesView.class)) {
-            nav.addItem(new AppNavItem("Personal Notes", PersonalNotesView.class, "la la-edit"));
+            nav.addItem(new AppNavItem("Personal Notes",
+                    PersonalNotesView.class, "la la-edit"));
 
         }
         if (accessChecker.hasAccess(FeedbackView.class)) {
-            nav.addItem(new AppNavItem("Feedback", FeedbackView.class, "la la-user"));
+            nav.addItem(new AppNavItem("Feedback",
+                    FeedbackView.class, "la la-user"));
 
         }
         if (accessChecker.hasAccess(SupportView.class)) {
-            nav.addItem(new AppNavItem("Support", SupportView.class, "lab la-think-peaks"));
+            nav.addItem(new AppNavItem("Support",
+                    SupportView.class, "lab la-think-peaks"));
 
         }
         if (accessChecker.hasAccess(AboutView.class)) {
-            nav.addItem(new AppNavItem("About", AboutView.class, "la la-info"));
+            nav.addItem(new AppNavItem("About",
+                    AboutView.class, "la la-info"));
 
         }
 
