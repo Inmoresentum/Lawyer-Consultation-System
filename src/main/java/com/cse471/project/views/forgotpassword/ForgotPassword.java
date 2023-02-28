@@ -28,7 +28,8 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @AnonymousAllowed
 @Uses(Icon.class)
 public class ForgotPassword extends VerticalLayout {
-    private final EmailField emailField = new EmailField("Enter your email address here");
+    private final EmailField emailField =
+            new EmailField("Enter your email address here");
     private final Button submitRequest = new Button("Submit");
     private final UserService userService;
 
@@ -42,7 +43,8 @@ public class ForgotPassword extends VerticalLayout {
         div.addClassName("forgot-password-form-view-content");
         var h1 = new H1("Forgot Password? ");
         h1.addClassName("forgot-password-form-view-h1");
-        Span span = new Span("Please enter your email address here so that we can send you the password reset link.");
+        Span span = new Span("Please enter your email address here " +
+                "so that we can send you the password reset link.");
         span.addClassName("forgot-password-form-view-span");
         setUpSubmitButton();
         setUpEmailField();
@@ -75,7 +77,8 @@ public class ForgotPassword extends VerticalLayout {
 
             // Success message
             Div successMessage = new Div(new Span("Password " +
-                    " reset request successful! Please check your email for further instructions."));
+                    " reset request successful! Please check your email" +
+                    " for further instructions."));
             successMessage.addClassName("success-message");
             successCard.add(successMessage);
             add(successCard);
@@ -87,7 +90,8 @@ public class ForgotPassword extends VerticalLayout {
             Div text = new Div(new Text("Please fill up the email field properly" +
                     " before proceeding any further"));
 
-            Button notificationCloseButton = new Button(new Icon("lumo", "cross"));
+            Button notificationCloseButton =
+                    new Button(new Icon("lumo", "cross"));
             notificationCloseButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
             notificationCloseButton.getElement().setAttribute("aria-label", "Close");
             notificationCloseButton.addClickListener(event -> notification.close());
