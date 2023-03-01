@@ -330,8 +330,8 @@ public class RegisterUser extends VerticalLayout {
         public UserProfilePictureUploadField() {
             profilePicUpload = new Upload(memoryBuffer);
             profilePicUpload.addClassName("bg-contrast-20");
-            profilePicUpload.setAutoUpload(false);
-            profilePicUpload.setAcceptedFileTypes(".png", ".jpeg");
+            profilePicUpload.setAutoUpload(true);
+            profilePicUpload.setAcceptedFileTypes(".png", ".jpg");
             profilePicUpload.setMaxFiles(5 * 1024 * 1024); // 5 MB
             profilePicUpload.setDropLabel(buildDropLabel());
             profilePicUpload.setUploadButton(buildUploadButton());

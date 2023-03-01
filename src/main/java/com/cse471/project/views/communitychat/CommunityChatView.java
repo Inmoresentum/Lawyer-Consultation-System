@@ -1,5 +1,8 @@
 package com.cse471.project.views.communitychat;
 
+import com.cse471.project.entity.User;
+import com.cse471.project.repository.UserRepository;
+import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
 import com.vaadin.collaborationengine.CollaborationMessageInput;
@@ -7,10 +10,7 @@ import com.vaadin.collaborationengine.CollaborationMessageList;
 import com.vaadin.collaborationengine.MessageManager;
 import com.vaadin.collaborationengine.UserInfo;
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.html.Aside;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Page;
@@ -19,6 +19,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
 import com.vaadin.flow.theme.lumo.LumoUtility.Background;
 import com.vaadin.flow.theme.lumo.LumoUtility.BoxSizing;
@@ -33,8 +34,8 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Width;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.UUID;
 import javax.annotation.security.PermitAll;
+import java.io.ByteArrayInputStream;
 
 @PageTitle("Community Chat")
 @Route(value = "community-chat", layout = MainLayout.class)
@@ -54,7 +55,7 @@ public class CommunityChatView extends HorizontalLayout {
     }
 
     public static class ChatInfo {
-        private String name;
+        private final String name;
         private int unread;
         private Span unreadBadge;
 
@@ -88,13 +89,18 @@ public class CommunityChatView extends HorizontalLayout {
         }
     }
 
-    private ChatInfo[] chats = new ChatInfo[]{new ChatInfo("general", 0), new ChatInfo("support", 0),
-            new ChatInfo("casual", 0)};
+    private final ChatInfo[] chats = new ChatInfo[]{new ChatInfo("general", 0), new ChatInfo("support", 0),
+            new ChatInfo("casual", 0), new ChatInfo("Compliance", 0),
+            new ChatInfo("Legal", 0), new ChatInfo("Litigation", 0),
+            new ChatInfo("Intellectual property", 0)};
     private ChatInfo currentChat = chats[0];
-    private Tabs tabs;
-    private UserInfo userInfo;
+    private final Tabs tabs;
+    private final UserInfo userInfo;
+    private final UserService userService;
+    private CollaborationAvatarGroup avatarGroup;
 
-    public CommunityChatView() {
+    public CommunityChatView(UserService userService) {
+        this.userService = userService;
         addClassNames("community-chat-view", Width.FULL, Display.FLEX, Flex.AUTO);
         setSpacing(false);
 
@@ -105,12 +111,16 @@ public class CommunityChatView extends HorizontalLayout {
         // avatar by passing an url to the image as a third parameter, or by
         // configuring an `ImageProvider` to `avatarGroup`.
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        userInfo = new UserInfo(UUID.randomUUID().toString(), userDetails.getUsername());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        var user = userService.findByUserName(userDetails.getUsername());
+        if (user.isEmpty()) throw new IllegalStateException("User is empty");
+        userInfo = new UserInfo(user.get().getId().toString(), userDetails.getUsername());
         tabs = new Tabs();
         for (ChatInfo chat : chats) {
             // Listen for new messages in each chat so we can update the "unread" count
-            MessageManager mm = new MessageManager(this, userInfo, chat.getCollaborationTopic());
+            MessageManager mm = new MessageManager(this, userInfo,
+                    chat.getCollaborationTopic());
             mm.setMessageHandler(context -> {
                 if (currentChat != chat) {
                     chat.incrementUnread();
@@ -120,14 +130,15 @@ public class CommunityChatView extends HorizontalLayout {
             tabs.add(createTab(chat));
         }
         tabs.setOrientation(Orientation.VERTICAL);
-        tabs.addClassNames(Flex.GROW, Flex.SHRINK, Overflow.HIDDEN);
+        tabs.addClassNames(Flex.GROW, Flex.SHRINK, Overflow.AUTO);
 
         // CollaborationMessageList displays messages that are in a
         // Collaboration Engine topic. You should give in the user details of
         // the current user using the component, and a topic Id. Topic id can be
         // any freeform string. In this template, we have used the format
         // "chat/#general".
-        CollaborationMessageList list = new CollaborationMessageList(userInfo, currentChat.getCollaborationTopic());
+        CollaborationMessageList list = new CollaborationMessageList(userInfo,
+                currentChat.getCollaborationTopic());
         list.setSizeFull();
 
         // `CollaborationMessageInput is a textfield and button, to be able to
@@ -143,14 +154,33 @@ public class CommunityChatView extends HorizontalLayout {
         chatContainer.addClassNames(Flex.AUTO, Overflow.HIDDEN);
 
         Aside side = new Aside();
-        side.addClassNames(Display.FLEX, FlexDirection.COLUMN, Flex.GROW_NONE, Flex.SHRINK_NONE, Background.CONTRAST_5);
+        side.addClassNames(Display.FLEX, FlexDirection.COLUMN, Flex.GROW_NONE,
+                Flex.SHRINK_NONE, Background.CONTRAST_5);
         side.setWidth("18rem");
         Header header = new Header();
-        header.addClassNames(Display.FLEX, FlexDirection.ROW, Width.FULL, AlignItems.CENTER, Padding.MEDIUM,
-                BoxSizing.BORDER);
+        header.addClassNames(Display.FLEX, FlexDirection.ROW, Width.FULL,
+                AlignItems.CENTER, Padding.MEDIUM, BoxSizing.BORDER);
         H3 channels = new H3("Channels");
         channels.addClassNames(Flex.GROW, Margin.NONE);
-        CollaborationAvatarGroup avatarGroup = new CollaborationAvatarGroup(userInfo, "chat");
+        avatarGroup = new CollaborationAvatarGroup(userInfo, "chat");
+
+        if (user.get().getProfilePicture() != null) {
+            avatarGroup.setImageProvider(userInfo -> {
+                StreamResource streamResource = new StreamResource(
+                        "avatar_" + userInfo.getId(), () -> {
+                    var userEntity = userService
+                            .findByUserId(userInfo.getId());
+                    if (userEntity.isEmpty())
+                        throw new IllegalStateException("user can't be null");
+                    byte[] imageBytes = userEntity.get().getProfilePicture();
+                    assert imageBytes != null;
+                    return new ByteArrayInputStream(imageBytes);
+                });
+                streamResource.setContentType("image/png");
+                return streamResource;
+            });
+        }
+
         avatarGroup.setMaxItemsVisible(4);
         avatarGroup.addClassNames(Width.AUTO);
 
@@ -162,7 +192,6 @@ public class CommunityChatView extends HorizontalLayout {
         add(chatContainer, side);
         setSizeFull();
         expand(list);
-
         // Change the topic id of the chat when a new tab is selected
         tabs.addSelectedChangeListener(event -> {
             currentChat = ((ChatTab) event.getSelectedTab()).getChatInfo();
@@ -195,7 +224,8 @@ public class CommunityChatView extends HorizontalLayout {
     }
 
     private void setMobile(boolean mobile) {
-        tabs.setOrientation(mobile ? Orientation.HORIZONTAL : Orientation.VERTICAL);
+        tabs.setOrientation(mobile ?
+                Orientation.HORIZONTAL : Orientation.VERTICAL);
     }
 
 }

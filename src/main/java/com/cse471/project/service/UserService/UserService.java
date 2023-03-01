@@ -99,4 +99,12 @@ public class UserService {
     public boolean userNameIsInUse(String username) {
         return userRepository.existsByUsername(username);
     }
+
+    public Optional<User> findByUserName(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username));
+    }
+
+    public Optional<User> findByUserId(String userId) {
+        return userRepository.findById(Long.parseLong(userId));
+    }
 }
