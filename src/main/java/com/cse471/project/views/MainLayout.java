@@ -12,6 +12,7 @@ import com.cse471.project.views.feedback.FeedbackView;
 import com.cse471.project.views.personalnotes.PersonalNotesView;
 import com.cse471.project.views.support.SupportView;
 import com.cse471.project.views.userlist.UserListView;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -150,6 +151,8 @@ public class MainLayout extends AppLayout {
             div.getElement().getStyle().set("align-items", "center");
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
+            userName.getSubMenu().addItem("Profile", e -> UI.getCurrent().navigate("user-profile"));
+            // Sign out needs to be at the bottom
             userName.getSubMenu().addItem("Sign out", e -> authenticatedUser.logout());
 
             layout.add(userMenu);
