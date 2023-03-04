@@ -9,5 +9,6 @@ with more information.
 * SHORNALI ISLAM SNIKDHA [20301108]
 
 ### Todo:
- * _Complete the project ASAP[Waiting for the approval of the facutly]_
+ * ~_Complete the project ASAP[Waiting for the approval of the facutly]_~ **Done**
  * ~_Waiting for the application logo [assigned to laiba]_~
+ * _Waiting for the application main logo [assigned to laiba]_
