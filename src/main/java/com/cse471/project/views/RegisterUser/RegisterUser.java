@@ -36,6 +36,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -147,6 +148,7 @@ public class RegisterUser extends VerticalLayout {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        user.setAccountCreated(LocalDateTime.now());
         user.setAboutYourSelf(aboutYourself.getValue());
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();

@@ -31,7 +31,6 @@ public class UserProfile extends VerticalLayout {
                 .getAuthentication().getPrincipal();
         var curUser = userService.findByUserName(userDetails.getUsername());
         if (curUser.isEmpty()) throw new IllegalStateException("User can't be empty");
-
         Div profilePictureDiv = new Div();
         profilePictureDiv.addClassName("user-profile-picture-div");
         if (curUser.get().getProfilePicture() != null) {
@@ -81,17 +80,7 @@ public class UserProfile extends VerticalLayout {
         editAboutMeButton.addClickListener(e -> {
             // Handle click event
         });
-        Button changePasswordButton = new Button("Change Password");
-        changePasswordButton.addClassName("user-profile-change-password-button");
-        changePasswordButton.addClickListener(e -> {
-            // Handle click event
-        });
-        Button changeEmailButton = new Button("Change Email");
-        changeEmailButton.addClassName("user-profile-change-email-button");
-        changeEmailButton.addClickListener(e -> {
-            // Handle click event
-        });
-        buttonDiv.add(editAboutMeButton, changePasswordButton, changeEmailButton);
+        buttonDiv.add(editAboutMeButton);
 
         userProfileDiv.add(profilePictureDiv, userDetailsDiv, aboutMeDiv, buttonDiv);
         add(userProfileDiv);

@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -53,8 +56,9 @@ public class User extends AbstractEntity {
     private LocalDate dateOfBirth;
     private boolean isAccountActive = false;
     private boolean isDeactivatedByAdmin = false;
-
-
     @Column(columnDefinition = "TEXT")
     private String aboutYourSelf;
+    @CreatedDate
+    @Column(columnDefinition = "DATETIME")
+    private LocalDateTime accountCreated;
 }
