@@ -112,7 +112,7 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         //Used the query method that I created. We can also update it without the custom query method.
         userVerificationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
         User user = userVerificationToken.getUser();
-        user.setActive(true);
+        user.setAccountActive(true);
         userRepository.save(user);
     }
 }

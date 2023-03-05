@@ -12,6 +12,7 @@
 @import url('./views/user-activation-view.css');
 @import url('./views/forgot-password-view.css');
 @import url('./views/forgot-password-token-verification.css');
+@import url('./views/user-profile-view.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);

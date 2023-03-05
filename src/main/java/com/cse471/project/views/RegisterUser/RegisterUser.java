@@ -23,6 +23,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
@@ -56,6 +57,8 @@ public class RegisterUser extends VerticalLayout {
             " enter your date of birth");
     private final UserProfilePictureUploadField userProfilePictureUploadField
             = new UserProfilePictureUploadField();
+    private final TextArea aboutYourself =
+            new TextArea("About you");
     private final UserService userService;
 
     public RegisterUser(UserService userService) {
@@ -90,10 +93,11 @@ public class RegisterUser extends VerticalLayout {
         setUpConfirmPasswordFiled();
         setEmailField();
         setUpDatePicker();
+        setUpAboutYourselfTextArea();
         //userProfilePictureUploadField.addClassName("r-v-email-field");
         FormLayout formLayout = new FormLayout(name, username, email,
                 phoneNumberField, datePicker, password,
-                confirmPassword, userProfilePictureUploadField);
+                confirmPassword, userProfilePictureUploadField, aboutYourself);
         formLayout.addClassName("r-v-form-layout");
         return formLayout;
     }
@@ -143,6 +147,7 @@ public class RegisterUser extends VerticalLayout {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        user.setAboutYourSelf(aboutYourself.getValue());
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();
     }
@@ -202,6 +207,11 @@ public class RegisterUser extends VerticalLayout {
         return isOkay;
     }
 
+    private void setUpAboutYourselfTextArea() {
+        aboutYourself.setPlaceholder("Write about a bit yourself what you do etc. etc.");
+        aboutYourself.addClassName("r-v-text-field");
+    }
+
     private void setUpNameField() {
         name.setPlaceholder("Enter your full name");
         name.setRequiredIndicatorVisible(true);
@@ -218,8 +228,6 @@ public class RegisterUser extends VerticalLayout {
     }
 
     private void checkIfEmpty(String value) {
-        System.out.println(value.equals(""));
-        System.out.println("Value = " + value);
         name.setErrorMessage("Please enter your fullname. It's can't be empty");
         name.setInvalid(value.equals(""));
     }

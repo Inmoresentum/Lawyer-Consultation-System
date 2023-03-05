@@ -1,0 +1,129 @@
+.user-profile-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #e7effa, #dceeee);
+    padding: 50px;
+}
+
+.user-profile-main-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.user-profile-profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.user-profile-profile-pic:hover {
+    transform: scale(1.1);
+}
+
+.user-profile-name {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #336699;
+}
+
+.user-profile-email,
+.user-profile-phone-number,
+.user-profile-about-me-paragraph {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-profile-email:before,
+.user-profile-about-me-paragraph:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("https://img.icons8.com/material/24/336699/email.png");
+    background-repeat: repeat;
+    background-position: center;
+    margin-right: 5px;
+}
+
+.user-profile-phone-number:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("https://img.icons8.com/material/24/336699/phone.png");
+    background-repeat: repeat;
+    background-position: center;
+    margin-right: 5px;
+}
+
+.user-profile-about-me-h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #336699;
+}
+
+.user-profile-about-me-paragraph {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-profile-about-me-paragraph:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("https://img.icons8.com/material/24/336699/user-male.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 5px;
+}
+
+.user-profile-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.user-profile-card-item {
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+.user-profile-card-item:hover {
+    transform: translateY(-5px);
+}
+
+.user-profile-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.user-profile-card-content {
+    padding: 20px;
+}

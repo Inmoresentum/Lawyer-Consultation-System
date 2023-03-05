@@ -13,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountLockedException;
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -27,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if (user == null || !user.isActive()) {
+        if (user == null || !user.isAccountActive()) {
             throw new UsernameNotFoundException("No user present with username: " + username);
         } else {
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getHashedPassword(),
