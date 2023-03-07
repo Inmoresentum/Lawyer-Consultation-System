@@ -147,7 +147,21 @@ public class CommunityChatView extends HorizontalLayout {
         // constructor argument to get the information from there.
         CollaborationMessageInput input = new CollaborationMessageInput(list);
         input.setWidthFull();
-
+        // Setting the image source provider for collaborative messages
+        list.setImageProvider(userInfo -> {
+            StreamResource streamResource = new StreamResource(
+                    "avatar_" + userInfo.getId(), () -> {
+                var userEntity = userService
+                        .findByUserId(userInfo.getId());
+                if (userEntity.isEmpty())
+                    throw new IllegalStateException("user can't be null");
+                byte[] imageBytes = userEntity.get().getProfilePicture();
+                assert imageBytes != null;
+                return new ByteArrayInputStream(imageBytes);
+            });
+            streamResource.setContentType("image/png");
+            return streamResource;
+        });
         // Layouting
 
         VerticalLayout chatContainer = new VerticalLayout();
