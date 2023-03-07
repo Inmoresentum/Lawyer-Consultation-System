@@ -3,9 +3,12 @@ package com.cse471.project.views.userprofile;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -59,11 +62,26 @@ public class UserProfile extends VerticalLayout {
         userDetailsDiv.add(phoneNumber);
 
         Div aboutMeDiv = new Div();
+
+        Button aboutMeEditButton = new Button(new Icon(VaadinIcon.EDIT));
+        aboutMeEditButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        aboutMeEditButton.addClassName("user-profile-aboutMeButtonEditIcon");
+        aboutMeEditButton.setTooltipText("Click here to Edit About me");
+        aboutMeEditButton.addClickListener(event -> {
+            System.out.println("Yay!! Icon got clicked");
+            Notification.show("Icon Got Clicked");
+        });
+
+        H3 aboutMeH3 = new H3("About me");
+        aboutMeH3.addClassName("user-profile-about-me-h3");
+        var hl = new HorizontalLayout();
+        hl.setSpacing(false);
+        hl.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        hl.add(aboutMeH3, aboutMeEditButton);
+        aboutMeDiv.add(hl);
         aboutMeDiv.addClassName("user-profile-about-me-div");
+
         if (curUser.get().getAboutYourSelf() != null) {
-            H3 aboutMeH3 = new H3("About me");
-            aboutMeH3.addClassName("user-profile-about-me-h3");
-            aboutMeDiv.add(aboutMeH3);
             Paragraph aboutMeParagraph = new Paragraph(curUser.get().getAboutYourSelf());
             aboutMeParagraph.addClassName("user-profile-about-me-paragraph");
             aboutMeDiv.add(aboutMeParagraph);
@@ -73,15 +91,9 @@ public class UserProfile extends VerticalLayout {
             aboutMeDiv.add(aboutMeParagraph);
         }
 
+
         Div buttonDiv = new Div();
         buttonDiv.addClassName("user-profile-button-div");
-        Button editAboutMeButton = new Button("Edit About Me");
-        editAboutMeButton.addClassName("user-profile-edit-about-me-button");
-        editAboutMeButton.addClickListener(e -> {
-            // Handle click event
-        });
-        buttonDiv.add(editAboutMeButton);
-
         userProfileDiv.add(profilePictureDiv, userDetailsDiv, aboutMeDiv, buttonDiv);
         add(userProfileDiv);
     }
