@@ -20,6 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -39,6 +40,7 @@ public class User extends AbstractEntity {
     private String hashedPassword;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
+    @NotNull
     private Set<Role> roles;
     @Lob
     @Column(length = 1000000)
@@ -58,6 +60,14 @@ public class User extends AbstractEntity {
     private boolean isDeactivatedByAdmin = false;
     @Column(columnDefinition = "TEXT")
     private String aboutYourSelf;
+    @Column(name = "user_address")
+    @Nullable
+    private String address;
+
+    @Column(name = "user_gender")
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @CreatedDate
     @Column(columnDefinition = "DATETIME")
     private LocalDateTime accountCreated;

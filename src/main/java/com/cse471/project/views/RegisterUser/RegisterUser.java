@@ -1,5 +1,6 @@
 package com.cse471.project.views.RegisterUser;
 
+import com.cse471.project.entity.Gender;
 import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.service.UserService.UserService;
@@ -21,6 +22,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -51,11 +53,13 @@ public class RegisterUser extends VerticalLayout {
     private final EmailField email = new EmailField("Email");
     private final PhoneNumberField phoneNumberField =
             new PhoneNumberField("Phone number");
+    private final Select<String> genderSelectionField = new Select<>();
     private final PasswordField password = new PasswordField("Password");
     private final PasswordField confirmPassword = new PasswordField("Confirm" +
             " Password");
     private final DatePicker datePicker = new DatePicker("Please" +
             " enter your date of birth");
+    private final TextField address = new TextField("Please Enter your address");
     private final UserProfilePictureUploadField userProfilePictureUploadField
             = new UserProfilePictureUploadField();
     private final TextArea aboutYourself =
@@ -73,7 +77,7 @@ public class RegisterUser extends VerticalLayout {
     private Div getDivLayout() {
         Div layout = new Div();
         layout.addClassName("r-div");
-        var header = new H3("Registration Form");
+        var header = new H3("USER REGISTRATION FORM");
         header.addClassName("r-v-h3");
         var registerButton = new Button("Register", e -> registerUser());
         registerButton.addClassName("r-v-button");
@@ -92,12 +96,14 @@ public class RegisterUser extends VerticalLayout {
         setUpPhoneNumberField();
         setUpPasswordFiled();
         setUpConfirmPasswordFiled();
+        setUpGenderSelectionField();
         setEmailField();
         setUpDatePicker();
+        setUpAddressField();
         setUpAboutYourselfTextArea();
         //userProfilePictureUploadField.addClassName("r-v-email-field");
         FormLayout formLayout = new FormLayout(name, username, email,
-                phoneNumberField, datePicker, password,
+                phoneNumberField, datePicker, address, genderSelectionField, password,
                 confirmPassword, userProfilePictureUploadField, aboutYourself);
         formLayout.addClassName("r-v-form-layout");
         return formLayout;
@@ -150,6 +156,17 @@ public class RegisterUser extends VerticalLayout {
         }
         user.setAccountCreated(LocalDateTime.now());
         user.setAboutYourSelf(aboutYourself.getValue());
+        if (!address.isEmpty()) {
+            user.setAddress(address.getValue());
+        }
+        if (genderSelectionField.getValue().equals("MALE")) {
+            user.setGender(Gender.MALE);
+        } else if (genderSelectionField.getValue().equals("FEMALE")) {
+            user.setGender(Gender.FEMALE);
+        } else if (genderSelectionField.getValue().equals("OTHERS")) {
+            user.setGender(Gender.OTHER);
+        }
+
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();
     }
@@ -206,21 +223,44 @@ public class RegisterUser extends VerticalLayout {
             datePicker.setInvalid(true);
             isOkay = false;
         }
+        if (genderSelectionField.isEmpty() || genderSelectionField.isInvalid()) {
+            genderSelectionField.setInvalid(true);
+            isOkay = false;
+        }
         return isOkay;
     }
 
     private void setUpAboutYourselfTextArea() {
+        aboutYourself.setPrefixComponent(new Icon(VaadinIcon.USER_CARD));
         aboutYourself.setPlaceholder("Write about a bit yourself what you do etc. etc.");
         aboutYourself.addClassName("r-v-text-field");
     }
 
     private void setUpNameField() {
         name.setPlaceholder("Enter your full name");
+        name.setPrefixComponent(new Icon(VaadinIcon.ACCORDION_MENU));
         name.setRequiredIndicatorVisible(true);
         name.setErrorMessage("This field is required and can't be empty");
         name.setRequired(true);
         name.addClassName("r-v-text-field");
         name.addValueChangeListener(event -> checkIfEmpty(event.getValue()));
+    }
+
+    private void setUpGenderSelectionField() {
+        genderSelectionField.setLabel("Please Select your GENDER");
+        genderSelectionField.setItems("MALE", "FEMALE", "OTHERS");
+        genderSelectionField.setValue("MALE");
+        genderSelectionField.setRequiredIndicatorVisible(true);
+        genderSelectionField.addClassName("r-v-text-field");
+    }
+
+    private void setUpAddressField() {
+        address.setPrefixComponent(new Icon(VaadinIcon.HOME_O));
+        address.setPlaceholder("Enter your address ");
+        address.setRequiredIndicatorVisible(true);
+        address.setErrorMessage("This field is required and can't be empty");
+        address.setRequired(true);
+        address.addClassName("r-v-text-field");
     }
 
     private void setUpPhoneNumberField() {
@@ -235,6 +275,7 @@ public class RegisterUser extends VerticalLayout {
     }
 
     private void setEmailField() {
+        email.setPrefixComponent(new Icon(VaadinIcon.MAILBOX));
         email.setRequiredIndicatorVisible(true);
         email.setPlaceholder("Enter your email");
         email.setClearButtonVisible(true);
@@ -259,6 +300,7 @@ public class RegisterUser extends VerticalLayout {
     }
 
     private void setUpUserNameTextField() {
+        username.setPrefixComponent(new Icon(VaadinIcon.USER));
         username.setPlaceholder("Enter your username");
         username.setRequiredIndicatorVisible(true);
         username.setClearButtonVisible(true);
@@ -283,6 +325,7 @@ public class RegisterUser extends VerticalLayout {
     }
 
     private void setUpPasswordFiled() {
+        password.setPrefixComponent(new Icon(VaadinIcon.PASSWORD));
         password.setPlaceholder("Enter your password");
         password.setRequired(true);
         password.setRequiredIndicatorVisible(true);
@@ -307,6 +350,7 @@ public class RegisterUser extends VerticalLayout {
     }
 
     private void setUpConfirmPasswordFiled() {
+        confirmPassword.setPrefixComponent(new Icon(VaadinIcon.CHECK_CIRCLE_O));
         confirmPassword.setPlaceholder("Enter your password again");
         confirmPassword.setRequired(true);
         confirmPassword.setRequiredIndicatorVisible(true);
@@ -403,6 +447,7 @@ public class RegisterUser extends VerticalLayout {
             setLabel(label);
             number.addClassName("r-v-text-field");
             countryCode.addClassName("r-v-text-field");
+            number.setPrefixComponent(new Icon(VaadinIcon.PHONE));
             countryCode.setWidth("120px");
             countryCode.setPlaceholder("Country");
             ArrayList<String> list = new ArrayList<>(Arrays.asList("+880", "+91", "+62", "+98",
