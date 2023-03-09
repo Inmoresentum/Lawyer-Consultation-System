@@ -60,6 +60,7 @@ vaadin-scroller[slot="drawer"][overflow~="bottom"] {
     cursor: pointer;
 }
 
-vaadin-app-layout[primary-section="drawer"] ::part(drawer) *:hover {
+vcf-nav-item::part(item):hover {
     cursor: pointer;
+    background: #d39ee8;
 }

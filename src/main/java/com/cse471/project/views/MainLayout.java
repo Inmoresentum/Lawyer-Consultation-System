@@ -75,6 +75,7 @@ public class MainLayout extends AppLayout {
         // AppNav is not yet an official component.
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
+        nav.addClassName("main-layout-nav-bar");
 
         if (accessChecker.hasAccess(UserListView.class)) {
             nav.addItem(new AppNavItem("User List", UserListView.class,
