@@ -6,9 +6,11 @@ import com.cse471.project.entity.User;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.login.LoginView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -104,7 +106,8 @@ public class RegisterUser extends VerticalLayout {
         //userProfilePictureUploadField.addClassName("r-v-email-field");
         FormLayout formLayout = new FormLayout(name, username, email,
                 phoneNumberField, datePicker, address, genderSelectionField, password,
-                confirmPassword, userProfilePictureUploadField, aboutYourself);
+                confirmPassword, userProfilePictureUploadField, aboutYourself,
+                createEndUserAgreementComponent());
         formLayout.addClassName("r-v-form-layout");
         return formLayout;
     }
@@ -375,6 +378,21 @@ public class RegisterUser extends VerticalLayout {
         datePicker.addClassName("r-v-email-field");
     }
 
+    private Component createEndUserAgreementComponent() {
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setSpacing(false);
+        hl.add(new Checkbox(), new Html("""
+                <div style="display: flex; align-items: center;">
+                  <label for="agree" style="margin-left: 5px;">By checking
+                   this box, I acknowledge that I have read and agree to the
+                    <a href="/terms" target="_blank">terms and conditions</a>
+                     and <a href="/privacy-policy" target="_blank">
+                     privacy policy</a>.</label>
+                </div>"""));
+        hl.addClassName("r-v-email-field");
+        return hl;
+    }
+
     private static class UserProfilePictureUploadField extends CustomField<Upload> {
 
         private final Upload profilePicUpload;
@@ -400,7 +418,6 @@ public class RegisterUser extends VerticalLayout {
         }
 
         private void setImageData(SucceededEvent succeededEvent) {
-            System.out.println("I am here");
             try {
                 InputStream inputStream = memoryBuffer.getInputStream();
                 // Save imageData to your database as a String annotated with @Lob

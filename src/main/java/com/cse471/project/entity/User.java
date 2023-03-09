@@ -71,4 +71,6 @@ public class User extends AbstractEntity {
     @CreatedDate
     @Column(columnDefinition = "DATETIME")
     private LocalDateTime accountCreated;
+    @Column(nullable = false, name = "Privacy_Policy_And_TOS_Agreement")
+    private boolean agreesWithTermsOfServicesAndPrivacyAndPolicy;
 }
