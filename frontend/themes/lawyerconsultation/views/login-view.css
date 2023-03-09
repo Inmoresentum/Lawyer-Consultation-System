@@ -37,7 +37,7 @@
 }
 
 .container a {
-    color: white;
+    color: #000000;
     text-decoration: none;
     font-weight: bold;
 }
@@ -84,4 +84,15 @@
         padding: 6px 16px;
         font-size: 14px;
     }
+}
+
+vaadin-login-form-wrapper {
+    background-color: #F2F2F2;
+    background-image: linear-gradient(to bottom right, #EE7752, #c77b96, #23A6D5, #23D5AB);
+    background-size: 150% 120%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+    transition: all 0.6s ease-in-out;
 }

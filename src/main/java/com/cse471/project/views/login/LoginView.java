@@ -21,6 +21,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public LoginView() {
         setSizeFull();
         addClassName("parent-login-view");
+        login.addClassName("login-view-login-form");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         Div div = new Div();
@@ -29,10 +30,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         div.add(vl);
         div.addClassName("container");
         login.setAction("login");
-        login.setClassName("login-form", true);
         VerticalLayout header = new VerticalLayout();
         header.addClassName("header");
-        header.add(new H1("Lawyer Consultation"));
+        H1 title = new H1("Lawyer Consultation");
+        title.addClassName("login-view-title");
+        header.add(title);
         header.setAlignItems(Alignment.CENTER);
         Button register = new Button("Register");
         register.addClassName("button");
@@ -42,7 +44,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         footer.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         var cookie = new CookieConsent();
         cookie.setCookieName("Analytic Cookies");
-        cookie.setDismissLabel("This is a cookie that we can't eat xD!!");
+        cookie.setDismissLabel("Got it");
         cookie.setLearnMoreLabel("Click to learn more");
         cookie.setLearnMoreLink("https://www.eatthis.com/surprising-" +
                 "side-effects-eating-cookies/");
