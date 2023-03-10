@@ -343,3 +343,28 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.hacker-text {
+    animation-name: hacker-text;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 5;
+}
+
+@keyframes hacker-text {
+    from {
+        letter-spacing: 0.1em;
+        transform: translateZ(0) rotateY(0);
+    }
+
+    30% {
+        letter-spacing: 0.5em;
+        transform: translateZ(50px) rotateY(360deg);
+    }
+
+    to {
+        letter-spacing: 0.1em;
+        transform: translateZ(0) rotateY(0);
+    }
+}
+
