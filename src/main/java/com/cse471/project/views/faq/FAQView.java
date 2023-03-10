@@ -1,4 +1,4 @@
-package com.cse471.project.views.about;
+package com.cse471.project.views.faq;
 
 import com.cse471.project.views.MainLayout;
 import com.vaadin.flow.component.html.H2;
@@ -11,12 +11,12 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 
-@PageTitle("About")
-@Route(value = "about", layout = MainLayout.class)
+@PageTitle("FAQ")
+@Route(value = "faq", layout = MainLayout.class)
 @AnonymousAllowed
-public class AboutView extends VerticalLayout {
+public class FAQView extends VerticalLayout {
 
-    public AboutView() {
+    public FAQView() {
         setSpacing(false);
 
         Image img = new Image("images/application-main.png", "placeholder plant");
