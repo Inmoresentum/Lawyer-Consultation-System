@@ -381,14 +381,15 @@ public class RegisterUser extends VerticalLayout {
         hl.setSpacing(false);
         hl.add(new Html("""
                 <div>
-                  <div style="display: flex; align-items: center;">
-                    <label for="agree" class="attention-grabbing" style="margin-left: 5px;">
-                      By <span class="hacker-text">clicking the Register button, I acknowledge that I have read and agree to the</span>
-                      <a href="/terms-and-condition" target="_blank">terms and conditions</a>
-                      and <a href="/privacy-policy" target="_blank">privacy policy</a>.
-                    </label>
-                  </div>
-                </div>"""));
+                    <div style="display: flex; align-items: center;">
+                        <label for="agree" class="attention-grabbing" style="margin-left: 5px;">
+                            By clicking the Register button, I acknowledge that I have read and agree to the
+                            <a href="/terms-and-condition" target="_blank"><span class="hacker-text">terms and conditions</span></a>
+                            and <a href="/privacy-policy" target="_blank"><span class="hacker-text">privacy policy</span></a>.
+                        </label>
+                    </div>
+                </div>
+                       """));
         hl.addClassName("r-v-email-field");
         return hl;
     }

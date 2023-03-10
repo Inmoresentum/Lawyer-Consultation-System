@@ -325,6 +325,11 @@
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.attention-grabbing:hover {
+    animation: hacker-text 1.5s ease-in-out;
 }
 
 .attention-grabbing a {
@@ -344,27 +349,16 @@
     -webkit-text-fill-color: transparent;
 }
 
-.hacker-text {
-    animation-name: hacker-text;
-    animation-duration: 5s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: 5;
-}
-
 @keyframes hacker-text {
-    from {
-        letter-spacing: 0.1em;
-        transform: translateZ(0) rotateY(0);
+    0% {
+        opacity: 1;
     }
-
-    30% {
-        letter-spacing: 0.5em;
-        transform: translateZ(50px) rotateY(360deg);
+    50% {
+        opacity: 0.5;
+        letter-spacing: 0.3em;
     }
-
-    to {
-        letter-spacing: 0.1em;
-        transform: translateZ(0) rotateY(0);
+    100% {
+        opacity: 1;
+        letter-spacing: normal;
     }
 }
-
