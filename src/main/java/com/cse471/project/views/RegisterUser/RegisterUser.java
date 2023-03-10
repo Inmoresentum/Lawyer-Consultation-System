@@ -429,7 +429,7 @@ public class RegisterUser extends VerticalLayout {
 
         private Component buildDropLabel() {
             Icon icon = VaadinIcon.USER.create();
-            Paragraph label = new Paragraph("Drag and drop or click to select profile picture. " +
+            Paragraph label = new Paragraph("Drag and drop or click Upload Profile Picture to select profile picture. " +
                     "File must be in jpeg or png format and size can't be more than 5 MB.");
             HorizontalLayout layout = new HorizontalLayout(icon, label);
             layout.setAlignItems(Alignment.CENTER);
