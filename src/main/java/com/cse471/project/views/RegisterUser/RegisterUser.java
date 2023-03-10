@@ -10,7 +10,6 @@ import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -103,7 +102,6 @@ public class RegisterUser extends VerticalLayout {
         setUpDatePicker();
         setUpAddressField();
         setUpAboutYourselfTextArea();
-        //userProfilePictureUploadField.addClassName("r-v-email-field");
         FormLayout formLayout = new FormLayout(name, username, email,
                 phoneNumberField, datePicker, address, genderSelectionField, password,
                 confirmPassword, userProfilePictureUploadField, aboutYourself,
@@ -169,7 +167,7 @@ public class RegisterUser extends VerticalLayout {
         } else if (genderSelectionField.getValue().equals("OTHERS")) {
             user.setGender(Gender.OTHER);
         }
-
+        user.setAgreesWithTermsOfServicesAndPrivacyAndPolicy(true);
         userService.registerUser(user, password.getValue());
         showSuccessConfirmation();
     }
@@ -381,13 +379,15 @@ public class RegisterUser extends VerticalLayout {
     private Component createEndUserAgreementComponent() {
         HorizontalLayout hl = new HorizontalLayout();
         hl.setSpacing(false);
-        hl.add(new Checkbox(), new Html("""
+        hl.add(new Html("""
+                <div>
                 <div style="display: flex; align-items: center;">
-                  <label for="agree" style="margin-left: 5px;">By checking
-                   this box, I acknowledge that I have read and agree to the
-                    <a href="/terms" target="_blank">terms and conditions</a>
-                     and <a href="/privacy-policy" target="_blank">
-                     privacy policy</a>.</label>
+                  <label for="agree" class="attention-grabbing" style="margin-left: 5px;">
+                    By clicking the Register button, I acknowledge that I have read and agree to the
+                    <a href="/terms-and-condition" target="_blank">terms and conditions</a>
+                    and <a href="/privacy-policy" target="_blank">privacy policy</a>.
+                  </label>
+                </div>
                 </div>"""));
         hl.addClassName("r-v-email-field");
         return hl;

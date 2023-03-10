@@ -13,7 +13,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 100%;
     max-width: 560px;
     margin: 0 auto;
     padding: 2rem;
@@ -316,3 +316,32 @@
 .profile-pic-upload-button:hover {
     background-image: linear-gradient(135deg, #FF6B6B, #EF8E38, #F5D02E);
 }
+
+.attention-grabbing {
+    background-image: linear-gradient(to right, #64b3f4, #4a90e2); /* a blue gradient */
+    color: #fff; /* white text */
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.attention-grabbing a {
+    color: #fff; /* white text */
+    text-decoration: underline;
+    transition: all 0.2s ease-in-out;
+    background-image: linear-gradient(to right, #7626e1, #d3109a); /* a lighter blue gradient */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.attention-grabbing a:hover {
+    background-image: linear-gradient(to right, #fd005f, #d9731c); /* revert to the original blue gradient */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
