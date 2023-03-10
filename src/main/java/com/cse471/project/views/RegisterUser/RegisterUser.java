@@ -384,7 +384,7 @@ public class RegisterUser extends VerticalLayout {
                     <div style="display: flex; align-items: center;">
                         <label for="agree" class="attention-grabbing" style="margin-left: 5px;">
                             By clicking the Register button, I acknowledge that I have read and agree to the
-                            <a href="/terms-and-condition" target="_blank"><span class="hacker-text">terms and conditions</span></a>
+                            <a href="/terms-and-conditions" target="_blank"><span class="hacker-text">terms and conditions</span></a>
                             and <a href="/privacy-policy" target="_blank"><span class="hacker-text">privacy policy</span></a>.
                         </label>
                     </div>
