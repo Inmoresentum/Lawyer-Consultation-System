@@ -2,6 +2,7 @@
 .faq-view-parent-v {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 1rem;
 }
 
@@ -14,16 +15,19 @@
 /* Styling for each FAQ section */
 .faq-view-faq-section {
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 15px;
     margin-bottom: 1rem;
     overflow: hidden;
     transition: height 0.3s ease;
     height: auto;
+    background: linear-gradient(to right, #8B3DC3, #4A00E0); /* question gradient background */
 }
 
 /* Styling for the FAQ question header */
 .faq-view-faq-question-h3 {
     margin: 0;
+    padding: 1rem;
+    color: #fff;
 }
 
 /* Styling for the FAQ answer content */
@@ -31,15 +35,37 @@
     display: none;
     margin: 0;
     padding: 1rem;
+    background: linear-gradient(to right, #04c9f3, #0a6de1); /* answer gradient background */
 }
 
 /* Styling for the FAQ tab */
 .faq-view-faqTab {
     cursor: pointer;
-    padding: 1rem;
 }
 
 /* Styling for the expanded FAQ answer content */
 .faq-view-expand-answer .faq-view-section-answer {
     display: block;
 }
+
+/* Styling for the hover effect on the FAQ sections */
+.faq-view-faq-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Styling for the hover effect on the FAQ question header */
+.faq-view-faq-question-h3:hover {
+    background: linear-gradient(to right, #04c9f3, #0a6de1); /* question background color on hover */
+}
+
+/* Styling for the hover effect on the FAQ answer content */
+.faq-view-section-answer:hover {
+    background: linear-gradient(to right, #8B3DC3, #4A00E0); /* answer background color on hover */
+}
+
+/* Styling for the active tab */
+.faq-view-active-tab {
+    font-weight: bold;
+}
+
