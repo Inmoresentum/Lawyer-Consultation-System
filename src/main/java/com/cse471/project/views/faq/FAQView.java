@@ -62,17 +62,20 @@ public class FAQView extends VerticalLayout {
         // Add the section tab and content to the section container
         faqSection.add(faqTab, answerText);
 
+        // Adding the tooltip for better accessibility
+        faqTab.setTooltipText("Click to Expand");
         // Configure the section tab
         faqTab.getElement().addEventListener("click", e -> {
             if (faqTab.isSelected()) {
                 faqTab.setSelected(false);
                 faqSection.removeClassName("faq-view-expand-answer");
+                faqTab.setTooltipText("Click to Expand");
             } else {
                 faqSection.addClassName("faq-view-expand-answer");
                 faqTab.setSelected(true);
+                faqTab.setTooltipText("Click to collapse");
             }
         });
-
         return faqSection;
     }
 }

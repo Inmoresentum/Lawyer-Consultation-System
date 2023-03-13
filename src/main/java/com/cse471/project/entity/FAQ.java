@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @Table(name = "FAQ")
 public class FAQ {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faq-idgenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faq-id-generator")
     // The initial value is to account for data.sql demo data ids
-    @SequenceGenerator(name = "faq-idgenerator", initialValue = 50)
+    @SequenceGenerator(name = "faq-id-generator", initialValue = 100)
     private Long id;
     @Version
     private int version;

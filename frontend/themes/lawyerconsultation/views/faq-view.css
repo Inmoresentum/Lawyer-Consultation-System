@@ -15,12 +15,12 @@
 /* Styling for each FAQ section */
 .faq-view-faq-section {
     border: 1px solid #ddd;
-    border-radius: 15px;
+    border-radius: 20px;
     margin-bottom: 1rem;
     overflow: hidden;
-    transition: height 0.3s ease;
+    transition: height 0.9s ease;
     height: auto;
-    background: linear-gradient(to right, #8B3DC3, #4A00E0); /* question gradient background */
+    background: linear-gradient(to right, #f6d365, #fda085);
 }
 
 /* Styling for the FAQ question header */
@@ -28,6 +28,9 @@
     margin: 0;
     padding: 1rem;
     color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    /*background: linear-gradient(to right, #ffafbd, #ffc3a0);*/
 }
 
 /* Styling for the FAQ answer content */
@@ -35,12 +38,17 @@
     display: none;
     margin: 0;
     padding: 1rem;
-    background: linear-gradient(to right, #04c9f3, #0a6de1); /* answer gradient background */
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: linear-gradient(to right, #7baafa, #c2e9fb);
 }
 
 /* Styling for the FAQ tab */
 .faq-view-faqTab {
     cursor: pointer;
+    padding: 1rem;
+    color: #333;
 }
 
 /* Styling for the expanded FAQ answer content */
@@ -48,24 +56,52 @@
     display: block;
 }
 
-/* Styling for the hover effect on the FAQ sections */
+/* Hover styles for FAQ sections */
 .faq-view-faq-section:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, #f5576c, #f093fb);
 }
 
-/* Styling for the hover effect on the FAQ question header */
+/* Hover styles for FAQ questions */
 .faq-view-faq-question-h3:hover {
-    background: linear-gradient(to right, #04c9f3, #0a6de1); /* question background color on hover */
+    color: #b60ee8;
 }
 
-/* Styling for the hover effect on the FAQ answer content */
+/* Hover styles for FAQ answers */
 .faq-view-section-answer:hover {
-    background: linear-gradient(to right, #8B3DC3, #4A00E0); /* answer background color on hover */
+    background: #00B4DB; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0083B0, #00B4DB); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #fff;
 }
 
-/* Styling for the active tab */
-.faq-view-active-tab {
-    font-weight: bold;
+/* Active styles for FAQ questions */
+.faq-view-faq-section:active {
+    background: linear-gradient(to right, #1e53d0, #ce13a2);
+}
+
+/* Active styles for FAQ answers */
+.faq-view-section-answer:active {
+    background: linear-gradient(to right, #42c7ba, #4a2ec9);
+    color: #fff;
+}
+
+/* Add expand/collapse icons to the FAQ question headers */
+.faq-view-faq-question-h3::before {
+    content: '>';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background-image: url("https://icons8.com/icon/oOgxPXn20qdc/triangle-arrow");
+    background-size: contain;
+    background-repeat: repeat;
+    transition: transform 0.3s ease;
+}
+
+/* Change the icon's orientation when the FAQ answer is expanded */
+.faq-view-expand-answer .faq-view-faq-question-h3::before {
+    transform: rotate(90deg);
 }
 
