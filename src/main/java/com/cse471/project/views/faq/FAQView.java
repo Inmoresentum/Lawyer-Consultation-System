@@ -20,7 +20,6 @@ import java.util.List;
 @Route(value = "faq", layout = MainLayout.class)
 @AnonymousAllowed
 public class FAQView extends VerticalLayout {
-
     private final FAQService faqService;
 
     public FAQView(FAQService faqService) {
@@ -50,7 +49,7 @@ public class FAQView extends VerticalLayout {
 
         // Create the section content
         Span answerText = new Span(faq.getAnswer());
-        answerText.addClassName("faq-view-faq-answer");
+        answerText.addClassName("faq-view-section-answer");
 
         // Create the section tab
         Tab faqTab = new Tab(questionHeader);
@@ -66,9 +65,11 @@ public class FAQView extends VerticalLayout {
         // Configure the section tab
         faqTab.getElement().addEventListener("click", e -> {
             if (faqTab.isSelected()) {
-                faqSection.removeClassName("open");
+                faqTab.setSelected(false);
+                faqSection.removeClassName("faq-view-expand-answer");
             } else {
-                faqSection.addClassName("open");
+                faqSection.addClassName("faq-view-expand-answer");
+                faqTab.setSelected(true);
             }
         });
 

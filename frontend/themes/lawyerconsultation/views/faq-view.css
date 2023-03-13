@@ -1,47 +1,45 @@
-/* FAQ view parent container */
+/* Styling for the FAQView layout */
 .faq-view-parent-v {
-    max-width: 800px;
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
 }
 
-/* FAQ sections container */
+/* Styling for the main FAQ sections container */
 .faq-view-main-div-card {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    max-width: 800px;
+    width: 100%;
 }
 
-/* FAQ section container */
+/* Styling for each FAQ section */
 .faq-view-faq-section {
-    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    height: auto;
 }
 
-/* FAQ section tab */
+/* Styling for the FAQ question header */
+.faq-view-faq-question-h3 {
+    margin: 0;
+}
+
+/* Styling for the FAQ answer content */
+.faq-view-section-answer {
+    display: none;
+    margin: 0;
+    padding: 1rem;
+}
+
+/* Styling for the FAQ tab */
 .faq-view-faqTab {
     cursor: pointer;
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
+    padding: 1rem;
 }
 
-.faq-view-faqTab:hover {
-    background-color: #f7f7f7;
-}
-
-/* FAQ section content */
-.faq-view-faq-answer {
-    font-size: 16px;
-    line-height: 1.5;
-}
-
-/* FAQ section header */
-.faq-view-faq-question-h3 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
+/* Styling for the expanded FAQ answer content */
+.faq-view-expand-answer .faq-view-section-answer {
+    display: block;
 }
