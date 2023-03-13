@@ -54,9 +54,6 @@ public class UserService {
                 LocalDateTime.now(), LocalDateTime.now().plusHours(3), user);
         // Saving the token
         verificationTokenRepository.save(userVerificationToken);
-        System.out.println(activationLink);
-        System.out.println(activationToken);
-        System.out.println(user);
         emailService.send(user.getEmail(), "Account Activation", emailUtils
                 .buildConfirmationEmail(user.getName(), activationLink));
     }
