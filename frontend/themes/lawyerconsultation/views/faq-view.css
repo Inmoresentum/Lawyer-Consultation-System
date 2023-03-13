@@ -1,0 +1,47 @@
+/* FAQ view parent container */
+.faq-view-parent-v {
+    max-width: 800px;
+    margin: auto;
+}
+
+/* FAQ sections container */
+.faq-view-main-div-card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+/* FAQ section container */
+.faq-view-faq-section {
+    margin-top: 20px;
+}
+
+/* FAQ section tab */
+.faq-view-faqTab {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.faq-view-faqTab:hover {
+    background-color: #f7f7f7;
+}
+
+/* FAQ section content */
+.faq-view-faq-answer {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* FAQ section header */
+.faq-view-faq-question-h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}

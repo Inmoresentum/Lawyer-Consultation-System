@@ -14,6 +14,7 @@
 @import url('./views/forgot-password-token-verification.css');
 @import url('./views/user-profile-view.css');
 @import url('./views/change-password-view.css');
+@import url('./views/faq-view.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);

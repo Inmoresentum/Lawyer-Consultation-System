@@ -25,45 +25,40 @@ public class FAQView extends VerticalLayout {
 
     public FAQView(FAQService faqService) {
         this.faqService = faqService;
-
+        addClassName("faq-view-parent-v");
         // Fetch the FAQs from the database
         List<FAQ> faqs = faqService.findAllFaq();
 
         // Create a container for the FAQ sections
         Div faqSections = new Div();
-        faqSections.addClassNames("faq-sections", "mx-auto");
+        faqSections.addClassName("faq-view-main-div-card");
 
         // Loop through each FAQ and create a section for it
         for (FAQ faq : faqs) {
-            Component faqSection = createFAQSection(faq);
+            var faqSection = createFAQSection(faq);
             faqSections.add(faqSection);
         }
 
         // Add the FAQ sections container to the layout
         add(faqSections);
-
-        // Configure the layout
-        setSpacing(false);
-        setMargin(false);
-        setPadding(false);
-        setSizeFull();
     }
 
     private Component createFAQSection(FAQ faq) {
         // Create the section header
         H3 questionHeader = new H3(faq.getQuestion());
-        questionHeader.addClassNames("faq-question", "mb-0");
+        questionHeader.addClassName("faq-view-faq-question-h3");
 
         // Create the section content
         Span answerText = new Span(faq.getAnswer());
-        answerText.addClassNames("faq-answer", "mb-3");
+        answerText.addClassName("faq-view-faq-answer");
 
         // Create the section tab
         Tab faqTab = new Tab(questionHeader);
+        faqTab.addClassName("faq-view-faqTab");
 
         // Create the section container
         Div faqSection = new Div();
-        faqSection.addClassNames("faq-section", "mx-auto");
+        faqSection.addClassName("faq-view-faq-section");
 
         // Add the section tab and content to the section container
         faqSection.add(faqTab, answerText);
@@ -71,15 +66,11 @@ public class FAQView extends VerticalLayout {
         // Configure the section tab
         faqTab.getElement().addEventListener("click", e -> {
             if (faqTab.isSelected()) {
-                faqSection.removeClassNames("open");
+                faqSection.removeClassName("open");
             } else {
-                faqSection.addClassNames("open");
+                faqSection.addClassName("open");
             }
         });
-
-        // Configure the section container
-        faqSection.addClassNames("mb-3", "p-3", "rounded-lg", "bg-light");
-        faqSection.getStyle().set("max-width", "800px");
 
         return faqSection;
     }
