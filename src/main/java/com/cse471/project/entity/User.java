@@ -5,23 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Set;
 import javax.annotation.Nullable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_user")

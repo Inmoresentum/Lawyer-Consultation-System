@@ -16,8 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -108,6 +108,20 @@ public class UserService {
 
     public Optional<User> findByUserId(String userId) {
         return userRepository.findById(Long.parseLong(userId));
+    }
+
+    @Transactional
+    public void changeUserAccountPassword(User user) {
+        try {
+            update(user);
+            String accountRecoveryLink = "http://localhost:8080/forgot-password";
+            var htmlEmail = emailUtils.buildEmailPasswordChangeNotifier(
+                    user.getUsername(), accountRecoveryLink);
+            emailService.send(user.getEmail(),
+                    "Account Password Got changed", htmlEmail);
+        } catch (Exception e) {
+            throw new IllegalStateException("Can't update the user");
+        }
     }
 
     public Optional<User> getCurrentLoggedInUser() {
