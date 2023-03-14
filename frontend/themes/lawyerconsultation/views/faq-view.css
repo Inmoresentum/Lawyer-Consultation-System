@@ -42,6 +42,9 @@
     font-size: 1.2rem;
     font-weight: 600;
     background: linear-gradient(to right, #7baafa, #c2e9fb);
+    animation-name: faq-answer-bounce-in;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Styling for the FAQ tab */
@@ -89,7 +92,7 @@
 
 /* Add expand/collapse icons to the FAQ question headers */
 .faq-view-faq-question-h3::before {
-    content: '>';
+    content: '⇨';
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -105,3 +108,46 @@
     transform: rotate(90deg);
 }
 
+/*!* Animation for fade in/out effect *!*/
+/*@keyframes faq-view-fade-in-out {*/
+/*    0% {*/
+/*        opacity: 0;*/
+/*    }*/
+/*    25% {*/
+/*        opacity: 0.25;*/
+/*    }*/
+/*    50% {*/
+/*        opacity: 0.5;*/
+/*    }*/
+/*    75% {*/
+/*        opacity: 0.7;*/
+/*    }*/
+/*    100% {*/
+/*        opacity: 1;*/
+/*    }*/
+/*}*/
+
+/*!* Styling for the expanded FAQ answer content *!*/
+/*.faq-view-expand-answer .faq-view-section-answer {*/
+/*    display: block;*/
+/*    animation-name: faq-view-fade-in-out;*/
+/*    animation-duration: 0.5s;*/
+/*}*/
+
+/* Bouncy animation for FAQ answer content */
+@keyframes faq-answer-bounce-in {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(25px);
+    }
+    80% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
