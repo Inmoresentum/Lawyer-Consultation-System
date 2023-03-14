@@ -68,10 +68,12 @@ public class FAQView extends VerticalLayout {
         faqTab.getElement().addEventListener("click", e -> {
             if (faqTab.isSelected()) {
                 faqTab.setSelected(false);
+                faqSection.addClassName("faq-view-collapse-answer");
                 faqSection.removeClassName("faq-view-expand-answer");
                 faqTab.setTooltipText("Click to Expand");
             } else {
                 faqSection.addClassName("faq-view-expand-answer");
+                faqSection.removeClassName("faq-view-collapse-answer");
                 faqTab.setSelected(true);
                 faqTab.setTooltipText("Click to collapse");
             }

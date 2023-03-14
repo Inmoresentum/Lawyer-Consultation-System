@@ -42,9 +42,8 @@
     font-size: 1.2rem;
     font-weight: 600;
     background: linear-gradient(to right, #7baafa, #c2e9fb);
-    animation-name: faq-answer-bounce-in;
-    animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
 }
 
 /* Styling for the FAQ tab */
@@ -57,6 +56,11 @@
 /* Styling for the expanded FAQ answer content */
 .faq-view-expand-answer .faq-view-section-answer {
     display: block;
+    animation-name: faq-view-bounce-in;
+}
+
+.faq-view-collapse-answer .faq-view-section-answer {
+    animation-name: faq-view-bounce-out;
 }
 
 /* Hover styles for FAQ sections */
@@ -134,20 +138,45 @@
 /*    animation-duration: 0.5s;*/
 /*}*/
 
-/* Bouncy animation for FAQ answer content */
-@keyframes faq-answer-bounce-in {
+/* Animation for bouncing in the answer */
+@keyframes faq-view-bounce-in {
     0% {
-        transform: translateY(-100px);
         opacity: 0;
+        transform: translateY(-100%);
     }
-    60% {
-        transform: translateY(25px);
+    50% {
+        opacity: 1;
+        transform: translateY(25%);
     }
-    80% {
-        transform: translateY(-10px);
+    75% {
+        transform: translateY(-10%);
+    }
+    90% {
+        transform: translateY(5%);
     }
     100% {
-        transform: translateY(0);
+        transform: translateY(0%);
+    }
+}
+
+/* Animation for bouncing out the answer */
+@keyframes faq-view-bounce-out {
+    0% {
         opacity: 1;
+        transform: translateY(0%);
+    }
+    25% {
+        transform: translateY(5%);
+    }
+    40% {
+        transform: translateY(-10%);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(25%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
     }
 }
