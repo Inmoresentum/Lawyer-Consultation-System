@@ -139,6 +139,7 @@
 /*}*/
 
 /* Animation for bouncing in the answer */
+/* Todo: Fix the bug with the bounce out animation where it's not visible */
 @keyframes faq-view-bounce-in {
     0% {
         opacity: 0;
