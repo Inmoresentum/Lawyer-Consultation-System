@@ -1,7 +1,7 @@
 package com.cse471.project.views.allusers;
 
-import com.cse471.project.entity.SamplePerson;
-import com.cse471.project.service.SampleUserService.SamplePersonService;
+import com.cse471.project.entity.User;
+import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
 import com.vaadin.collaborationengine.CollaborationBinder;
@@ -30,9 +30,11 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
+
 import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.security.RolesAllowed;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
@@ -45,30 +47,28 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
     private final String SAMPLEPERSON_ID = "samplePersonID";
     private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "admin-users-view/%s/edit";
 
-    private final Grid<SamplePerson> grid = new Grid<>(SamplePerson.class, false);
+    private final Grid<User> grid = new Grid<>(User.class, false);
 
     CollaborationAvatarGroup avatarGroup;
 
-    private TextField firstName;
-    private TextField lastName;
+    private TextField name;
+    private TextField username;
     private TextField email;
-    private TextField phone;
+    private TextField phoneNumber;
     private DatePicker dateOfBirth;
-    private TextField occupation;
-    private TextField role;
-    private Checkbox important;
+    private Checkbox isAccountActive;
 
     private final Button cancel = new Button("Cancel");
     private final Button save = new Button("Save");
 
-    private final CollaborationBinder<SamplePerson> binder;
+    private final CollaborationBinder<User> binder;
 
-    private SamplePerson samplePerson;
+    private User user;
 
-    private final SamplePersonService samplePersonService;
+    private final UserService userService;
 
-    public AllUsersView(SamplePersonService samplePersonService) {
-        this.samplePersonService = samplePersonService;
+    public AllUsersView(UserService userService) {
+        this.userService = userService;
         addClassNames("all-users-view");
 
         // UserInfo is used by Collaboration Engine and is used to share details
@@ -91,24 +91,22 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         add(splitLayout);
 
         // Configure Grid
-        grid.addColumn("firstName").setAutoWidth(true);
-        grid.addColumn("lastName").setAutoWidth(true);
+        grid.addColumn("name").setAutoWidth(true);
+        grid.addColumn("username").setAutoWidth(true);
         grid.addColumn("email").setAutoWidth(true);
-        grid.addColumn("phone").setAutoWidth(true);
+        grid.addColumn("phoneNumber").setAutoWidth(true);
         grid.addColumn("dateOfBirth").setAutoWidth(true);
-        grid.addColumn("occupation").setAutoWidth(true);
-        grid.addColumn("role").setAutoWidth(true);
-        LitRenderer<SamplePerson> importantRenderer = LitRenderer.<SamplePerson>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", important -> important.isImportant() ? "check" : "minus").withProperty("color",
-                        important -> important.isImportant()
+        LitRenderer<User> verificationRenderer = LitRenderer.<User>of(
+                        "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
+                .withProperty("icon", isAccountActive -> isAccountActive.isAccountActive() ? "check" : "minus").withProperty("color",
+                        isAccountActive -> isAccountActive.isAccountActive()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
-        grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
+        grid.addColumn(verificationRenderer).setHeader("Account Verified").setAutoWidth(true);
 
-        grid.setItems(query -> samplePersonService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
+        grid.setItems(query -> userService.list(
+                        PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
@@ -123,7 +121,7 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         });
 
         // Configure Form
-        binder = new CollaborationBinder<>(SamplePerson.class, userInfo);
+        binder = new CollaborationBinder<>(User.class, userInfo);
 
         // Bind fields. This is where you'd define e.g. validation rules
 
@@ -136,11 +134,11 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
 
         save.addClickListener(e -> {
             try {
-                if (this.samplePerson == null) {
-                    this.samplePerson = new SamplePerson();
+                if (this.user == null) {
+                    this.user = new User();
                 }
-                binder.writeBean(this.samplePerson);
-                samplePersonService.update(this.samplePerson);
+                binder.writeBean(this.user);
+                userService.update(this.user);
                 clearForm();
                 refreshGrid();
                 Notification.show("Data updated");
@@ -160,7 +158,7 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
     public void beforeEnter(BeforeEnterEvent event) {
         Optional<Long> samplePersonId = event.getRouteParameters().get(SAMPLEPERSON_ID).map(Long::parseLong);
         if (samplePersonId.isPresent()) {
-            Optional<SamplePerson> samplePersonFromBackend = samplePersonService.get(samplePersonId.get());
+            Optional<User> samplePersonFromBackend = userService.get(samplePersonId.get());
             if (samplePersonFromBackend.isPresent()) {
                 populateForm(samplePersonFromBackend.get());
             } else {
@@ -184,15 +182,13 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        firstName = new TextField("First Name");
-        lastName = new TextField("Last Name");
+        name = new TextField("First Name");
+        username = new TextField("Last Name");
         email = new TextField("Email");
-        phone = new TextField("Phone");
+        phoneNumber = new TextField("Phone");
         dateOfBirth = new DatePicker("Date Of Birth");
-        occupation = new TextField("Occupation");
-        role = new TextField("Role");
-        important = new Checkbox("Important");
-        formLayout.add(firstName, lastName, email, phone, dateOfBirth, occupation, role, important);
+        isAccountActive = new Checkbox("Verified");
+        formLayout.add(name, username, email, phoneNumber, dateOfBirth, isAccountActive);
 
         editorDiv.add(avatarGroup, formLayout);
         createButtonLayout(editorLayoutDiv);
@@ -225,17 +221,16 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(SamplePerson value) {
-        this.samplePerson = value;
+    private void populateForm(User value) {
+        this.user = value;
         String topic = null;
-        if (this.samplePerson != null && this.samplePerson.getId() != null) {
-            topic = "samplePerson/" + this.samplePerson.getId();
+        if (this.user != null && this.user.getId() != null) {
+            topic = "users-list/" + this.user.getId();
             avatarGroup.getStyle().set("visibility", "visible");
         } else {
             avatarGroup.getStyle().set("visibility", "hidden");
         }
-        binder.setTopic(topic, () -> this.samplePerson);
+        binder.setTopic(topic, () -> this.user);
         avatarGroup.setTopic(topic);
-
     }
 }
