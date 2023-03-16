@@ -6,6 +6,25 @@
     padding: 1rem;
 }
 
+@keyframes scale-in {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Apply the animation to the view */
+.faq-view-parent-v {
+    animation-name: scale-in;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
 /* Styling for the main FAQ sections container */
 .faq-view-main-div-card {
     max-width: 800px;

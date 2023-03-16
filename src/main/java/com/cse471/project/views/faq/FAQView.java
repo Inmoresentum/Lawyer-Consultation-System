@@ -40,6 +40,30 @@ public class FAQView extends VerticalLayout {
 
         // Add the FAQ sections container to the layout
         add(faqSections);
+        getElement().executeJs(
+                "const elements = document.querySelectorAll('.faq-view-faqTab');" +
+                        "const observer = new IntersectionObserver(entries => {" +
+                        "  entries.forEach(entry => {" +
+                        "    if (entry.isIntersecting && entry.intersectionRatio > 0) {" +
+                        "      if (entry.boundingClientRect.top < 0) {" +
+                        "        entry.target.classList.add('animate-down');" +
+                        "      } else {" +
+                        "        entry.target.classList.add('animate-up');" +
+                        "      }" +
+                        "      const onTransitionEnd = () => {" +
+                        "        entry.target.removeEventListener('transitionend', onTransitionEnd);" +
+                        "        entry.target.classList.remove('animate-down', 'animate-up');" +
+                        "        observer.observe(entry.target);" +
+                        "      };" +
+                        "      entry.target.addEventListener('transitionend', onTransitionEnd);" +
+                        "      observer.unobserve(entry.target);" +
+                        "    }" +
+                        "  });" +
+                        "});" +
+                        "elements.forEach(element => {" +
+                        "  observer.observe(element);" +
+                        "});"
+        );
     }
 
     private Component createFAQSection(FAQ faq) {
@@ -61,7 +85,6 @@ public class FAQView extends VerticalLayout {
 
         // Add the section tab and content to the section container
         faqSection.add(faqTab, answerText);
-
         // Adding the tooltip for better accessibility
         faqTab.setTooltipText("Click to Expand");
         // Configure the section tab
