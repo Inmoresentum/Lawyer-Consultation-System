@@ -18,4 +18,6 @@ public interface FAQRepo extends JpaRepository<FAQ, Long> {
     @Transactional
     List<FAQ> getFAQsBySearchTerm(String searchTerm);
 
+    boolean existsByQuestion(String faqQuestion);
+
 }

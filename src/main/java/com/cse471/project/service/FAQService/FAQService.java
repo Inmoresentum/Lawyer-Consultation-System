@@ -44,4 +44,8 @@ public class FAQService {
     public List<FAQ> findAllFAQsContainingSearchTerm(String searchTerm) {
         return faqRepo.getFAQsBySearchTerm(searchTerm);
     }
+
+    public boolean faqQuestionAlreadyExists(String faqQuestion) {
+        return faqRepo.existsByQuestion(faqQuestion);
+    }
 }

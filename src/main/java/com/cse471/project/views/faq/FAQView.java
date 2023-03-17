@@ -5,6 +5,7 @@ import com.cse471.project.entity.Role;
 import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.service.FAQService.FAQService;
 import com.cse471.project.views.MainLayout;
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -13,6 +14,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -29,6 +31,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -86,7 +89,6 @@ public class FAQView extends VerticalLayout {
                         "  observer.observe(element);" +
                         "});"
         );
-        // getting the hold of the current user
     }
 
     private void addFaqSectionToDom() {
@@ -124,12 +126,161 @@ public class FAQView extends VerticalLayout {
         add(searchAndPostSectionMainContainer);
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void setUpPostNewFAQIcon() {
         postNewFAQ.addClassName("faq-view-post-new-faq");
-        postNewFAQ.addClickListener(event -> {
-            // Todo: implement the method
-        });
+        postNewFAQ.addClickListener(event ->
+                setUpPostNewFAQDialogBox());
         postNewFAQ.setTooltipText("Click here to add new FAQ");
+    }
+
+    private void setUpPostNewFAQDialogBox() {
+        Dialog newFaqPostingDialog = new Dialog();
+
+        newFaqPostingDialog.setHeaderTitle("Post a New FAQ");
+        newFaqPostingDialog.addClassName("faq-view-edit-post-dialog-box");
+
+        TextArea faqQuestion = createAndSetUpFAQQuestionTextArea();
+        TextArea faqAnswer = createAndSetUpFAQAnswerTextArea();
+        VerticalLayout dialogLayout = new VerticalLayout(faqQuestion,
+                faqAnswer);
+        dialogLayout.setPadding(false);
+        dialogLayout.setSpacing(false);
+        dialogLayout.setAlignItems(Alignment.STRETCH);
+        dialogLayout.getStyle().set("width", "18rem").set("max-width", "100%");
+        newFaqPostingDialog.add(dialogLayout);
+
+        Button postButton = new Button("Post", postButtonEvent ->
+                handleNewFAQPostRequest(faqQuestion, faqAnswer, newFaqPostingDialog));
+
+        //noinspection DuplicatedCode
+        postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        postButton.addClassName("faq-view-edit-post-save-button");
+        Button cancelButton = new Button("Cancel", e ->
+                newFaqPostingDialog.close());
+        cancelButton.addClassName("faq-answer-text-area");
+        newFaqPostingDialog.getFooter().add(cancelButton);
+        newFaqPostingDialog.getFooter().add(postButton);
+
+        newFaqPostingDialog.setDraggable(true);
+        newFaqPostingDialog.setResizable(true);
+        newFaqPostingDialog.open();
+        add(newFaqPostingDialog);
+    }
+
+    @NotNull
+    private TextArea createAndSetUpFAQAnswerTextArea() {
+        TextArea faqAnswer = new TextArea("Answer");
+        faqAnswer.setPlaceholder("Write the new FAQ questions answer here");
+        faqAnswer.addClassName("faq-view-edit-post-faq-answer-text-area");
+        faqAnswer.addValueChangeListener(valueChangedEvent ->
+                checkFAQAnswerValidity(valueChangedEvent, faqAnswer));
+        return faqAnswer;
+    }
+
+    @NotNull
+    private TextArea createAndSetUpFAQQuestionTextArea() {
+        TextArea faqQuestion = new TextArea("Question");
+        faqQuestion.addValueChangeListener(valueChangedEvent ->
+                checkFAQQuestionValidity(valueChangedEvent, faqQuestion));
+        faqQuestion.addClassName("faq-view-edit-post-faq-question-text-area");
+        faqQuestion.setPlaceholder("Write the new FAQ Question here");
+        faqQuestion.addThemeVariants(TextAreaVariant.LUMO_HELPER_ABOVE_FIELD);
+        return faqQuestion;
+    }
+
+    private void checkFAQAnswerValidity(AbstractField.ComponentValueChangeEvent<TextArea,
+            String> valueChangedEvent, TextArea faqAnswer) {
+        if (valueChangedEvent.getValue().equals("")) {
+            faqAnswer.setErrorMessage("Answer field can't be empty");
+            faqAnswer.setInvalid(true);
+        }
+    }
+
+    private void checkFAQQuestionValidity(AbstractField.ComponentValueChangeEvent<TextArea,
+            String> valueChangedEvent, TextArea faqQuestion) {
+        if (faqService.faqQuestionAlreadyExists(valueChangedEvent.getValue())) {
+            faqQuestion.setErrorMessage("This Question Already exists");
+            faqQuestion.setInvalid(true);
+            return;
+        }
+        if (valueChangedEvent.getValue().equals("")) {
+            faqQuestion.setErrorMessage("This field can't be empty");
+            faqQuestion.setInvalid(true);
+            return;
+        }
+        faqQuestion.setInvalid(false);
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void handleNewFAQPostRequest(TextArea faqQuestion,
+                                         TextArea faqAnswer,
+                                         Dialog newFaqPostingDialog) {
+        AtomicBoolean containsError = new AtomicBoolean(false);
+        if (faqQuestion.isInvalid()) {
+            containsError.set(true);
+        }
+        if (faqQuestion.isEmpty()) {
+            containsError.set(true);
+            faqQuestion.setErrorMessage("You must have to write question before proceeding");
+            faqQuestion.setInvalid(true);
+        }
+        if (faqAnswer.isInvalid()) {
+            containsError.set(true);
+        }
+        if (faqAnswer.isEmpty()) {
+            containsError.set(true);
+            faqAnswer.setErrorMessage("You must have to write Answer before proceeding");
+            faqAnswer.setInvalid(true);
+        }
+        if (containsError.get()) {
+            Notification notification = new Notification();
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            Div text = new Div(new Text("Please properly fill-out" +
+                    " the field before posting New FAQ"));
+
+            Button closeButton = new Button(new Icon("lumo", "cross"));
+            closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+            closeButton.getElement().setAttribute("aria-label", "Close");
+            closeButton.addClickListener(event -> notification.close());
+            HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+            layout.setAlignItems(Alignment.CENTER);
+            notification.add(layout);
+            notification.setPosition(Notification.Position.BOTTOM_CENTER);
+            notification.setDuration(10000);
+            notification.open();
+            return;
+        }
+
+        FAQ curNewFAQ = new FAQ();
+        curNewFAQ.setFaqCreatedAt(LocalDateTime.now());
+        curNewFAQ.setQuestion(faqQuestion.getValue());
+        curNewFAQ.setAnswer(faqAnswer.getValue());
+
+        // Saving it to the DB
+        faqService.postNewFaq(curNewFAQ);
+
+        // Updating the UI and adding the 
+        // new FAQ at the end of the list
+        currentUI.access(() ->
+                faqSections.add(createFAQSection(curNewFAQ)));
+        // Closing the dialog
+        newFaqPostingDialog.close();
+        Notification postSucessfulNotification = new Notification();
+        postSucessfulNotification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+        Div text = new Div(new Text("Successfully posted the new FAQ"));
+
+        Button closeButton = new Button(new Icon("lumo", "cross"));
+        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        closeButton.getElement().setAttribute("aria-label", "Close");
+        closeButton.addClickListener(event -> postSucessfulNotification.close());
+        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+        layout.setAlignItems(Alignment.CENTER);
+        postSucessfulNotification.add(layout);
+        postSucessfulNotification.setPosition(Notification.Position.BOTTOM_CENTER);
+        postSucessfulNotification.setDuration(10000);
+        postSucessfulNotification.open();
     }
 
     private void setUpSearchTextField() {
@@ -141,17 +292,29 @@ public class FAQView extends VerticalLayout {
         searchFaq.setTooltipText("Click here to search");
         // We want to search for things as soon they are typed.
         searchFaq.setValueChangeMode(ValueChangeMode.EAGER);
-        searchFaq.addValueChangeListener(event -> {
-            var searchTerm = event.getValue();
-            var listOfFaqs = faqService.findAllFAQsContainingSearchTerm(searchTerm);
-            currentUI.access(faqSections::removeAll);
-            for (FAQ faq : listOfFaqs) {
-                var faqSection = createFAQSection(faq);
-                currentUI.access(() -> {
-                    faqSections.add(faqSection);
-                });
-            }
-        });
+        searchFaq.addValueChangeListener(this::getTheListFoundFAQsBasedOnSearchTerms);
+    }
+
+    private void getTheListFoundFAQsBasedOnSearchTerms(
+            AbstractField.ComponentValueChangeEvent<TextField,
+                    String> event) {
+        var searchTerm = event.getValue();
+        var listOfFaqs = faqService.findAllFAQsContainingSearchTerm(searchTerm);
+        currentUI.access(faqSections::removeAll);
+        if (listOfFaqs.isEmpty()) {
+            var notFoundImage = new Image("images/not-found.png",
+                    "not-found-404");
+            notFoundImage.addClassName("faq-view-not-found-img");
+            currentUI.access(() ->
+                    faqSections.add(notFoundImage));
+            return;
+        }
+        for (FAQ faq : listOfFaqs) {
+            var faqSection = createFAQSection(faq);
+            currentUI.access(() ->
+                    faqSections.add(faqSection));
+        }
+
     }
 
     private Div createFAQSection(FAQ faq) {
@@ -201,14 +364,14 @@ public class FAQView extends VerticalLayout {
             deleteIcon.addClassName("faq-view-faq-delete-icon");
             faqTab.add(deleteIcon);
             deleteIcon.addClickListener(event ->
-                    handFaqDeleteRequest(faqSection, faq));
+                    handleFaqDeleteRequest(faqSection, faq));
             // Adding the tooltip for deleteFAQButton
             deleteIcon.setTooltipText("Click to Delete the This FAQ");
         }
         return faqSection;
     }
 
-    private void handFaqDeleteRequest(Div faqSection, FAQ faq) {
+    private void handleFaqDeleteRequest(Div faqSection, FAQ faq) {
         ConfirmDialog dialog = new ConfirmDialog();
         dialog.setHeader("DELETE?");
         dialog.setText("Are you sure you want" +
@@ -252,16 +415,20 @@ public class FAQView extends VerticalLayout {
         confirmDialog.close();
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void editFaqPost(FAQ faq, H3 questionHeader, Span answerText) {
         Dialog dialog = new Dialog();
 
         dialog.setHeaderTitle("FAQ Modification");
+        dialog.addClassName("faq-view-edit-post-dialog-box");
 
         TextArea faqQuestion = new TextArea("Question");
+        faqQuestion.addClassName("faq-view-edit-post-faq-question-text-area");
         faqQuestion.setValue(faq.getQuestion());
         faqQuestion.setPlaceholder("Edit or Update the Question");
         faqQuestion.addThemeVariants(TextAreaVariant.LUMO_HELPER_ABOVE_FIELD);
         TextArea faqAnswer = new TextArea("Answer");
+        faqAnswer.addClassName("faq-view-edit-post-faq-answer-text-area");
         faqAnswer.setValue(faq.getAnswer());
         VerticalLayout dialogLayout = new VerticalLayout(faqQuestion,
                 faqAnswer);
@@ -275,7 +442,9 @@ public class FAQView extends VerticalLayout {
                 handleSaveRequest(faq, dialog, faqQuestion,
                         faqAnswer, questionHeader, answerText));
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        saveButton.addClassName("faq-view-edit-post-save-button");
         Button cancelButton = new Button("Cancel", e -> dialog.close());
+        cancelButton.addClassName("faq-answer-text-area");
         dialog.getFooter().add(cancelButton);
         dialog.getFooter().add(saveButton);
 
@@ -294,6 +463,7 @@ public class FAQView extends VerticalLayout {
             faq.setFaqModifiedAt(LocalDateTime.now());
             faq.setQuestion(faqQuestion.getValue());
         }
+
         if (!faqAnswer.getValue().equals(faq.getAnswer())) {
             faq.setFaqModifiedAt(LocalDateTime.now());
             faq.setAnswer(faqAnswer.getValue());
