@@ -42,6 +42,6 @@ public class FAQService {
     }
 
     public List<FAQ> findAllFAQsContainingSearchTerm(String searchTerm) {
-        return faqRepo.findFAQSByQuestionContainingIgnoreCase(searchTerm);
+        return faqRepo.getFAQsBySearchTerm(searchTerm);
     }
 }
