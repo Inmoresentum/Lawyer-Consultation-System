@@ -200,3 +200,53 @@
         transform: translateY(-100%);
     }
 }
+
+/* Adding styles for edit and delete faq operations */
+
+.faq-view-faq-edit-icon,
+.faq-view-faq-delete-icon {
+    font-size: 1.5rem;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.faq-view-faq-edit-icon:hover,
+.faq-view-faq-delete-icon:hover {
+    color: #333;
+    transform: scale(1.1);
+}
+
+.faq-view-faq-edit-icon:active,
+.faq-view-faq-delete-icon:active {
+    color: #000;
+    transform: scale(0.9);
+}
+
+.faq-view-faq-delete-icon {
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-view-faq-delete-icon::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+}
+
+.faq-view-faq-delete-icon:hover::before {
+    width: 200%;
+    height: 200%;
+}
+
+.faq-view-faq-delete-icon:active::before {
+    width: 300%;
+    height: 300%;
+}

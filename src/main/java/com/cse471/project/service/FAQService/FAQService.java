@@ -40,4 +40,8 @@ public class FAQService {
     public void postNewFaq(FAQ faq) {
         faqRepo.save(faq);
     }
+
+    public List<FAQ> findAllFAQsContainingSearchTerm(String searchTerm) {
+        return faqRepo.findFAQSByQuestionContainingIgnoreCase(searchTerm);
+    }
 }
