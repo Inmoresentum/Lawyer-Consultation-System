@@ -82,34 +82,29 @@ VALUES (69, 0, 'Do I need a lawyer to represent me in court?',
         NOW(), NOW());
 
 INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (70, 0, 'What if I can’t afford a lawyer? Will the court hire one for me?',
-        'Unfortunately, the court is not required to provide you with a lawyer and will not do so except in rare cases.',
-        NOW(), NOW());
-
-INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (71, 0, 'How do you decide whether you will take my case?',
+VALUES (70, 0, 'How do you decide whether you will take my case?',
         'We look at each case individually. We like getting justice for ordinary people. We look for cases where we have the best opportunity to help someone and to make a difference. We also look for cases where our skills match the client’s needs.',
         NOW(), NOW());
 
 INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (72, 0, 'How will I know what’s happening with my case?',
+VALUES (71, 0, 'How will I know what’s happening with my case?',
         'We value your trust. We want you to be informed and involved. We are in touch with our clients frequently by e-mail, phone and in-person.',
         NOW(), NOW());
 
 INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (73, 0, 'How long will it take before we go to trial?',
+VALUES (72, 0, 'How long will it take before we go to trial?',
         'We want to get your case to trial as soon as possible. However, the opposition may not want your case to get to trial quickly. We will need time to gather the evidence and develop your case',
         NOW(), NOW());
 
 INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (74, 0, 'Do I need a lawyer to represent me in court?',
+VALUES (73, 0, 'Do I need a lawyer to represent me in court?',
         'The ability to represent oneself in court is a harrowing task. A self-represented litigant is commonly unaware of legal professional procedure, court rules and legal precedent. There is no substitute for an opinion from a qualified professional about legal issues.',
         NOW(), NOW());
 
 INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (75, 0, 'What are your business hours?',
+VALUES (74, 0, 'What are your business hours?',
         'We are open From 8 A.M to 5 P.M on every Sunday to thursday.', NOW(), NOW());
 
 INSERT INTO faq (id, version, faq_question, faq_answer, faq_created_at, faq_modified_at)
-VALUES (76, 0, 'Will you charge for every consultation?',
+VALUES (75, 0, 'Will you charge for every consultation?',
         'No, our initial consultation is free.', NOW(), NOW());

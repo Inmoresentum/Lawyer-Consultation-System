@@ -5,17 +5,21 @@ import com.cse471.project.entity.Role;
 import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.service.FAQService.FAQService;
 import com.cse471.project.views.MainLayout;
-import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -95,7 +99,7 @@ public class FAQView extends VerticalLayout {
         currentUI.access(() -> add(faqSections));
     }
 
-    private Component createFAQSection(FAQ faq) {
+    private Div createFAQSection(FAQ faq) {
         // Create the section header
         H3 questionHeader = new H3(faq.getQuestion());
         questionHeader.addClassName("faq-view-faq-question-h3");
@@ -132,14 +136,74 @@ public class FAQView extends VerticalLayout {
         });
         if (isAdmin.get()) {
             Icon editIcon = new Icon(VaadinIcon.PENCIL);
+            editIcon.addClassName("faq-view-faq-edit-icon");
             Button faqEditButton = new Button(editIcon);
-            faqEditButton.addClickListener(event -> editFaqPost(faq));
+            faqEditButton.addClassName("faq-view-faq-edit-button");
+            faqEditButton.addClickListener(event -> editFaqPost(faq,
+                    questionHeader, answerText));
+            // Adding Tooltip for faqEditButton
+            faqEditButton.setTooltipText("Click to Edit the Text");
             faqTab.add(faqEditButton);
+            Icon deleteIcon = new Icon(VaadinIcon.TRASH);
+            deleteIcon.addClassName("faq-view-faq-delete-icon");
+            Button faqDeleteButton = new Button(deleteIcon);
+            faqDeleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                    ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
+            faqDeleteButton.addClassName("faq-view-faq-delete-button");
+            faqTab.add(faqDeleteButton);
+            faqDeleteButton.addClickListener(event ->
+                    handFaqDeleteRequest(faqSection, faq));
+            // Adding the tooltip for deleteFAQButton
+            faqDeleteButton.setTooltipText("Click to Delete the This FAQ");
         }
         return faqSection;
     }
 
-    private void editFaqPost(FAQ faq) {
+    private void handFaqDeleteRequest(Div faqSection, FAQ faq) {
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setHeader("DELETE?");
+        dialog.setText("Are you sure you want" +
+                " to delete this FAQ");
+
+        dialog.setCancelable(true);
+        dialog.addCancelListener(event -> dialog.close());
+        dialog.setCancelText("Nope");
+
+        dialog.setConfirmText("Delete");
+        dialog.setCloseOnEsc(true);
+        dialog.addConfirmListener(event -> handleFAQDeleteOperation(dialog,
+                faqSection, faq));
+        dialog.open();
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void handleFAQDeleteOperation(ConfirmDialog confirmDialog,
+                                          Div faqSection, FAQ faq) {
+        try {
+            faqService.delete(faq);
+        } catch (Exception e) {
+            Notification notification = new Notification();
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+            Div text = new Div(new Text("There seems to be some Internal Error" +
+                    ". Please refresh the page and try again!"));
+
+            Button closeButton = new Button(new Icon("lumo", "cross"));
+            closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+            closeButton.getElement().setAttribute("aria-label", "Close");
+            closeButton.addClickListener(event -> notification.close());
+            HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+            layout.setAlignItems(Alignment.CENTER);
+            notification.add(layout);
+            notification.setPosition(Notification.Position.BOTTOM_CENTER);
+            notification.setDuration(10000);
+            notification.open();
+        }
+        faqSections.remove(faqSection);
+        confirmDialog.close();
+    }
+
+    private void editFaqPost(FAQ faq, H3 questionHeader, Span answerText) {
         Dialog dialog = new Dialog();
 
         dialog.setHeaderTitle("FAQ Modification");
@@ -159,7 +223,8 @@ public class FAQView extends VerticalLayout {
         dialog.add(dialogLayout);
 
         Button saveButton = new Button("Add", e ->
-                handleSaveRequest(faq, dialog, faqQuestion, faqAnswer));
+                handleSaveRequest(faq, dialog, faqQuestion,
+                        faqAnswer, questionHeader, answerText));
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         Button cancelButton = new Button("Cancel", e -> dialog.close());
         dialog.getFooter().add(cancelButton);
@@ -171,7 +236,11 @@ public class FAQView extends VerticalLayout {
         add(dialog);
     }
 
-    private void handleSaveRequest(FAQ faq, Dialog dialog, TextArea faqQuestion, TextArea faqAnswer) {
+    private void handleSaveRequest(FAQ faq, Dialog dialog,
+                                   TextArea faqQuestion,
+                                   TextArea faqAnswer,
+                                   H3 questionHeader,
+                                   Span answerText) {
         if (!faqQuestion.getValue().equals(faq.getQuestion())) {
             faq.setFaqModifiedAt(LocalDateTime.now());
             faq.setQuestion(faqQuestion.getValue());
@@ -180,9 +249,12 @@ public class FAQView extends VerticalLayout {
             faq.setFaqModifiedAt(LocalDateTime.now());
             faq.setAnswer(faqAnswer.getValue());
         }
+        questionHeader.removeAll();
+        questionHeader.add(faqQuestion.getValue());
+        answerText.removeAll();
+        answerText.add(faqAnswer.getValue());
         faqService.update(faq);
         dialog.close();
-        // Reload to re-render everything.
-        currentUI.getPage().reload();
+//        currentUI.getPage().reload();
     }
 }
