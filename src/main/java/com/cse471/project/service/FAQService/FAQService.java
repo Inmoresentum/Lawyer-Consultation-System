@@ -17,4 +17,16 @@ public class FAQService {
     public List<FAQ> findAllFaq() {
         return faqRepo.findAll();
     }
+
+    public void update(FAQ faq) {
+        faqRepo.save(faq);
+    }
+
+    public void delete(FAQ faq) {
+        faqRepo.delete(faq);
+    }
+
+    public void postNewFaq(FAQ faq) {
+        faqRepo.save(faq);
+    }
 }
