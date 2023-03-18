@@ -302,11 +302,14 @@ public class FAQView extends VerticalLayout {
         var listOfFaqs = faqService.findAllFAQsContainingSearchTerm(searchTerm);
         currentUI.access(faqSections::removeAll);
         if (listOfFaqs.isEmpty()) {
+            Div imgContainer = new Div();
+            imgContainer.addClassName("faq-view-not-found-img-container");
             var notFoundImage = new Image("images/not-found.png",
                     "not-found-404");
             notFoundImage.addClassName("faq-view-not-found-img");
+            imgContainer.add(notFoundImage);
             currentUI.access(() ->
-                    faqSections.add(notFoundImage));
+                    faqSections.add(imgContainer));
             return;
         }
         for (FAQ faq : listOfFaqs) {
