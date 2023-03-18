@@ -2,6 +2,7 @@ package com.cse471.project.views.faq;
 
 import com.cse471.project.entity.FAQ;
 import com.cse471.project.entity.Role;
+import com.cse471.project.entity.User;
 import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.service.FAQService.FAQService;
 import com.cse471.project.views.MainLayout;
@@ -35,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -49,6 +51,7 @@ public class FAQView extends VerticalLayout {
     private final UI currentUI;
     private final TextField searchFaq = new TextField();
     private final Icon postNewFAQ = new Icon(VaadinIcon.PLUS);
+    private final Optional<User> curAuthenticatedUser;
 
     public FAQView(FAQService faqService, AuthenticatedUser authenticatedUser) {
         this.faqService = faqService;
@@ -58,9 +61,9 @@ public class FAQView extends VerticalLayout {
         // Create a container for the FAQ sections
         faqSections.addClassName("faq-view-main-div-card");
 
-        var curUser = authenticatedUser.get();
-        if (curUser.isPresent() &&
-                curUser.get().getRoles().contains(Role.ADMIN)) {
+        curAuthenticatedUser = authenticatedUser.get();
+        if (curAuthenticatedUser.isPresent() &&
+                curAuthenticatedUser.get().getRoles().contains(Role.ADMIN)) {
             isAdmin.set(true);
         }
         addSearchAndPostFAQSection();
@@ -120,7 +123,11 @@ public class FAQView extends VerticalLayout {
         setUpPostNewFAQIcon();
         Div searchAndPostDiv = new Div();
         searchAndPostDiv.addClassName("faq-view-search-post-div");
-        searchAndPostDiv.add(searchFaq, postNewFAQ);
+        searchAndPostDiv.add(searchFaq);
+        if (curAuthenticatedUser.isPresent() &&
+                curAuthenticatedUser.get().getRoles().contains(Role.ADMIN)) {
+            searchAndPostDiv.add(postNewFAQ);
+        }
         searchAndPostSectionMainContainer.add(prompt);
         searchAndPostSectionMainContainer.add(searchAndPostDiv);
         add(searchAndPostSectionMainContainer);
