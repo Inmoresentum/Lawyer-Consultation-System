@@ -305,7 +305,7 @@
     box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.2);
     padding: 20px;
     animation: gradientChange 5s ease-in-out infinite alternate;
-    max-width: 40%;
+    max-width: 800px;
 }
 
 @keyframes gradientChange {

@@ -32,27 +32,27 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         div.add(vl);
         div.addClassName("container");
         login.setAction("login");
-        VerticalLayout header = new VerticalLayout();
-        header.addClassName("header");
         H1 title = new H1("Lawyer Consultation");
         title.addClassName("login-view-title");
-        header.add(title);
-        header.setAlignItems(Alignment.CENTER);
         Button register = new Button("Register");
         register.addClassName("button");
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
                 ButtonVariant.LUMO_SUCCESS);
+        Span signUpPrompt = new Span("New Here? ");
+        signUpPrompt.addClassName("login-view-sing-up-prompt");
         var userRegistrationPrompt =
-                new HorizontalLayout(new Span("New Here? "),
+                new HorizontalLayout(signUpPrompt,
                         register);
-        userRegistrationPrompt.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        userRegistrationPrompt
+                .setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         var cookie = new CookieConsent();
         cookie.setCookieName("Analytic Cookies");
         cookie.setDismissLabel("Got it");
         cookie.setLearnMoreLabel("Click to learn more");
         cookie.setLearnMoreLink("https://www.eatthis.com/surprising-" +
                 "side-effects-eating-cookies/");
-        login.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().
+        login.addForgotPasswordListener(forgotPasswordEvent ->
+                UI.getCurrent().
                 navigate("forgot-password"));
         register.addClickListener(buttonClickEvent -> UI.getCurrent()
                 .navigate("register-user"));
@@ -69,7 +69,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         hl.add(termsOfServices, privacyAndPolicyView);
         hl.setWidthFull();
         hl.setJustifyContentMode(JustifyContentMode.BETWEEN);
-        vl.add(header, login, userRegistrationPrompt, hl);
+        vl.add(title, login, userRegistrationPrompt, hl);
         add(div);
     }
 
