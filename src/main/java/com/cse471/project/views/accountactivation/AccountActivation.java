@@ -23,7 +23,8 @@ import java.util.Map;
 
 @Route("/activate")
 @AnonymousAllowed
-public class AccountActivation extends VerticalLayout implements BeforeEnterObserver {
+public class AccountActivation extends
+        VerticalLayout implements BeforeEnterObserver {
     private final UserVerificationTokenRepository userVerificationTokenRepository;
     private final UserRepository userRepository;
 
@@ -97,8 +98,8 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
 
     private void verifyToken(Map<String, List<String>> params) {
         String token = params.get("token").get(0);
-        System.out.println(token + " from activate view");
-        UserVerificationToken userVerificationToken = userVerificationTokenRepository.findByToken(token).orElseThrow(() ->
+        UserVerificationToken userVerificationToken =
+                userVerificationTokenRepository.findByToken(token).orElseThrow(() ->
                 new IllegalStateException("Token Not Found"));
         if (userVerificationToken.getConfirmedAt() != null) {
             throw new IllegalStateException("USER already verified");
@@ -109,7 +110,8 @@ public class AccountActivation extends VerticalLayout implements BeforeEnterObse
         if (LocalDateTime.now().isAfter(expireAt)) {
             throw new IllegalStateException("This is already experienced");
         }
-        //Used the query method that I created. We can also update it without the custom query method.
+        // Used the query method that I created. We can also update it
+        // without the custom query method.
         userVerificationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
         User user = userVerificationToken.getUser();
         user.setAccountActive(true);
