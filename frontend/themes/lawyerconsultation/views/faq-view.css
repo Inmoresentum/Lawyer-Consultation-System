@@ -308,12 +308,16 @@
     max-width: 800px;
 }
 
+.faq-view-main-content-div:hover {
+    animation-play-state: paused;
+}
+
 @keyframes gradientChange {
     0% {
         background: linear-gradient(to right, #8e2de2, #4a00e0);
     }
     50% {
-        background: linear-gradient(to right, #f2994a, #f2c94c);
+        background: linear-gradient(to right, #7d4eb6, #7805ef);
     }
     100% {
         background: linear-gradient(to right, #4a00e0, #8e2de2);
@@ -358,7 +362,7 @@
 .faq-view-post-new-faq {
     font-size: 3rem;
     color: #d516a9;
-    background-color: #4a00e0;
+    background-color: #520eda;
     padding: 15px;
     border-radius: 50%;
     cursor: pointer;
@@ -369,6 +373,11 @@
 .faq-view-post-new-faq:hover {
     background-color: #38b744;
     transform: translateY(-2px);
+    animation-play-state: paused;
+}
+
+.faq-view-main-content-div:hover .faq-view-post-new-faq {
+    animation-play-state: running;
 }
 
 @keyframes spin {
