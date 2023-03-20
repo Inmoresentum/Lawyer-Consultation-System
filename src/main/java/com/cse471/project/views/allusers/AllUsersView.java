@@ -1,6 +1,7 @@
 package com.cse471.project.views.allusers;
 
 import com.cse471.project.entity.User;
+import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
@@ -11,6 +12,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -22,6 +24,7 @@ import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.LitRenderer;
@@ -29,10 +32,11 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
-import java.util.UUID;
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.data.domain.PageRequest;
@@ -56,34 +60,60 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
     private TextField email;
     private TextField phoneNumber;
     private DatePicker dateOfBirth;
-    private Checkbox isAccountActive;
+    private Checkbox accountVerificationStatus;
+    private Checkbox deactivateAccount;
+    private DateTimePicker accountCreated;
+    private TextField address;
+    private TextArea aboutYourSelf;
 
-    private final Button cancel = new Button("Cancel");
-    private final Button save = new Button("Save");
+    private final Button cancel = new Button("Cancel Changes");
+    private final Button save = new Button("Save Changes");
 
     private final CollaborationBinder<User> binder;
 
     private User user;
+    private final AuthenticatedUser authenticatedUser;
 
     private final UserService userService;
 
-    public AllUsersView(UserService userService) {
+    public AllUsersView(AuthenticatedUser authenticatedUser, UserService userService) {
+        this.authenticatedUser = authenticatedUser;
         this.userService = userService;
         addClassNames("all-users-view");
-
+        var curLoggedInUser = authenticatedUser.get();
+        if (curLoggedInUser.isEmpty())
+            throw new RuntimeException("cur logged in user can't be empty");
         // UserInfo is used by Collaboration Engine and is used to share details
         // of users to each other to able collaboration. Replace this with
         // information about the actual user that is logged, providing a user
         // identifier, and the user's real name. You can also provide the users
         // avatar by passing an url to the image as a third parameter, or by
         // configuring an `ImageProvider` to `avatarGroup`.
-        UserInfo userInfo = new UserInfo(UUID.randomUUID().toString(), "Steve Lange");
+        UserInfo userInfo = new UserInfo(curLoggedInUser.get().getId().toString()
+                , curLoggedInUser.get().getUsername());
 
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
 
         avatarGroup = new CollaborationAvatarGroup(userInfo, null);
         avatarGroup.getStyle().set("visibility", "hidden");
+
+        if (curLoggedInUser.get().getProfilePicture() != null) {
+            avatarGroup.setImageProvider(info -> {
+                StreamResource streamResource = new StreamResource(
+                        "avatar_" + info.getId(), () -> {
+                    var userEntity = userService
+                            .findByUserId(info.getId());
+                    if (userEntity.isEmpty())
+                        throw new IllegalStateException("user can't be null");
+                    byte[] imageBytes = userEntity.get().getProfilePicture();
+                    assert imageBytes != null;
+                    return new ByteArrayInputStream(imageBytes);
+                });
+                streamResource.setContentType("image/png");
+                return streamResource;
+            });
+        }
 
         createGridLayout(splitLayout);
         createEditorLayout(splitLayout);
@@ -98,8 +128,8 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         grid.addColumn("dateOfBirth").setAutoWidth(true);
         LitRenderer<User> verificationRenderer = LitRenderer.<User>of(
                         "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", isAccountActive -> isAccountActive.isAccountActive() ? "check" : "minus").withProperty("color",
-                        isAccountActive -> isAccountActive.isAccountActive()
+                .withProperty("icon", isAccountActive -> isAccountActive.isAccountVerified() ? "check" : "minus").withProperty("color",
+                        isAccountActive -> isAccountActive.isAccountVerified()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
@@ -126,7 +156,8 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         // Bind fields. This is where you'd define e.g. validation rules
 
         binder.bindInstanceFields(this);
-
+        binder.bind(accountVerificationStatus, "accountVerified");
+        binder.bind(deactivateAccount, "deactivatedByAdmin");
         cancel.addClickListener(e -> {
             clearForm();
             refreshGrid();
@@ -138,6 +169,7 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
                     this.user = new User();
                 }
                 binder.writeBean(this.user);
+                System.out.println(user);
                 userService.update(this.user);
                 clearForm();
                 refreshGrid();
@@ -182,14 +214,20 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        name = new TextField("First Name");
-        username = new TextField("Last Name");
+        name = new TextField("Name");
+        username = new TextField("Username");
         email = new TextField("Email");
         phoneNumber = new TextField("Phone");
         dateOfBirth = new DatePicker("Date Of Birth");
-        isAccountActive = new Checkbox("Verified");
-        formLayout.add(name, username, email, phoneNumber, dateOfBirth, isAccountActive);
-
+        accountVerificationStatus = new Checkbox("Account Verified?");
+        deactivateAccount = new Checkbox("Deactivate Account?");
+        accountCreated = new DateTimePicker("Time of account creation");
+        address = new TextField("Address");
+        aboutYourSelf = new TextArea("User bio");
+        formLayout.add(name, username, email, phoneNumber,
+                dateOfBirth, accountVerificationStatus,
+                accountCreated, deactivateAccount,
+                address, aboutYourSelf);
         editorDiv.add(avatarGroup, formLayout);
         createButtonLayout(editorLayoutDiv);
 

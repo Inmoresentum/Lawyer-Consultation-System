@@ -39,7 +39,8 @@ public class User extends AbstractEntity {
     @Nullable
     private byte[] profilePicture;
     @Nullable
-    //Todo: Must need to fix the size later
+    //Todo: before deployment must need
+    // to add proper validation
     @Size(min = 4, max = 34)
     private String phoneNumber;
     @Size(min = 5, max = 65)
@@ -48,8 +49,8 @@ public class User extends AbstractEntity {
     private String email;
     @Column(nullable = true, name = "date_of_birth")
     private LocalDate dateOfBirth;
-    private boolean isAccountActive = false;
-    private boolean isDeactivatedByAdmin = false;
+    private boolean accountVerified = false;
+    private boolean deactivatedByAdmin = false;
     @Column(columnDefinition = "TEXT")
     private String aboutYourSelf;
     @Column(name = "user_address")
