@@ -16,7 +16,8 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @AnonymousAllowed
 @PageTitle("Login")
 @Route(value = "login")
-public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+public class LoginView extends VerticalLayout
+        implements BeforeEnterObserver {
 
     private final LoginForm login = new LoginForm();
 
@@ -49,11 +50,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         cookie.setCookieName("Analytic Cookies");
         cookie.setDismissLabel("Got it");
         cookie.setLearnMoreLabel("Click to learn more");
-        cookie.setLearnMoreLink("https://www.eatthis.com/surprising-" +
-                "side-effects-eating-cookies/");
+        cookie.setLearnMoreLink("http://localhost:8080/privacy-policy");
         login.addForgotPasswordListener(forgotPasswordEvent ->
                 UI.getCurrent().
-                navigate("forgot-password"));
+                        navigate("forgot-password"));
         register.addClickListener(buttonClickEvent -> UI.getCurrent()
                 .navigate("register-user"));
         // Below adding the privacy-policy and Terms of condition Router Links
@@ -69,7 +69,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         hl.add(termsOfServices, privacyAndPolicyView);
         hl.setWidthFull();
         hl.setJustifyContentMode(JustifyContentMode.BETWEEN);
-        vl.add(title, login, userRegistrationPrompt, hl);
+        vl.add(title, login, userRegistrationPrompt, hl, cookie);
         add(div);
     }
 
