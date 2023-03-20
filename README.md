@@ -1,10 +1,13 @@
 # Lawyer-Consultation-System
 
 ![node-current (tag)](https://img.shields.io/node/v/p/latest)
-![vaadin (tag)](https://img.shields.io/badge/vaadin-23-yellowgreen)
+![vaadin (tag)](https://img.shields.io/badge/vaadin-23.3.6-yellowgreen)
 ![springboot (tag)](https://img.shields.io/badge/springboot-2.7.3-green)
 ![mariadb (tag)](https://img.shields.io/badge/MariaDB-10.11.2-blue)
 ![minio (tag)](https://img.shields.io/badge/MINIO-8.4.3-orange)
+![tolang (tag)](https://img.shields.io/github/languages/top/Inmoresentum/Lawyer-Consultation-System)
+![lastcommit (tag)](https://img.shields.io/github/last-commit/Inmoresentum/Lawyer-Consultation-System)
+![totalcontributor (tag)](https://img.shields.io/github/contributors/Inmoresentum/Lawyer-Consultation-System)
 
 This repository contains **CSE471** Lab Group PROJECT, `Spring 2023` Section `05`.
 
@@ -83,7 +86,8 @@ to set up, please follow these steps:
    `editors` and `IDES` will also do the job.
 
 3. Click the `play` icon which will start the spring boot application
-   and will recursively download all the npm dependencies.
+   and will recursively download all the npm dependencies. Alternatively, 
+   from the terminal use maven to build and run using `./mvnw clean install`.
 
 4. By default, the server should start  **http://localhost:8080**
 
