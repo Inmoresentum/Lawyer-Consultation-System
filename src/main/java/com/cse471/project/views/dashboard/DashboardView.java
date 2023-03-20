@@ -10,6 +10,7 @@ import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Span;
@@ -41,14 +42,19 @@ public class DashboardView extends Main {
         addClassName("dashboard-view");
 
         Board board = new Board();
-        board.addRow(createHighlight("Current users", "745", 33.7), createHighlight("View events", "54.6k", -112.45),
-                createHighlight("Conversion rate", "18%", 3.9), createHighlight("Custom metric", "-123.45", 0.0));
+        board.addRow(new H1("Below are some test/example data!! Later will change it"));
+        board.addRow(createHighlight("Current users", "745", 33.7),
+                createHighlight("View events", "54.6k", -112.45),
+                createHighlight("Conversion rate", "18%", 3.9),
+                createHighlight("Custom metric", "-123.45", 0.0));
         board.addRow(createViewEvents());
-        board.addRow(createServiceHealth(), createResponseTimes());
+        board.addRow(createServiceHealth(),
+                createResponseTimes());
         add(board);
     }
 
-    private Component createHighlight(String title, String value, Double percentage) {
+    private Component createHighlight(String title, String value,
+                                      Double percentage) {
         VaadinIcon icon = VaadinIcon.ARROW_UP;
         String prefix = "";
         String theme = "badge";
@@ -64,7 +70,8 @@ public class DashboardView extends Main {
         }
 
         H2 h2 = new H2(title);
-        h2.addClassNames(FontWeight.NORMAL, Margin.NONE, TextColor.SECONDARY, FontSize.XSMALL);
+        h2.addClassNames(FontWeight.NORMAL, Margin.NONE,
+                TextColor.SECONDARY, FontSize.XSMALL);
 
         Span span = new Span(value);
         span.addClassNames(FontWeight.SEMIBOLD, FontSize.XXXLARGE);
@@ -72,7 +79,7 @@ public class DashboardView extends Main {
         Icon i = icon.create();
         i.addClassNames(BoxSizing.BORDER, Padding.XSMALL);
 
-        Span badge = new Span(i, new Span(prefix + percentage.toString()));
+        Span badge = new Span(i, new Span(prefix + percentage));
         badge.getElement().getThemeList().add(theme);
 
         VerticalLayout layout = new VerticalLayout(h2, span, badge);
@@ -85,7 +92,8 @@ public class DashboardView extends Main {
     private Component createViewEvents() {
         // Header
         Select year = new Select();
-        year.setItems("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021");
+        year.setItems("2011", "2012", "2013", "2014", "2015", "2016",
+                "2017", "2018", "2019", "2020", "2021");
         year.setValue("2021");
         year.setWidth("100px");
 
@@ -98,7 +106,8 @@ public class DashboardView extends Main {
         conf.getChart().setStyledMode(true);
 
         XAxis xAxis = new XAxis();
-        xAxis.setCategories("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+        xAxis.setCategories("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
         conf.addxAxis(xAxis);
 
         conf.getyAxis().setTitle("Values");
@@ -108,10 +117,15 @@ public class DashboardView extends Main {
         plotOptions.setMarker(new Marker(false));
         conf.addPlotOptions(plotOptions);
 
-        conf.addSeries(new ListSeries("Berlin", 189, 191, 291, 396, 501, 403, 609, 712, 729, 942, 1044, 1247));
-        conf.addSeries(new ListSeries("London", 138, 246, 248, 348, 352, 353, 463, 573, 778, 779, 885, 887));
-        conf.addSeries(new ListSeries("New York", 65, 65, 166, 171, 293, 302, 308, 317, 427, 429, 535, 636));
-        conf.addSeries(new ListSeries("Tokyo", 0, 11, 17, 123, 130, 142, 248, 349, 452, 454, 458, 462));
+        // Todo: Later change the values that we will fetch from the database
+        conf.addSeries(new ListSeries("Berlin", 189, 191, 291, 396, 501,
+                403, 609, 712, 729, 942, 1044, 1247));
+        conf.addSeries(new ListSeries("London", 138, 246, 248, 348, 352,
+                353, 463, 573, 778, 779, 885, 887));
+        conf.addSeries(new ListSeries("New York", 65, 65, 166, 171, 293,
+                302, 308, 317, 427, 429, 535, 636));
+        conf.addSeries(new ListSeries("Tokyo", 0, 11, 17, 123, 130, 142,
+                248, 349, 452, 454, 458, 462));
 
         // Add it all together
         VerticalLayout viewEvents = new VerticalLayout(header, chart);
@@ -120,6 +134,7 @@ public class DashboardView extends Main {
         viewEvents.setSpacing(false);
         viewEvents.getElement().getThemeList().add("spacing-l");
         return viewEvents;
+        // Add more charts
     }
 
     private Component createServiceHealth() {
@@ -127,7 +142,7 @@ public class DashboardView extends Main {
         HorizontalLayout header = createHeader("Service health", "Input / output");
 
         // Grid
-        Grid<ServiceHealth> grid = new Grid();
+        Grid<ServiceHealth> grid = new Grid<>();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setAllRowsVisible(true);
 

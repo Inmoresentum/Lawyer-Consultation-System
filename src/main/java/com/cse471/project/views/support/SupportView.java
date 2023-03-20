@@ -21,11 +21,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import javax.annotation.security.RolesAllowed;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @PageTitle("Support")
 @Route(value = "support", layout = MainLayout.class)
-@RolesAllowed("USER")
+@AnonymousAllowed
 @Uses(Icon.class)
 public class SupportView extends Div {
 
@@ -38,6 +38,7 @@ public class SupportView extends Div {
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
+
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 

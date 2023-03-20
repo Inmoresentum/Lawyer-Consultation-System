@@ -1,8 +1,17 @@
 package com.cse471.project.views.dashboard;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * Simple DTO class for the inbox list to demonstrate complex object data
  */
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class ServiceHealth {
 
     private Status status;
@@ -16,7 +25,7 @@ public class ServiceHealth {
     private String theme;
 
     enum Status {
-        EXCELLENT, OK, FAILING;
+        EXCELLENT, OK, FAILING
     }
 
     public ServiceHealth() {
@@ -27,38 +36,6 @@ public class ServiceHealth {
         this.status = status;
         this.city = city;
         this.input = input;
-        this.output = output;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public int getInput() {
-        return input;
-    }
-
-    public void setInput(int input) {
-        this.input = input;
-    }
-
-    public int getOutput() {
-        return output;
-    }
-
-    public void setOutput(int output) {
         this.output = output;
     }
 
