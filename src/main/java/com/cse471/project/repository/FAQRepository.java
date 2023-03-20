@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface FAQRepo extends JpaRepository<FAQ, Long> {
+public interface FAQRepository extends JpaRepository<FAQ, Long> {
     @Query("SELECT distinct faq FROM FAQ faq" +
             " WHERE LOWER(faq.question) LIKE" +
             " LOWER(CONCAT('%', :searchTerm, '%'))" +

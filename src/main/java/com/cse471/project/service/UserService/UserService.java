@@ -12,13 +12,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -58,6 +57,7 @@ public class UserService {
                 .buildConfirmationEmail(user.getName(), activationLink));
     }
 
+    @Transactional
     public void sendForgotPasswordResetLink(String emailAddress) {
         final String forgotPasswordVerificationToken = UUID.randomUUID().toString();
         final String EMAIL_VERIFICATION_URL = "http://localhost:8080/forgot-pass-verify?token=";
@@ -85,6 +85,10 @@ public class UserService {
 
     public Page<User> list(Pageable pageable, Specification<User> filter) {
         return userRepository.findAll(filter, pageable);
+    }
+
+    public List<User> findAllUser() {
+        return userRepository.findAll();
     }
 
     public int count() {
@@ -119,13 +123,5 @@ public class UserService {
         } catch (Exception e) {
             throw new IllegalStateException("Can't update the user");
         }
-    }
-
-    public Optional<User> getCurrentLoggedInUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        var user = findByUserName(userDetails.getUsername());
-        if (user.isEmpty()) throw new IllegalStateException("Currently logged in user can't be empty");
-        return user;
     }
 }

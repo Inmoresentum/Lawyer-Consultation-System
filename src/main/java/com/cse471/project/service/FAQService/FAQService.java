@@ -1,7 +1,7 @@
 package com.cse471.project.service.FAQService;
 
 import com.cse471.project.entity.FAQ;
-import com.cse471.project.repository.FAQRepo;
+import com.cse471.project.repository.FAQRepository;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import java.util.List;
 
 @Service
 public class FAQService {
-    private final FAQRepo faqRepo;
+    private final FAQRepository faqRepo;
 
-    public FAQService(FAQRepo faqRepo) {
+    public FAQService(FAQRepository faqRepo) {
         this.faqRepo = faqRepo;
     }
 

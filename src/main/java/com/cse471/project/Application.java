@@ -1,6 +1,6 @@
 package com.cse471.project;
 
-import com.cse471.project.repository.FAQRepo;
+import com.cse471.project.repository.FAQRepository;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
@@ -38,7 +38,7 @@ public class Application implements AppShellConfigurator {
 
     @Bean
     SqlDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer(DataSource dataSource,
-                                                                               SqlInitializationProperties properties, FAQRepo repository) {
+                                                                               SqlInitializationProperties properties, FAQRepository repository) {
         // This bean ensures the database is only initialized when empty
         return new SqlDataSourceScriptDatabaseInitializer(dataSource, properties) {
             @Override
