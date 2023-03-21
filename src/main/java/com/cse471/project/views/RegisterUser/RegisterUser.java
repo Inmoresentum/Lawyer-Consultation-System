@@ -410,6 +410,7 @@ public class RegisterUser extends VerticalLayout {
             profilePicUpload.setDropLabel(buildDropLabel());
             profilePicUpload.setUploadButton(buildUploadButton());
             profilePicUpload.addClassName("profile-picture-upload-pu");
+            profilePicUpload.setMaxFiles(1);
             H5 title = new H5("Profile Picture");
             title.addClassName("profile-pic-upload-title");
             Div layout = new Div();
@@ -420,6 +421,7 @@ public class RegisterUser extends VerticalLayout {
         }
 
         private void setImageData(SucceededEvent succeededEvent) {
+            System.out.println("I am here");
             try {
                 InputStream inputStream = memoryBuffer.getInputStream();
                 // Save imageData to your database as a String annotated with @Lob

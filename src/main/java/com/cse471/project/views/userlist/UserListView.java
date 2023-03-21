@@ -109,6 +109,7 @@ public class UserListView extends Main implements HasComponents, HasStyle {
         loadMoreButton.addClassName("user-list-view-load-more-button");
         loadMoreButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
                 ButtonVariant.LUMO_SUCCESS);
+        if (totalPageCount <= 1) loadMoreButton.setEnabled(false);
         add(loadMoreButton);
         loadMoreButton.addClickListener(event -> {
             curPage++;
