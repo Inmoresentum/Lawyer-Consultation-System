@@ -50,7 +50,8 @@ public class ChangeUserPasswordView extends VerticalLayout {
     //  contains special char, number, capital letter
     //  and small letter and at least 8 char long. However,
     //  during the production we should change it.
-    public ChangeUserPasswordView(UserService userService, PasswordEncoder passwordEncoder, AuthenticatedUser authenticatedUser) {
+    public ChangeUserPasswordView(UserService userService, PasswordEncoder passwordEncoder,
+                                  AuthenticatedUser authenticatedUser) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authenticatedUser = authenticatedUser;
@@ -89,6 +90,7 @@ public class ChangeUserPasswordView extends VerticalLayout {
         submitRequestButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
         submitRequestButton.addClickListener(event -> handleSubmitRequest());
         submitRequestButton.addClickShortcut(Key.ENTER);
+        submitRequestButton.setTooltipText("Click here to submit the request");
     }
 
     private void handleSubmitRequest() {
