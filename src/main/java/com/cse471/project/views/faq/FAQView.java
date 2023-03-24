@@ -403,6 +403,8 @@ public class FAQView extends VerticalLayout {
                                           Div faqSection, FAQ faq) {
         try {
             faqService.delete(faq);
+            faqSections.remove(faqSection);
+            confirmDialog.close();
         } catch (Exception e) {
             Notification notification = new Notification();
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -420,9 +422,8 @@ public class FAQView extends VerticalLayout {
             notification.setPosition(Notification.Position.BOTTOM_CENTER);
             notification.setDuration(10000);
             notification.open();
+            confirmDialog.close();
         }
-        faqSections.remove(faqSection);
-        confirmDialog.close();
     }
 
     @SuppressWarnings("DuplicatedCode")

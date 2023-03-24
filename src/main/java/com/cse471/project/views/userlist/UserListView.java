@@ -44,9 +44,9 @@ public class UserListView extends Main implements HasComponents, HasStyle {
 
     public UserListView(UserService userService) {
         this.userService = userService;
-        constructUI();
         var listOfUser = userService.list(PageRequest.of(curPage, PAGE_SIZE));
         totalPageCount = listOfUser.getTotalPages();
+        constructUI();
         for (var user : listOfUser) {
             UserListViewCard userListViewCard = new UserListViewCard(user);
             userLists.add(userListViewCard);
@@ -83,7 +83,8 @@ public class UserListView extends Main implements HasComponents, HasStyle {
         });
         loadPrevious.setEnabled(false);
         loadPrevious.addClassName("list-of-users-view-load-previous-button");
-        loadPrevious.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        loadPrevious.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_CONTRAST);
         loadPrevious.addClickListener(event -> {
             //Do the same things but in reverse
             curPage--;
