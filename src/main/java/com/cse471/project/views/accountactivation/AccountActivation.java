@@ -112,7 +112,8 @@ public class AccountActivation extends
         }
         // Used the query method that I created. We can also update it
         // without the custom query method.
-        userVerificationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
+        userVerificationTokenRepository.updateConfirmedAt(token,
+                LocalDateTime.now());
         User user = userVerificationToken.getUser();
         user.setAccountVerified(true);
         userRepository.save(user);
