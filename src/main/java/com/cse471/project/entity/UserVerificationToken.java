@@ -14,8 +14,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @ToString
-
-//Todo: Not yet complete
 public class UserVerificationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +33,8 @@ public class UserVerificationToken {
     @JoinColumn(nullable = false, name = "user_verification_token_id")
     private User user;
 
-    public UserVerificationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User user) {
+    public UserVerificationToken(String token, LocalDateTime createdAt,
+                                 LocalDateTime expiresAt, User user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
@@ -47,11 +46,16 @@ public class UserVerificationToken {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserVerificationToken that = (UserVerificationToken) o;
-        return Objects.equals(id, that.id) && Objects.equals(token, that.token) && Objects.equals(createdAt, that.createdAt) && Objects.equals(expiresAt, that.expiresAt) && Objects.equals(confirmedAt, that.confirmedAt) && Objects.equals(user, that.user);
+        return Objects.equals(id, that.id) && Objects.equals(token, that.token) &&
+                Objects.equals(createdAt, that.createdAt) &&
+                Objects.equals(expiresAt, that.expiresAt) &&
+                Objects.equals(confirmedAt, that.confirmedAt) &&
+                Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, token, createdAt, expiresAt, confirmedAt, user);
+        return Objects.hash(id, token, createdAt,
+                expiresAt, confirmedAt, user);
     }
 }
