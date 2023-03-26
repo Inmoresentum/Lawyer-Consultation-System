@@ -371,6 +371,15 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+.mail-focus{
+    color: #0083B0; /*white text*/
+    font-weight: bolder;
+    font-size: 1.2em;
+    padding: 12px;
+    border-radius: 5px;
+    box-shadow: #BB6BD9;
+    position: relative;
+}
 
 @keyframes hacker-text {
     0% {

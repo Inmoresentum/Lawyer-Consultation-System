@@ -102,7 +102,7 @@ public class RegisterUser extends VerticalLayout {
         setUpDatePicker();
         setUpAddressField();
         setUpAboutYourselfTextArea();
-        FormLayout formLayout = new FormLayout(name, username, email,
+        FormLayout formLayout = new FormLayout(name, username, createEmailTooltipComponent(), email,
                 phoneNumberField, datePicker, address, genderSelectionField, password,
                 confirmPassword, userProfilePictureUploadField, aboutYourself,
                 createEndUserAgreementComponent());
@@ -393,7 +393,23 @@ public class RegisterUser extends VerticalLayout {
         hl.addClassName("r-v-email-field");
         return hl;
     }
-
+    private Component createEmailTooltipComponent() {
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setSpacing(false);
+        hl.add(new Html("""
+                <div>
+                    <div style="display: flex; align-items: center;">
+                        <label for="agree" class="mail-focus" style="margin-left: 5px;">
+                            Those who are registering as an admin, please use the gsuit id which
+                            has been provided to you.
+                            
+                        </label>
+                    </div>
+                </div>
+                       """));
+        hl.addClassName("r-v-email-field");
+        return hl;
+    }
 
     private static class UserProfilePictureUploadField extends CustomField<Upload> {
 
