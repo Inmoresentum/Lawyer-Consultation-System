@@ -22,4 +22,7 @@ public class Lawyer {
     private Review layerReview;
     @OneToOne
     private User user;
+    @Column(columnDefinition = "TEXT", name = "lawyer_bio")
+    private String lawyerBio;
+    private double rating = 0.0;
 }

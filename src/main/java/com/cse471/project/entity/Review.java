@@ -12,5 +12,6 @@ public class Review {
     private String review;
 
     @ManyToOne
-    private User user;
+    private Lawyer lawyer;
+    private double reviewRating;
 }
