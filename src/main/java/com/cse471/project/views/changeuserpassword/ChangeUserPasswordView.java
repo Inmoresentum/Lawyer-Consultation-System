@@ -63,7 +63,7 @@ public class ChangeUserPasswordView extends VerticalLayout {
         Div layout = new Div();
         layout.addClassName("change-password-div");
 //        layout.addClassName("change-password-view-wow");
-        var header = new H3("CHANGE PASSWORD FORM");
+        var header = new H3("PASSWORD CHANGE FORM");
         header.addClassName("change-password-h3");
         FormLayout formLayout = getFormLayout();
         layout.add(header, formLayout);
