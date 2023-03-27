@@ -21,8 +21,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.security.RolesAllowed;
@@ -55,9 +53,8 @@ public class ChangeUserPasswordView extends VerticalLayout {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authenticatedUser = authenticatedUser;
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        curUser = userService.findByUserName(userDetails.getUsername()).orElseThrow();
+        addClassName("change-password-view-parent-vl");
+        curUser = authenticatedUser.get().orElseThrow();
         curUI = UI.getCurrent();
         add(getDivLayout());
     }
@@ -65,10 +62,12 @@ public class ChangeUserPasswordView extends VerticalLayout {
     private Div getDivLayout() {
         Div layout = new Div();
         layout.addClassName("change-password-div");
+//        layout.addClassName("change-password-view-wow");
         var header = new H3("CHANGE PASSWORD FORM");
         header.addClassName("change-password-h3");
         FormLayout formLayout = getFormLayout();
         layout.add(header, formLayout);
+        layout.add(submitRequestButton);
         return layout;
     }
 
@@ -80,7 +79,7 @@ public class ChangeUserPasswordView extends VerticalLayout {
         setUpConfirmPasswordField();
         setUpChangePasswordSubmitButton();
         formLayout.add(currentPasswordField, newPasswordField,
-                confirmYourNewPasswordField, submitRequestButton);
+                confirmYourNewPasswordField);
         return formLayout;
     }
 
@@ -93,6 +92,7 @@ public class ChangeUserPasswordView extends VerticalLayout {
         submitRequestButton.setTooltipText("Click here to submit the request");
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void handleSubmitRequest() {
         if (!isFormOkay()) {
             return;
@@ -122,10 +122,6 @@ public class ChangeUserPasswordView extends VerticalLayout {
                 passwordEncoder.encode(newPasswordField.getValue());
         curUser.setHashedPassword(newHashedPassword);
         userService.changeUserAccountPassword(curUser);
-        // Show a success card and a notification.
-        // After 3-4 seconds logout the user.
-        // Also, email the user about his/her password
-        // change
         authenticatedUser.logout();
     }
 
