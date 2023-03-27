@@ -65,7 +65,9 @@ public class MainLayout extends AppLayout {
         mainLogo.setWidth("150px");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(new VerticalLayout(mainLogo, appName));
-
+        header.addClickListener(event -> {
+           UI.getCurrent().navigate(UserListView.class);
+        });
         Scroller scroller = new Scroller(createNavigation());
 
         addToDrawer(header, scroller, createFooter());
