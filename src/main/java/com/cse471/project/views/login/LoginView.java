@@ -1,7 +1,9 @@
 package com.cse471.project.views.login;
 
+import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.views.privacypolicy.PrivacyAndPolicyView;
 import com.cse471.project.views.termsandconditions.TermsAndConditionsView;
+import com.cse471.project.views.userlist.UserListView;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -21,7 +23,11 @@ public class LoginView extends VerticalLayout
 
     private final LoginForm login = new LoginForm();
 
-    public LoginView() {
+    public LoginView(AuthenticatedUser authenticatedUser) {
+        if (authenticatedUser.get().isPresent()) {
+            UI.getCurrent().navigate(UserListView.class);
+        }
+        // todo: refactor this code. It looks ugly and not very maintainable.
         setSizeFull();
         addClassName("parent-login-view");
         login.addClassName("login-view-login-form");
