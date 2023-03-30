@@ -9,6 +9,7 @@ import com.cse471.project.views.allusers.AllUsersView;
 import com.cse471.project.views.communitychat.CommunityChatView;
 import com.cse471.project.views.dashboard.DashboardView;
 import com.cse471.project.views.feedback.FeedbackView;
+import com.cse471.project.views.lawyerlist.LawyerListView;
 import com.cse471.project.views.personalnotes.PersonalNotesView;
 import com.cse471.project.views.support.SupportView;
 import com.cse471.project.views.userlist.UserListView;
@@ -92,6 +93,11 @@ public class MainLayout extends AppLayout {
         if (accessChecker.hasAccess(AllUsersView.class)) {
             nav.addItem(new AppNavItem("All Users", AllUsersView.class,
                     "la la-user-cog"));
+
+        }
+        if (accessChecker.hasAccess(LawyerListView.class)) {
+            nav.addItem(new AppNavItem("Lawyer Lists", LawyerListView.class,
+                    "las la-gavel"));
 
         }
         if (accessChecker.hasAccess(CommunityChatView.class)) {
