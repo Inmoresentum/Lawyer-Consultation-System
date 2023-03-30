@@ -118,22 +118,6 @@
     align-items: center;
 }
 
-.user-profile-edit-about-me-button, .user-profile-change-password-button, .user-profile-change-email-button {
-    margin-right: 10px;
-    background-color: #4285f4;
-    color: #fff;
-    font-size: 1.5em;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.user-profile-edit-about-me-button:hover, .user-profile-change-password-button:hover, .user-profile-change-email-button:hover {
-    background-color: #3367d6;
-}
-
 .user-profile-email:hover:before,
 .user-profile-about-me-paragraph:hover:before,
 .user-profile-phone-number:hover:before {
@@ -148,3 +132,70 @@
         transform: rotate(720deg);
     }
 }
+
+.user-profile-aboutMeButtonEditIcon {
+    font-size: 20px;
+    color: #333;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-profile-aboutMeButtonEditIcon:hover {
+    color: #007bff;
+    transform: scale(1.2);
+    transition: all 0.3s ease;
+}
+
+.user-profile-aboutMeButtonEditIcon:active {
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+/* Dialog box css */
+/* CSS for the dialog box */
+/* Cancel button animation */
+.user-profile-about-me-cancel-button {
+    background-color: #f44336; /* set the background color */
+    color: white; /* set the text color */
+    border-radius: 5px; /* add some border radius for a more rounded look */
+    padding: 8px 16px; /* add some padding to give the button some breathing room */
+    font-size: 16px; /* increase font size */
+    border: none; /* remove the default border */
+    cursor: pointer; /* change the cursor to a pointer when hovering over the button */
+    transition: background-color 0.3s ease-in-out; /* add a smooth transition effect */
+}
+
+.user-profile-about-me-cancel-button:hover {
+    background-color: #ff6659; /* change the background color on hover */
+    animation: user-profile-view-button-fade-in 0.3s ease-in-out; /* add a fade-in animation effect */
+}
+
+/* Change button animation */
+.user-profile-view-about-me-change-button {
+    background-color: #4caf50; /* set the background color */
+    color: white; /* set the text color */
+    border-radius: 5px; /* add some border radius for a more rounded look */
+    padding: 8px 16px; /* add some padding to give the button some breathing room */
+    font-size: 16px; /* increase font size */
+    border: none; /* remove the default border */
+    cursor: pointer; /* change the cursor to a pointer when hovering over the button */
+    transition: background-color 0.3s ease-in-out; /* add a smooth transition effect */
+}
+
+.user-profile-view-about-me-change-button:hover {
+    background-color: #66bb6a; /* change the background color on hover */
+    animation: user-profile-view-button-fade-in 0.3s ease-in-out; /* add a fade-in animation effect */
+}
+
+/* Fade-in animation */
+@keyframes user-profile-view-button-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
