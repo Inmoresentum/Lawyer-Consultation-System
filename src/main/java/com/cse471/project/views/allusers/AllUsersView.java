@@ -19,6 +19,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -28,6 +29,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -72,12 +74,10 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
     private final CollaborationBinder<User> binder;
 
     private User user;
-    private final AuthenticatedUser authenticatedUser;
 
     private final UserService userService;
 
     public AllUsersView(AuthenticatedUser authenticatedUser, UserService userService) {
-        this.authenticatedUser = authenticatedUser;
         this.userService = userService;
         addClassNames("all-users-view");
         var curLoggedInUser = authenticatedUser.get();
@@ -136,7 +136,8 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         grid.addColumn(verificationRenderer).setHeader("Account Verified").setAutoWidth(true);
 
         grid.setItems(query -> userService.list(
-                        PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
+                        PageRequest.of(query.getPage(), query.getPageSize(),
+                                VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
@@ -163,27 +164,73 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
             refreshGrid();
         });
 
-        save.addClickListener(e -> {
-            try {
-                if (this.user == null) {
-                    this.user = new User();
-                }
-                binder.writeBean(this.user);
-                System.out.println(user);
-                userService.update(this.user);
-                clearForm();
-                refreshGrid();
-                Notification.show("Data updated");
-                UI.getCurrent().navigate(AllUsersView.class);
-            } catch (ObjectOptimisticLockingFailureException exception) {
-                Notification n = Notification.show(
-                        "Error updating the data. Somebody else has updated the record while you were making changes.");
-                n.setPosition(Position.MIDDLE);
-                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } catch (ValidationException validationException) {
-                Notification.show("Failed to update the data. Check again that all values are valid");
+        save.addClickListener(e ->
+                handleUserUpdateRequest(userService));
+    }
+
+    private void handleUserUpdateRequest(UserService userService) {
+        try {
+            if (this.user == null) {
+                this.user = new User();
             }
-        });
+            if (!isFormValid()) {
+                Notification notification = Notification.show(
+                        "The form is not valid. Please try again");
+                notification.setPosition(Position.BOTTOM_END);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                return;
+            }
+            binder.writeBean(this.user);
+            userService.update(this.user);
+            clearForm();
+            refreshGrid();
+            Notification.show("Data updated");
+            UI.getCurrent().navigate(AllUsersView.class);
+        } catch (ObjectOptimisticLockingFailureException exception) {
+            Notification notification = Notification.show(
+                    "Error updating the data. Somebody else has updated" +
+                            " the record while you were making changes.");
+            notification.setPosition(Position.MIDDLE);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        } catch (ValidationException validationException) {
+            Notification.show("Failed to update the data. Check again that all values are valid");
+        }
+    }
+
+    private boolean isFormValid() {
+        if (name.isEmpty()) {
+            name.setErrorMessage("This field can't be empty");
+            name.setInvalid(true);
+            return false;
+        } else if (name.isInvalid()) {
+            name.setErrorMessage("Is This a valid name");
+            name.setInvalid(true);
+            return false;
+        } else if (email.isEmpty()) {
+            email.setErrorMessage("This is is required");
+            email.setInvalid(true);
+            return false;
+        } else if (email.isInvalid()) {
+            email.setErrorMessage("This is not a valid email address");
+            email.setInvalid(true);
+            return false;
+        } else if (phoneNumber.isEmpty()) {
+            phoneNumber.setErrorMessage("This field is required!");
+            phoneNumber.setInvalid(true);
+            return false;
+        } else if (phoneNumber.isInvalid()) {
+            phoneNumber.setErrorMessage("This is not a valid phone number!");
+            phoneNumber.setInvalid(true);
+            return false;
+        } else if (dateOfBirth.isEmpty()) {
+            dateOfBirth.setErrorMessage("This field is required!");
+            dateOfBirth.setInvalid(true);
+            return false;
+        } else if (address.isEmpty()) {
+            address.setErrorMessage("This field is required!");
+            address.setInvalid(true);
+        }
+        return true;
     }
 
     @Override
@@ -214,15 +261,46 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
+
         name = new TextField("Name");
+        name.setHelperText("This is the Full Name of the user");
+        name.setRequired(true);
+        name.setTooltipText("Click to edit and update information");
+        name.setPrefixComponent(new Icon(VaadinIcon.USERS));
+
         username = new TextField("Username");
+        username.setEnabled(false);
+        username.setRequired(true);
+        username.setHelperText("This is the username and it can't be changed");
+        username.setTooltipText("This field can't be changed");
+        username.setPrefixComponent(new Icon(VaadinIcon.USER));
+
         email = new TextField("Email");
+        email.setPrefixComponent(new Icon(VaadinIcon.MAILBOX));
+        email.setHelperText("This the user email address and it can be changed");
+        email.setValueChangeMode(ValueChangeMode.EAGER);
+        email.addValueChangeListener(event -> isEmailInUse(event.getValue()));
+
         phoneNumber = new TextField("Phone");
+        phoneNumber.setRequired(true);
+        phoneNumber.setPrefixComponent(new Icon(VaadinIcon.PHONE_LANDLINE));
+        phoneNumber.setHelperText("This is the user phone number");
+        phoneNumber.setValueChangeMode(ValueChangeMode.EAGER);
+        phoneNumber.addValueChangeListener(event -> isValidPhoneNumber(event.getValue()));
+
         dateOfBirth = new DatePicker("Date Of Birth");
+
         accountVerificationStatus = new Checkbox("Account Verified?");
+        accountVerificationStatus.setEnabled(false);
+        accountVerificationStatus.setTooltipText("Indicate verification status");
+
         deactivateAccount = new Checkbox("Deactivate Account?");
         accountCreated = new DateTimePicker("Time of account creation");
+        accountCreated.setEnabled(false);
+
         address = new TextField("Address");
+        address.setRequired(true);
+        address.addValueChangeListener(event -> checkIfEmpty(event.getValue()));
         aboutYourSelf = new TextArea("User bio");
         formLayout.add(name, username, email, phoneNumber,
                 dateOfBirth, accountVerificationStatus,
@@ -232,6 +310,48 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         createButtonLayout(editorLayoutDiv);
 
         splitLayout.addToSecondary(editorLayoutDiv);
+    }
+
+    private void checkIfEmpty(String userAddress) {
+        if (userAddress.equals("")) {
+            address.setErrorMessage("This field can't be empty");
+            address.setInvalid(true);
+            return;
+        }
+        address.setInvalid(false);
+    }
+
+    private void isValidPhoneNumber(String value) {
+        final String phoneNumberRegex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$";
+        if (value.equals("")) {
+            phoneNumber.setErrorMessage("This field can't be empty");
+            phoneNumber.setInvalid(true);
+            System.out.println("I am here");
+        } else if (!value.matches(phoneNumberRegex)) {
+            phoneNumber.setErrorMessage("This is not a valid phone number");
+            phoneNumber.setInvalid(true);
+        } else {
+            phoneNumber.setInvalid(false);
+        }
+    }
+
+    private void isEmailInUse(String emailAddress) {
+        final String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,63}$";
+        if (userService.findUserByEmail(emailAddress)) {
+            email.setErrorMessage("This email address is already in use");
+            email.setInvalid(true);
+            return;
+        }
+        if (email.getValue().equals("")) {
+            email.setErrorMessage("Email address can't be empty!");
+            email.setInvalid(true);
+            return;
+        }
+        if (!emailAddress.matches(emailRegex)) {
+            email.setErrorMessage("Please enter a valid email address");
+            return;
+        }
+        email.setInvalid(false);
     }
 
     private void createButtonLayout(Div editorLayoutDiv) {

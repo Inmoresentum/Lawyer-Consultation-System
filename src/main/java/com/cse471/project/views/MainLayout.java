@@ -66,9 +66,8 @@ public class MainLayout extends AppLayout {
         mainLogo.setWidth("150px");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(new VerticalLayout(mainLogo, appName));
-        header.addClickListener(event -> {
-           UI.getCurrent().navigate(UserListView.class);
-        });
+        header.addClickListener(event ->
+                UI.getCurrent().navigate(UserListView.class));
         Scroller scroller = new Scroller(createNavigation());
 
         addToDrawer(header, scroller, createFooter());
@@ -158,8 +157,10 @@ public class MainLayout extends AppLayout {
             div.getElement().getStyle().set("align-items", "center");
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
-            userName.getSubMenu().addItem("Profile", e -> UI.getCurrent().navigate("user-profile"));
-            userName.getSubMenu().addItem("Change Password", e -> UI.getCurrent().navigate("change-user-password"));
+            userName.getSubMenu().addItem("Profile", e ->
+                    UI.getCurrent().navigate("user-profile"));
+            userName.getSubMenu().addItem("Change Password", e ->
+                    UI.getCurrent().navigate("change-user-password"));
             // Sign out needs to be at the bottom
             userName.getSubMenu().addItem("Sign out", e -> authenticatedUser.logout());
 
