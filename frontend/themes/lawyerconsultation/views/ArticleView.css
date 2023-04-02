@@ -1,0 +1,38 @@
+/* Style for the card */
+.article-view-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Style for the image */
+.article-view-card img {
+    display: block;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Style for the title */
+.article-view-card-title {
+    margin: 1rem 1rem 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Style for the span title */
+.article-view-card-span-title {
+    margin: 0 1rem 1rem;
+    display: block;
+    text-align: center;
+}
+
+/* Style for the hover effect */
+.article-view-card:hover {
+    box-shadow: 0 2px 20px rgba(0, 0, 255, 0.4);
+    cursor: pointer;
+}
+
