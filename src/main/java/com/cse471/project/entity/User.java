@@ -47,7 +47,7 @@ public class User extends AbstractEntity {
     @Column(nullable = false, unique = true)
     @Email
     private String email;
-    @Column(nullable = true, name = "date_of_birth")
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
     private boolean accountVerified = false;
     private boolean deactivatedByAdmin = false;
@@ -66,4 +66,11 @@ public class User extends AbstractEntity {
     private LocalDateTime accountCreated;
     @Column(nullable = false, name = "Privacy_Policy_And_TOS_Agreement")
     private boolean agreesWithTermsOfServicesAndPrivacyAndPolicy;
+
+    private boolean appliedForLawyerRole = false;
+    private int appliedNumberOfTimesForLawyerRoles = 0;
+
+    @Enumerated(EnumType.STRING)
+    private LawyerRoleApplicationStatus lawyerRoleApplicationStatus;
+    private LocalDateTime lastUpdateTime;
 }

@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,4 +27,8 @@ public class Lawyer {
     @Column(columnDefinition = "TEXT", name = "lawyer_bio")
     private String lawyerBio;
     private double rating = 0.0;
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @NotNull
+    private Set<LawyerType> lawyerTypeSet;
 }

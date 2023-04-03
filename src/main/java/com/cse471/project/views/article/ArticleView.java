@@ -28,7 +28,7 @@ public class ArticleView extends VerticalLayout {
         articleTitle.addClassName("article-view-card-title");
         Span spanTitle = new Span();
         spanTitle.addClassName("article-view-card-span-title");
-        spanTitle.add("This is a span title lakjdflak askldjfalskd jfaslkdfjsdklfj");
+        spanTitle.add("This is a span title");
         articleCard.add(articleTitle);
         articleCard.add(articleCoverImage);
         articleCard.add(spanTitle);

@@ -17,6 +17,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
@@ -36,8 +37,6 @@ public class ForgotPassword extends VerticalLayout {
     public ForgotPassword(UserService userService) {
         this.userService = userService;
         addClassName("forgot-password-form-view");
-//        getStyle().set("background", "transparent");
-//        getStyle().set("padding", "0");
         setSizeFull();
         var div = new Div();
         div.addClassName("forgot-password-form-view-content");
@@ -110,6 +109,7 @@ public class ForgotPassword extends VerticalLayout {
         emailField.setTitle("Enter your email");
         emailField.setPlaceholder("Enter your EMAIL here to get the reset password link!");
         emailField.setPattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
+        emailField.setValueChangeMode(ValueChangeMode.EAGER);
         emailField.addValueChangeListener(event -> emailChecker(emailField.getValue()));
     }
 
