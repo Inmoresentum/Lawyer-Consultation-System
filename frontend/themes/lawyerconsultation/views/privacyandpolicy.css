@@ -1,0 +1,11 @@
+.page-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.privacy-policy-view-main{
+    min-height: content-box;
+    background: linear-gradient(to bottom right, #75ebd5, #9face6);
+
+
+}
