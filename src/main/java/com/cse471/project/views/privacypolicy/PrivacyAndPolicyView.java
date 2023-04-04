@@ -32,7 +32,7 @@ public class PrivacyAndPolicyView extends VerticalLayout {
         Section mySection = new Section();
         mySection.addClassName("privacy-policy-view-section");
         H1 title = new H1("Privacy Policy");
-        title.addClassName("privacy-policy-view-page-title");
+        title.addClassName("privacy-policy-view-page-h1");
         mySection.add(title);
         Paragraph myParagraph = new Paragraph();
         myParagraph.addClassName("privacy-policy-view-paragraph");
@@ -49,17 +49,17 @@ public class PrivacyAndPolicyView extends VerticalLayout {
         mySection.add(myParagraph);
 
         H3 anotherTitle = new H3("Consent");
-        anotherTitle.addClassName("privacy-policy-view-page-title");
+        anotherTitle.addClassName("privacy-policy-view-page-h3");
         mySection.add(anotherTitle);
         Paragraph anotherParagraph = new Paragraph();
         anotherParagraph.addClassName("privacy-policy-view-paragraph");
         anotherParagraph.setText("By using our website, you hereby consent to our" +
                 " Privacy Policy and agree to its terms.");
         mySection.add(anotherParagraph);
-        ///anotherParagraph.addClassName("p-p-consent");
+//        anotherParagraph.addClassName("p-p-consent");
 
         H3 otherTitle = new H3("Information we collect");
-        otherTitle.addClassName("privacy-policy-view-page-title");
+        otherTitle.addClassName("privacy-policy-view-page-h3");
         mySection.add(otherTitle);
         Paragraph otherParagraph = new Paragraph();
         otherParagraph.addClassName("privacy-policy-view-paragraph");
@@ -78,7 +78,7 @@ public class PrivacyAndPolicyView extends VerticalLayout {
 
 
         H3 fourthTitle = new H3("How we use your information");
-        fourthTitle.addClassName("privacy-policy-view-page-title");
+        fourthTitle.addClassName("privacy-policy-view-page-h3");
         mySection.add(fourthTitle);
         Paragraph fourthParagraph = new Paragraph();
 
@@ -86,20 +86,30 @@ public class PrivacyAndPolicyView extends VerticalLayout {
         fourthParagraph.setText("We use the information we collect in various ways, including to:");
 
         ListItem item1 = new ListItem("Provide, operate, and maintain our website");
+        item1.addClassName("privacy-policy-list-item");
         ListItem item2 = new ListItem("Improve, personalize, and expand our website");
+        item2.addClassName("privacy-policy-list-item");
         ListItem item3 = new ListItem("Understand and analyze how you use our website");
+        item3.addClassName("privacy-policy-list-item");
         ListItem item4 = new ListItem("Develop new services, features, and functionality");
+        item4.addClassName("privacy-policy-list-item");
         ListItem item5 = new ListItem("Communicate with you through phone or email");
+        item5.addClassName("privacy-policy-list-item");
         ListItem item6 = new ListItem("Send you emails");
+        item6.addClassName("privacy-policy-list-item");
         ListItem item7 = new ListItem("Find and prevent fraud");
+        item7.addClassName("privacy-policy-list-item");
         UnorderedList list = new UnorderedList(item1, item2, item3, item4, item5, item6, item7);
-        mySection.add(list);
+        list.addClassName("privacy-policy-view-list-items");
 
         mySection.add(fourthParagraph);
 
+        mySection.add(list);
+
+
 
         H3 fifthTitle = new H3("Cookies");
-        fifthTitle.addClassName("privacy-policy-view-page-title");
+        fifthTitle.addClassName("privacy-policy-view-page-h3");
 
         mySection.add(fifthTitle);
         Paragraph fifthParagraph = new Paragraph();
@@ -115,11 +125,12 @@ public class PrivacyAndPolicyView extends VerticalLayout {
 
 
         H3 sixthTitle = new H3("Third Party Privacy Policies");
-        sixthTitle.addClassName("privacy-policy-view-paragraph");
+        sixthTitle.addClassName("privacy-policy-view-page-h3");
+
         mySection.add(sixthTitle);
         Paragraph sixthParagraph = new Paragraph();
-        sixthParagraph.addClassName("privacy-policy-view-page-title");
 
+        sixthParagraph.addClassName("privacy-policy-view-paragraph");
         sixthParagraph.setText("Lawyer consultancy's Privacy Policy does not apply to" +
                 " other advertisers or websites. Thus, we are advising you to consult" +
                 " the respective Privacy Policies of these third-party ad servers" +
@@ -131,7 +142,7 @@ public class PrivacyAndPolicyView extends VerticalLayout {
         mySection.add(sixthParagraph);
 
         H3 seventhTitle = new H3("Changes to this privacy policy");
-        seventhTitle.addClassName("privacy-policy-view-page-title");
+        seventhTitle.addClassName("privacy-policy-view-page-h3");
 
         mySection.add(seventhTitle);
         Paragraph seventhParagraph = new Paragraph();
@@ -144,10 +155,11 @@ public class PrivacyAndPolicyView extends VerticalLayout {
         mySection.add(seventhParagraph);
 
         H3 eightTitle = new H3("Contact us");
-        eightTitle.addClassName("privacy-policy-view-paragraph");
+        eightTitle.addClassName("privacy-policy-view-page-h3");
         mySection.add(eightTitle);
         Paragraph eightParagraph = new Paragraph();
-        eightParagraph.addClassName("privacy-policy-view-page-title");
+        eightParagraph.addClassName("privacy-policy-view-paragraph");
+
         eightParagraph.setText("If you have any questions or suggestions about" +
                 " our Privacy Policy, do not hesitate to contact us.");
         mySection.add(eightParagraph);

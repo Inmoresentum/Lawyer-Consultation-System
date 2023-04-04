@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&display=swap');
+
+.privacy-policy-view-main {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.privacy-policy-view-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
+    padding: 24px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: #ce1da5;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.privacy-policy-view-section:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-color: green;
+}
+
+.privacy-policy-view-page-h1 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-underline-offset: 7px;
+    border-bottom: 4px;
+    color: #01579b;
+    margin-bottom: 16px;
+}
+
+.privacy-policy-view-page-h3 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 28px;
+    text-align: center;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-underline-offset: 7px;
+    border-bottom: 4px;
+    color: #01579b;
+    margin-bottom: 16px;
+}
+
+.privacy-policy-view-paragraph {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 540;
+    font-size: 18px;
+    text-align: justify;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.privacy-policy-view-list-items {
+    margin-left: 24px;
+}
+
+.privacy-policy-list-item {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: justify;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+@media only screen and (max-width: 600px) {
+    .privacy-policy-view-section {
+        margin: 12px 0;
+        padding: 12px;
+    }
+
+    .privacy-policy-view-page-h1 {
+        font-size: 24px;
+    }
+
+    .privacy-policy-view-page-h3 {
+        font-size: 20px;
+    }
+
+    .privacy-policy-view-paragraph {
+        font-size: 14px;
+    }
+}
