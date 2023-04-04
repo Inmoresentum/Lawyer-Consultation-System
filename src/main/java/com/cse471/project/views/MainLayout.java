@@ -2,6 +2,7 @@ package com.cse471.project.views;
 
 import com.cse471.project.components.appnav.AppNav;
 import com.cse471.project.components.appnav.AppNavItem;
+import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.views.about.AboutView;
@@ -10,6 +11,7 @@ import com.cse471.project.views.communitychat.CommunityChatView;
 import com.cse471.project.views.dashboard.DashboardView;
 import com.cse471.project.views.feedback.FeedbackView;
 import com.cse471.project.views.lawyerlist.LawyerListView;
+import com.cse471.project.views.lawyerroleapplication.LawyerRoleApplication;
 import com.cse471.project.views.personalnotes.PersonalNotesView;
 import com.cse471.project.views.support.SupportView;
 import com.cse471.project.views.userlist.UserListView;
@@ -104,6 +106,11 @@ public class MainLayout extends AppLayout {
                     CommunityChatView.class, "la la-comments"));
 
         }
+        if (accessChecker.hasAccess(LawyerRoleApplication.class)) {
+            nav.addItem(new AppNavItem("",
+                    LawyerRoleApplication.class, "las la-jedi"));
+
+        }
         if (accessChecker.hasAccess(PersonalNotesView.class)) {
             nav.addItem(new AppNavItem("Personal Notes",
                     PersonalNotesView.class, "la la-edit"));
@@ -161,6 +168,10 @@ public class MainLayout extends AppLayout {
                     UI.getCurrent().navigate("user-profile"));
             userName.getSubMenu().addItem("Change Password", e ->
                     UI.getCurrent().navigate("change-user-password"));
+            if (maybeUser.get().getRoles().contains(Role.LAWYER)) {
+                userName.getSubMenu().addItem("Legal Profile", event ->
+                        UI.getCurrent().navigate("lawyer-profile"));
+            }
             // Sign out needs to be at the bottom
             userName.getSubMenu().addItem("Sign out", e -> authenticatedUser.logout());
 

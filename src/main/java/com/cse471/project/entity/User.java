@@ -68,7 +68,7 @@ public class User extends AbstractEntity {
     private boolean agreesWithTermsOfServicesAndPrivacyAndPolicy;
 
     private boolean appliedForLawyerRole = false;
-    private int appliedNumberOfTimesForLawyerRoles = 0;
+    private int appliedNumberOfTimesForLawyerRole = 0;
 
     @Enumerated(EnumType.STRING)
     private LawyerRoleApplicationStatus lawyerRoleApplicationStatus;
