@@ -107,7 +107,7 @@ public class MainLayout extends AppLayout {
 
         }
         if (accessChecker.hasAccess(LawyerRoleApplication.class)) {
-            nav.addItem(new AppNavItem("",
+            nav.addItem(new AppNavItem("Lawyer Application",
                     LawyerRoleApplication.class, "las la-jedi"));
 
         }
