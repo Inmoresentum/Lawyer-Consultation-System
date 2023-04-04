@@ -60,6 +60,7 @@ public class ForgotPassword extends VerticalLayout {
         submitRequest.addClickListener(event -> handleRequest());
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void handleRequest() {
         if (!emailField.isInvalid() && !emailField.isEmpty()) {
             // We will call the password reset service and do the thing.
