@@ -1,129 +1,188 @@
-
-.license-agreement{
-
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    text-decoration: underline;
-    text-underline-position: under;
-    text-underline-offset: 7px;
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: #01579b;
-    color: #01579b;
-    margin-bottom: 16px;
+/* whatever */
+.tos-main-view {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 2em;
 }
 
-.our-terms{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    text-decoration: underline;
-    text-underline-position: under;
-    text-underline-offset: 7px;
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: #01579b;
-    color: #01579b;
-    margin-bottom: 16px;
-}
-.license-agreement:hover, .our-terms:hover {
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background-color 0.6s ease-in-out;
-}
-.our-limits{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    text-decoration: underline;
-    text-underline-position: under;
-    text-underline-offset: 7px;
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: #01579b;
-    color: #01579b;
-    margin-bottom: 16px;
+.tos-main-container-div {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent; /* Set the border to transparent by default */
+    transition: border-color 0.3s ease; /* Add a transition effect to the border color */
 }
 
-.our-links{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    text-decoration: underline;
-    text-underline-position: under;
-    text-underline-offset: 7px;
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: #01579b;
-    color: #01579b;
-    margin-bottom: 16px;
-
+.tos-main-container-div:hover {
+    border-color: green; /* Change the border color on hover */
+    box-shadow: 0px 0px 20px rgba(0, 128, 0, 0.5); /* Add a box shadow on hover */
 }
 
-.our-limits:hover , .our-links:hover{
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background-color 0.6s ease-in-out
+.tos-app-logo {
+    display: block;
+    margin: 0 auto;
+    width: 350px;
+    height: 350px;
+    transition: transform 0.3s ease-in-out;
 }
 
-.your-pri{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    text-decoration: underline;
-    text-underline-position: under;
-    text-underline-offset: 7px;
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: #01579b;
-    color: #01579b;
-    margin-bottom: 16px;
-}
-.our-law{
-    font-family: 'Roboto Slab', serif;
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    text-decoration: underline;
-    text-underline-position: under;
-    text-underline-offset: 7px;
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: #01579b;
-    color: #01579b;
-    margin-bottom: 16px;
+.tos-app-logo:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
-.your-pri:hover , .our-law:hover{
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-}
-
-.tos-main{
-    align-items: center;
-    font-family: 'Open Sans', sans-serif;
+.tos-view-div1 {
+    display: flex;
     flex-direction: column;
-    margin: 24px 0;
-    padding: 24px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-color: #ce1da5;
-    transition: box-shadow 0.3s ease-in-out;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
-.tos-main:hover{
-    box-shadow: 0 8px 16px rgb(74, 236, 111);
-    border-color: #ce1da5;
+
+.tos-view-h2 {
+    font-size: 36px;
+    font-weight: 650;
+    background-image: linear-gradient(to right, #41a7ff, #1c4fd8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: underline;
+    transition: background-image 0.3s ease, text-decoration-color 0.3s ease;
+    text-decoration-color: #41a7ff;
+}
+
+.tos-view-h2:hover {
+    background-image: linear-gradient(to right, #ff5f5f, #f062c2);
+    text-decoration-color: #ff5f5f;
+}
+
+
+.tos-view-p {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 550;
+    color: #333;
+    border: 3px solid transparent;
+    border-radius: 25px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.tos-view-p:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+    border-color: #41a7ff;
+}
+
+.tos-view-div2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.tos-view-list-items {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+.tos-list-item {
+    font-size: 1.2em;
+    line-height: 1.5;
+    color: #ffa559;
+    margin-left: 1em;
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 22px;
+    padding: 5px;
+}
+
+.tos-list-item:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.5);
+    border-color: #41a7ff;
+}
+
+
+.tos-view-div-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.tos-view-div4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.tos-view-div5 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.tos-view-div6 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.tos-view-div6 h2 {
+    margin-bottom: 0;
+}
+
+.tos-view-router-link {
+    font-size: 1.1em;
+    font-weight: 550;
+    color: #ff7200;
+    /*background-image: linear-gradient(to right, #f062c2, #ff5f5f);*/
+    border-radius: 10px;
+    display: inline-block;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-family: "Helvetica Neue", sans-serif;
+    padding: 0.3em;
+}
+
+.tos-view-router-link:hover {
+    transform: translateY(-5px);
+    background-image: linear-gradient(to right, #f062c2, #ff5f5f);
+    /*padding: 0.5em 1em;*/
+    color: aliceblue;
+}
+
+
+@media screen and (max-width: 768px) {
+    .tos-main-container-div {
+        max-width: 90%;
+    }
+
+    .tos-app-logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .tos-view-h2 {
+        font-size: 1.5em;
+    }
+
+    .tos-view-p {
+        font-size: 1em;
+    }
 }

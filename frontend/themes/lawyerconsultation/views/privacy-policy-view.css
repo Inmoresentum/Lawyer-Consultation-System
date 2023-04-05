@@ -14,7 +14,7 @@
     justify-content: center;
     align-items: center;
     margin: 24px 0;
-    padding: 24px;
+    padding: 45px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-color: #ce1da5;
@@ -94,9 +94,9 @@
     font-size: 16px;
     text-align: justify;
     line-height: 1.6;
-    color: #333;
+    color: #ffa559;
     margin-bottom: 8px;
-    padding: 10px;
+    padding: 5px;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -104,7 +104,7 @@
     border-color: #00bcd4;
     box-shadow: 0 0 10px #00bcd4;
     border-radius: 22px;
-    transform: scale(1.05);
+    transform: scale(1.1);
     transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
