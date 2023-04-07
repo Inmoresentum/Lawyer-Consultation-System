@@ -1,0 +1,82 @@
+/* Style the main card container */
+.lawyer-application-main-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+/* Style the card */
+.lawyer-application-layout-div {
+    background-color: #fff;
+    box-shadow: 0px 0px 20px rgb(168, 159, 159);
+    border-radius: 20px;
+    padding: 40px;
+    /*width: 80%;*/
+    max-width: 634px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style the header */
+.lawyer-application-form-header {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2em;
+    font-weight: bold;
+    background: linear-gradient(to right, #ffa559, #ce1da5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background 0.6s ease-in-out;
+}
+
+/* Add hover effect to the header */
+.lawyer-application-form-header:hover {
+    background: linear-gradient(to right, #FF70A6, #FF9770);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Style the form layout */
+.lawyer-application-view-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style the form fields */
+.lawyer-application-username,
+.lawyer-application-email,
+.lawyer-application-text-area,
+.lawyer-application-multi-select-box {
+    width: 100%;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background-color: #f8f8f8;
+    border: 2px solid transparent;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: #404040;
+}
+
+.lawyer-application-username:hover,
+.lawyer-application-email:hover {
+    border-color: rgb(206, 29, 165); /* Change the border color on hover */
+    box-shadow: 0px 0px 20px rgb(253, 250, 248); /* Add a box shadow on hover */
+}
+
+.lawyer-application-text-area:hover,
+.lawyer-application-multi-select-box:hover {
+    border-color: #17b4e4; /* Change the border color on hover */
+    box-shadow: 0px 0px 20px rgba(19, 100, 197, 0.5); /* Add a box shadow on hover */
+}
+
+/* Style the submit button */
+.lawyer-application-view-submit-button {
+    margin-top: 20px;
+}
