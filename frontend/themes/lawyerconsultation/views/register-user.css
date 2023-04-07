@@ -3,7 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
+    padding: 4rem;
     background: linear-gradient(to bottom right, #75ebd5, #9face6);
 }
 
@@ -42,15 +43,20 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(120deg, #f6d365 0%, #41c4ee 100%);
+    background: linear-gradient(120deg, #17b4e4 0%, #ebc46c 50%, #7ea172 100%);
     background-size: 400% 400%;
-    transition: background-position 0.5s ease;
+    transition: background-position 0.5s ease, transform 0.6s ease-in-out;
 }
 
 .r-div:hover {
-    transform: scale(1.0134);
-    transition: all 0.6s ease-in-out;
+    transform: translateY(-15px);
+    transition: transform 0.6s ease-in-out;
     background-position: 100% 0;
+}
+
+.r-div:not(:hover) {
+    transform: none;
+    transition: transform 0.6s ease-in-out;
 }
 
 /* Style the form layout and its fields */
@@ -371,7 +377,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.mail-focus{
+
+.mail-focus {
     color: #0083B0; /*white text*/
     font-weight: bolder;
     font-size: 1.2em;
