@@ -59,6 +59,19 @@
     transition: transform 0.6s ease-in-out;
 }
 
+.r-div-logo {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.r-div-logo:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
 /* Style the form layout and its fields */
 .r-v-form-layout {
     display: flex;
