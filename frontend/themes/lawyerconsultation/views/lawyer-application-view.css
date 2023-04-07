@@ -12,12 +12,21 @@
     box-shadow: 0px 0px 20px rgb(168, 159, 159);
     border-radius: 20px;
     padding: 40px;
-    /*width: 80%;*/
-    max-width: 634px;
+    width: 80%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    transition: box-shadow 600ms ease-in-out, transform 600ms ease-in-out;
+}
+
+/* Add hover effect to the card */
+.lawyer-application-layout-div:hover {
+    border: 1px solid #40ff00;
+    box-shadow: 0px 0px 20px rgb(23, 180, 228); /* Add blue border on hover */
+    transform: translateY(-5px); /* Translate the card on hover */
 }
 
 /* Style the header */
@@ -30,6 +39,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: background 0.6s ease-in-out;
+    text-decoration: underline; /* add underline */
+    border-bottom: 5px solid transparent; /* add border */
 }
 
 /* Add hover effect to the header */
@@ -37,7 +48,9 @@
     background: linear-gradient(to right, #FF70A6, #FF9770);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    border-bottom-color: #FF70A6; /* change border color on hover */
 }
+
 
 /* Style the form layout */
 .lawyer-application-view-layout {
@@ -79,4 +92,46 @@
 /* Style the submit button */
 .lawyer-application-view-submit-button {
     margin-top: 20px;
+    background: linear-gradient(to right, #56ab2f, #a8e063);
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
 }
+
+/* Change button color on hover */
+.lawyer-application-view-submit-button:hover {
+    background: linear-gradient(to right, #FF70A6, #FF9770);
+    transform: translateY(-5px);
+    border-radius: 20px;
+}
+
+/* Make button grow on hover */
+.lawyer-application-view-submit-button:hover:active {
+    transform: scale(1.1) translateY(-5px);
+}
+
+.lawyer-application-faq-page-router-link {
+    display: inline-block;
+    padding: 5px 5px;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ffa559;
+    text-decoration: underline;
+    transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.lawyer-application-faq-page-router-link:hover {
+    background-color: #ff9770;
+    text-decoration: none;
+    border-radius: 15px;
+    transform: translate(0, 5px);
+}
+

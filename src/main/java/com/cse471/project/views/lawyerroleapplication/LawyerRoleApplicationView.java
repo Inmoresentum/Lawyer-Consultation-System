@@ -7,6 +7,7 @@ import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.service.Lawyer.LawyerRoleApplicationService;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
+import com.cse471.project.views.faq.FAQView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -28,6 +29,7 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 
 import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
@@ -50,6 +52,7 @@ public class LawyerRoleApplicationView extends VerticalLayout {
     private LawyerComplementaryDocumentUploadComponent documentUploadComponent;
     private MultiSelectComboBox<LawyerType> multiSelectComboBox;
     private Button submitButton;
+    private RouterLink faqPage;
     private final UserService userService;
     private final LawyerRoleApplicationService lawyerRoleApplicationService;
 
@@ -72,7 +75,10 @@ public class LawyerRoleApplicationView extends VerticalLayout {
         header.setText("APPLICATION FORM");
         header.addClassName("lawyer-application-form-header");
         FormLayout formLayout = createFormLayout();
-        layout.add(header, formLayout, submitButton);
+        faqPage = new RouterLink("Got Questions? Visit FAQ",
+                FAQView.class);
+        faqPage.addClassName("lawyer-application-faq-page-router-link");
+        layout.add(header, formLayout, submitButton, faqPage);
         add(layout);
     }
 
@@ -84,16 +90,21 @@ public class LawyerRoleApplicationView extends VerticalLayout {
         name.addClassName("lawyer-application-username");
         name.setValue(curUser.getName());
         name.setReadOnly(true);
+        name.setHelperText("It's readonly");
+        name.setTooltipText("The name you used to register");
 
         username = new TextField("Applicant username");
         username.addClassName("lawyer-application-username");
         username.setValue(curUser.getUsername());
         username.setReadOnly(true);
+        username.setHelperText("It's readonly");
+        username.setTooltipText("The username you used to register");
 
         email = new TextField("Applicant email");
         email.addClassName("lawyer-application-email");
         email.setValue(curUser.getEmail());
         email.setReadOnly(true);
+        email.setHelperText("It's readonly");
 
         lawyerBio = new TextArea("Short Bio");
         lawyerBio.addClassName("lawyer-application-text-area");
