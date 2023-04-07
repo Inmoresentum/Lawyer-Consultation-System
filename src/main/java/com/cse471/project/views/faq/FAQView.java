@@ -43,7 +43,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @PageTitle("FAQ")
 @Route(value = "faq", layout = MainLayout.class)
 @AnonymousAllowed
-public class FAQView extends VerticalLayout {
+public class
+FAQView extends VerticalLayout {
     private final FAQService faqService;
     private final AtomicBoolean isAdmin =
             new AtomicBoolean(false);
