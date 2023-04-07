@@ -185,7 +185,7 @@ public class LawyerRoleApplicationView extends VerticalLayout {
         curUser.setLawyerRoleApplicationStatus(LawyerRoleApplicationStatus.ON_HOLD);
         curUser.setAppliedNumberOfTimesForLawyerRole(curUser.getAppliedNumberOfTimesForLawyerRole() + 1);
         userService.update(curUser);
-        lawyerRoleApplicationService.saveLawyerApplication(lawyerRoleApplication);
+        lawyerRoleApplicationService.saveLawyerApplication(lawyerRoleApplication, curUser);
         showSuccessConfirmation();
     }
 
