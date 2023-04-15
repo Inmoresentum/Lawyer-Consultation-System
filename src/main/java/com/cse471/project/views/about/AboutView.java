@@ -22,7 +22,8 @@ public class AboutView extends VerticalLayout {
         add(img);
 
         H1 header = new H1("What we do?");
-        header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
+        header.addClassNames("what-we-do");
+        ///Margin.Top.XLARGE, Margin.Bottom.MEDIUM
         add(header);
         add(new Paragraph("Our motto is to take your legal action's personally. We believe in making your work or life secured." +
                 "Lawyer Consultancy is a professional legal platform. Here we will provide you proper guidelines for any" +
