@@ -11,7 +11,7 @@ import com.cse471.project.views.communitychat.CommunityChatView;
 import com.cse471.project.views.dashboard.DashboardView;
 import com.cse471.project.views.feedback.FeedbackView;
 import com.cse471.project.views.lawyerlist.LawyerListView;
-import com.cse471.project.views.lawyerroleapplication.LawyerRoleApplication;
+import com.cse471.project.views.lawyerroleapplication.LawyerRoleApplicationView;
 import com.cse471.project.views.personalnotes.PersonalNotesView;
 import com.cse471.project.views.support.SupportView;
 import com.cse471.project.views.userlist.UserListView;
@@ -106,9 +106,9 @@ public class MainLayout extends AppLayout {
                     CommunityChatView.class, "la la-comments"));
 
         }
-        if (accessChecker.hasAccess(LawyerRoleApplication.class)) {
+        if (accessChecker.hasAccess(LawyerRoleApplicationView.class)) {
             nav.addItem(new AppNavItem("Lawyer Application",
-                    LawyerRoleApplication.class, "las la-jedi"));
+                    LawyerRoleApplicationView.class, "las la-jedi"));
 
         }
         if (accessChecker.hasAccess(PersonalNotesView.class)) {

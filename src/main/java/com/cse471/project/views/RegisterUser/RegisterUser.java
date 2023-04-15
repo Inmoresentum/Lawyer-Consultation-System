@@ -3,11 +3,15 @@ package com.cse471.project.views.RegisterUser;
 import com.cse471.project.entity.Gender;
 import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
+import com.cse471.project.security.AuthenticatedUser;
 import com.cse471.project.service.UserService.UserService;
+import com.cse471.project.views.about.AboutView;
+import com.cse471.project.views.faq.FAQView;
 import com.cse471.project.views.login.LoginView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -31,9 +35,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import java.io.IOException;
@@ -67,17 +69,27 @@ public class RegisterUser extends VerticalLayout {
             new TextArea("About you");
     private final UserService userService;
 
-    public RegisterUser(UserService userService) {
+    public RegisterUser(UserService userService,
+                        AuthenticatedUser authenticatedUser) {
         addClassName("r-v-registration-view");
         setAlignItems(FlexComponent.Alignment.CENTER);
         this.userService = userService;
         Div layout = getDivLayout();
         add(layout);
+        var curUser = authenticatedUser.get();
+        if (curUser.isPresent()) {
+            UI.getCurrent().navigate("");
+        }
     }
 
     private Div getDivLayout() {
         Div layout = new Div();
         layout.addClassName("r-div");
+        Image logo = new Image("images/application-main.png",
+                "placeholder plant");
+        logo.addClassName("r-div-logo");
+        logo.addClickListener(event ->
+                UI.getCurrent().navigate(AboutView.class));
         var header = new H3("USER REGISTRATION FORM");
         header.addClassName("r-v-h3");
         var registerButton = new Button("Register", e -> registerUser());
@@ -85,8 +97,11 @@ public class RegisterUser extends VerticalLayout {
         var link = new RouterLink("Already have an account? Login",
                 LoginView.class);
         FormLayout formLayout = getFormLayout(link);
-        layout.add(header, formLayout,
-                registerButton, link);
+        var faqPage = new RouterLink("Got Questions? Visit FAQ",
+                FAQView.class);
+        faqPage.addClassName("lawyer-application-faq-page-router-link");
+        layout.add(logo, header, formLayout,
+                registerButton, link, faqPage);
         return layout;
     }
 
@@ -393,6 +408,7 @@ public class RegisterUser extends VerticalLayout {
         hl.addClassName("r-v-email-field");
         return hl;
     }
+
     private Component createEmailTooltipComponent() {
         HorizontalLayout hl = new HorizontalLayout();
         hl.setSpacing(false);

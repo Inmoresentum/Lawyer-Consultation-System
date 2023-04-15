@@ -15,9 +15,11 @@
 @import url('./views/user-profile-view.css');
 @import url('./views/change-password-view.css');
 @import url('./views/faq-view.css');
-@import url('./views/ArticleView.css');
+@import url('./views/article-view.css');
 @import url('./views/privacy-policy-view.css');
 @import url('./views/terms-and-conditions-view.css');
+@import url('./views/lawyer-application-view.css');
+@import url('./views/about-view.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);

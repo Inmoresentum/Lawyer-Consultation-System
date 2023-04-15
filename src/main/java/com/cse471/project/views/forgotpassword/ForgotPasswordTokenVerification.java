@@ -174,6 +174,7 @@ public class ForgotPasswordTokenVerification extends
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void createUnsuccessfulView() {
         removeAll();
         Div div = new Div();
@@ -203,6 +204,7 @@ public class ForgotPasswordTokenVerification extends
         add(div);
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void createSuccessView() {
         removeAll();
         Div div = new Div();
