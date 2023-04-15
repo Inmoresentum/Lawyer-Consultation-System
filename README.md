@@ -1,16 +1,23 @@
-# Lawyer-Consultation-System
+<h1 align="center">
+	<img src="https://raw.githubusercontent.com/Inmoresentum/Lawyer-Consultation-System/main/src/main/resources/META-INF/resources/images/application-main.png" width="230" alt="Logo"/><br/>
+    Lawyer-Consultation-System
+</h1> 
 
-![node-current (tag)](https://img.shields.io/node/v/p/latest)
-![vaadin (tag)](https://img.shields.io/badge/vaadin-23.3.6-yellowgreen)
-![springboot (tag)](https://img.shields.io/badge/springboot-2.7.3-green)
-![mariadb (tag)](https://img.shields.io/badge/MariaDB-10.11.2-blue)
-![minio (tag)](https://img.shields.io/badge/MINIO-8.4.3-orange)
-![css_framework (tag)](https://img.shields.io/badge/vanilla-css-lightgrey)
-![top_lang (tag)](https://img.shields.io/github/languages/top/Inmoresentum/Lawyer-Consultation-System)
-![last_commit (tag)](https://img.shields.io/github/last-commit/Inmoresentum/Lawyer-Consultation-System)
-![total_contributor (tag)](https://img.shields.io/github/contributors/Inmoresentum/Lawyer-Consultation-System)
+<p align ="center"> 
+<img src="https://img.shields.io/node/v/p/latest" alt="whatever">
+<img src="https://img.shields.io/badge/springboot-2.7.3-green" alt="whatever">
+<img src="https://img.shields.io/badge/vaadin-23.3.6-yellowgreen" alt="whatever">
+<img src="https://img.shields.io/badge/MariaDB-10.11.2-blue" alt="whatever">
+<img src="https://img.shields.io/badge/MINIO-8.4.3-orange" alt="whatever">
+<img src="https://img.shields.io/badge/vanilla-css-lightgrey" alt="whatever">
+<img src="https://img.shields.io/github/languages/top/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
+<img src="https://img.shields.io/github/last-commit/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
+<img src="https://img.shields.io/github/contributors/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
+</p>
 
-This repository contains **CSE471** Lab Group PROJECT, `Spring 2023` Section `05`.
+
+
+This repository contains **CSE471** Lab Group No `11` PROJECT, `Spring 2023` Section `05`.
 
 ## Group Information
 
@@ -63,7 +70,7 @@ you will have to install the following things.
 
    For more information, visit [vaadin](https://vaadin.com/)
 
-## setup
+## Setup
 
 to set up, please follow these steps:
 
