@@ -8,7 +8,6 @@ import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.about.AboutView;
 import com.cse471.project.views.faq.FAQView;
 import com.cse471.project.views.login.LoginView;
-import com.cse471.project.views.userlist.UserListView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
@@ -89,9 +88,8 @@ public class RegisterUser extends VerticalLayout {
         Image logo = new Image("images/application-main.png",
                 "placeholder plant");
         logo.addClassName("r-div-logo");
-        logo.addClickListener(event -> {
-            UI.getCurrent().navigate(AboutView.class);
-        });
+        logo.addClickListener(event ->
+                UI.getCurrent().navigate(AboutView.class));
         var header = new H3("USER REGISTRATION FORM");
         header.addClassName("r-v-h3");
         var registerButton = new Button("Register", e -> registerUser());
