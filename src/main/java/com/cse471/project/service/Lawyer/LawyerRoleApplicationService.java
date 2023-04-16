@@ -41,4 +41,11 @@ public class LawyerRoleApplicationService {
     public List<LawyerRoleApplication> findAllLawyerApplication() {
         return lawyerRoleApplicationRepository.findAll();
     }
+
+    public void updateLawyerApplication(LawyerRoleApplication lawyerRoleApplication) throws IllegalAccessException {
+        if (lawyerRoleApplicationRepository.existsById(lawyerRoleApplication.getApplicationID())) {
+            lawyerRoleApplicationRepository.save(lawyerRoleApplication);
+        }
+        throw new IllegalAccessException("The Application Must exists in Database");
+    }
 }

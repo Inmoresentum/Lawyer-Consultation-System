@@ -35,4 +35,7 @@ public class LawyerRoleApplication {
     @Lob
     @Column(length = 10000000, name = "included_document")
     private byte[] includedDocuments;
+
+    @Enumerated(EnumType.STRING)
+    private IncludedDocumentType includedDocumentType;
 }

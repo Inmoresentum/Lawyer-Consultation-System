@@ -1,5 +1,6 @@
 package com.cse471.project.views.lawyerroleapplication;
 
+import com.cse471.project.entity.IncludedDocumentType;
 import com.cse471.project.entity.LawyerRoleApplicationStatus;
 import com.cse471.project.entity.LawyerType;
 import com.cse471.project.entity.User;
@@ -180,6 +181,13 @@ public class LawyerRoleApplicationView extends VerticalLayout {
         lawyerRoleApplication.setBioForLawyerProfile(lawyerBio.getValue());
         lawyerRoleApplication.setIncludedApplicationMotivation(whyJoinUs.getValue());
         lawyerRoleApplication.setIncludedDocuments(documentUploadComponent.documentData);
+        if (documentUploadComponent.documentData.length != 0) {
+            if (documentUploadComponent.memoryBuffer.getFileName().endsWith(".pdf")) {
+                lawyerRoleApplication.setIncludedDocumentType(IncludedDocumentType.PDF);
+            } else if (documentUploadComponent.memoryBuffer.getFileName().endsWith(".zip")) {
+                lawyerRoleApplication.setIncludedDocumentType(IncludedDocumentType.ZIP);
+            }
+        }
         lawyerRoleApplication.setSelectedLawyerType(multiSelectComboBox.getSelectedItems());
         curUser.setAppliedForLawyerRole(true);
         curUser.setLawyerRoleApplicationStatus(LawyerRoleApplicationStatus.ON_HOLD);
@@ -281,6 +289,7 @@ public class LawyerRoleApplicationView extends VerticalLayout {
                 InputStream inputStream = memoryBuffer.getInputStream();
                 // Save imageData to your database as a String annotated with @Lob
                 documentData = inputStream.readAllBytes();
+                System.out.println(memoryBuffer.getFileName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
