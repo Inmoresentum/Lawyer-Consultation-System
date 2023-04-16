@@ -19,7 +19,7 @@ public class LawyerRoleApplication {
             generator = "lawyeridgenerator")
     @SequenceGenerator(name = "lawyeridgenerator", initialValue = 100)
     private Long applicationID;
-    @Column(name = "application_submission_time")
+    @Column(nullable = false, name = "application_submission_time")
     private LocalDateTime submittedAt;
     @OneToOne
     private User user;

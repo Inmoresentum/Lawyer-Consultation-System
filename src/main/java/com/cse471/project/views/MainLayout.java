@@ -10,6 +10,7 @@ import com.cse471.project.views.allusers.AllUsersView;
 import com.cse471.project.views.communitychat.CommunityChatView;
 import com.cse471.project.views.dashboard.DashboardView;
 import com.cse471.project.views.feedback.FeedbackView;
+import com.cse471.project.views.lawyerapplicationapproval.LawyerApplicationApprovalView;
 import com.cse471.project.views.lawyerlist.LawyerListView;
 import com.cse471.project.views.lawyerroleapplication.LawyerRoleApplicationView;
 import com.cse471.project.views.personalnotes.PersonalNotesView;
@@ -109,6 +110,11 @@ public class MainLayout extends AppLayout {
         if (accessChecker.hasAccess(LawyerRoleApplicationView.class)) {
             nav.addItem(new AppNavItem("Lawyer Application",
                     LawyerRoleApplicationView.class, "las la-jedi"));
+
+        }
+        if (accessChecker.hasAccess(LawyerApplicationApprovalView.class)) {
+            nav.addItem(new AppNavItem("Application Que",
+                    LawyerApplicationApprovalView.class, "las la-jedi"));
 
         }
         if (accessChecker.hasAccess(PersonalNotesView.class)) {

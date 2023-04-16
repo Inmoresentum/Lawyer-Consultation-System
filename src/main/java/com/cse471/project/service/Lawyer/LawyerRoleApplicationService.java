@@ -7,6 +7,8 @@ import com.cse471.project.service.Email.EmailService;
 import com.cse471.project.service.Email.EmailUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LawyerRoleApplicationService {
     private final LawyerRoleApplicationRepository lawyerRoleApplicationRepository;
@@ -34,5 +36,9 @@ public class LawyerRoleApplicationService {
 
     public boolean containsPendingApplication(User user) {
         return lawyerRoleApplicationRepository.existsByUser(user);
+    }
+
+    public List<LawyerRoleApplication> findAllLawyerApplication() {
+        return lawyerRoleApplicationRepository.findAll();
     }
 }

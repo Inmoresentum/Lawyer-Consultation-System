@@ -101,7 +101,8 @@ public class TermsAndConditionsView extends VerticalLayout {
         H2 otherHeader = new H2("Links");
         otherHeader.addClassNames("tos-view-h2");
         fourthDiv.add(otherHeader);
-        Paragraph fifithParagraph = new Paragraph("Lawyer consultancy has not reviewed all of the sites linked to its Website and is not" +
+        Paragraph fifithParagraph = new Paragraph("Lawyer consultancy has not reviewed all of" +
+                " the sites linked to its Website and is not" +
                 " responsible for the contents of any such linked site. The presence of any link " +
                 " does not imply endorsement by Lawyer consultancy of the site. The use of any " +
                 " linked website is at the user's own risk.");
