@@ -15,11 +15,12 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 public class AboutView extends VerticalLayout {
 
     public AboutView() {
+        addClassName("about-view-main");
         setSpacing(false);
-
         Image img = new Image("images/application-main.png", "placeholder plant");
         img.setWidth("200px");
         add(img);
+
 
         H1 header = new H1("What we do?");
         header.addClassNames("what-we-do");
