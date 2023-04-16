@@ -65,7 +65,7 @@ you will have to install the following things.
 
    ```shell
     npm --version
-
+   ```
 4. A valid **vaadin** pro `subscription` or `student subscription`
 
    For more information, visit [vaadin](https://vaadin.com/)
