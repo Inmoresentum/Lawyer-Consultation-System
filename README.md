@@ -49,7 +49,7 @@ you will have to install the following things.
 
 2. node
 
-   `node` version 16.15.1 or higher. Download [node](https://nodejs.org/en/download/) if you don't have it already.
+   `node` version **16.15.1** or higher. Download [node](https://nodejs.org/en/download/) if you don't have it already.
 
    To check your version of node, run:
 
@@ -77,7 +77,7 @@ to set up, please follow these steps:
 1. Clone the repo
 
    make sure that you have [git](https://git-scm.com/downloads) installed.
-   to check run `git --version` in your
+   To check run `git --version` in your
    terminal.
    ```shell
     git clone https://github.com/Inmoresentum/Lawyer-Consultation-System
@@ -94,7 +94,7 @@ to set up, please follow these steps:
    `editors` and `IDES` will also do the job.
 
 3. Click the `play` icon which will start the spring boot application
-   and will recursively download all the npm dependencies.
+   and will recursively download all the `npm` dependencies.
    Alternatively, from the terminal use maven to build and
    run using `./mvnw clean install`.
 
