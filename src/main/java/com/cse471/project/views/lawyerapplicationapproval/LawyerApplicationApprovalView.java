@@ -2,7 +2,6 @@ package com.cse471.project.views.lawyerapplicationapproval;
 
 import com.cse471.project.entity.IncludedDocumentType;
 import com.cse471.project.entity.LawyerRoleApplication;
-import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.service.Lawyer.LawyerRoleApplicationService;
 import com.cse471.project.views.MainLayout;
@@ -13,17 +12,19 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
 import javax.annotation.security.RolesAllowed;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 
@@ -38,13 +39,16 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
     private final Div mainContainerDiv = new Div();
     private final LawyerRoleApplicationService lawyerRoleApplicationService;
     private final UI curUI;
+    private final TextField searchApplicationViaId = new
+            TextField("Search Application via Id");
 
     public LawyerApplicationApprovalView(LawyerRoleApplicationService lawyerRoleApplicationService) {
         this.lawyerRoleApplicationService = lawyerRoleApplicationService;
         curUI = UI.getCurrent();
         addClassName("lawyer-app-approval-view-main-page");
+        searchAndFilterApplicationSection();
         mainContainerDiv.addClassName("lawyer-app-approval-view-main-container");
-        var listOfAllApplication = lawyerRoleApplicationService.findAllLawyerApplication();
+        var listOfAllApplication = lawyerRoleApplicationService.findAllLawyerApplicationYetTobeReviewed();
         for (var application : listOfAllApplication) {
             mainContainerDiv.add(createAnApplicationCard(application));
         }
@@ -52,8 +56,25 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
     }
 
     private void searchAndFilterApplicationSection() {
-
+        Div searchBoxContainer = new Div();
+        searchBoxContainer.addClassName("faq-view-main-content-div");
+        // Need to set up some prompts
+        Span prompt = new Span();
+        prompt.addClassName("faq-view-prompt-span");
+        String promptText = "Use the below search boxes to search and" +
+                " filter application or fetch metadata regarding applications";
+        prompt.setText(promptText);
+        // Setting up the search textfield
+        setUpSearchTextField();
+        // Setting up the icon
+        Div searchAndFilterDiv = new Div();
+        searchAndFilterDiv.addClassName("faq-view-search-post-div");
+        searchAndFilterDiv.add(searchApplicationViaId);
+        searchBoxContainer.add(prompt);
+        searchBoxContainer.add(searchAndFilterDiv);
+        add(searchBoxContainer);
     }
+
     private Div createAnApplicationCard(LawyerRoleApplication application) {
         Div applicationCard = new Div();
         applicationCard.addClassName("laav-a-application-card");
@@ -235,5 +256,18 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
 
     private void handleRejectApplicationRequest() {
 
+    }
+
+    private void setUpSearchTextField() {
+        searchApplicationViaId.setTitle("Type to Search here");
+        searchApplicationViaId.addClassName("faq-view-search-field");
+        searchApplicationViaId.setClearButtonVisible(true);
+        searchApplicationViaId.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchApplicationViaId.setTooltipText("Click here to search");
+        // We want to search for things as soon they are typed.
+        searchApplicationViaId.setValueChangeMode(ValueChangeMode.EAGER);
+        searchApplicationViaId.addValueChangeListener(event -> {
+            System.out.println("Something");
+        });
     }
 }

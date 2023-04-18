@@ -38,8 +38,8 @@ public class LawyerRoleApplicationService {
         return lawyerRoleApplicationRepository.existsByUser(user);
     }
 
-    public List<LawyerRoleApplication> findAllLawyerApplication() {
-        return lawyerRoleApplicationRepository.findAll();
+    public List<LawyerRoleApplication> findAllLawyerApplicationYetTobeReviewed() {
+        return lawyerRoleApplicationRepository.findByIsReviewedFalse();
     }
 
     public void updateLawyerApplication(LawyerRoleApplication lawyerRoleApplication) throws IllegalAccessException {

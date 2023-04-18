@@ -38,4 +38,11 @@ public class LawyerRoleApplication {
 
     @Enumerated(EnumType.STRING)
     private IncludedDocumentType includedDocumentType;
+
+    private boolean isReviewed = false;
+    @Column(name = "When_the_form_was_reviewd_by_the_admin")
+    private LocalDateTime reviewedTime;
+
+    @Column(name = "comment_by_reviewer", columnDefinition = "TEXT")
+    private String commentByReviewer;
 }
