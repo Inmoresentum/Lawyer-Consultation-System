@@ -20,6 +20,7 @@
 @import url('./views/terms-and-conditions-view.css');
 @import url('./views/lawyer-application-view.css');
 @import url('./views/about-view.css');
+@import url('./views/lawyer-application-approval-view.css');
 
 html {
     --lumo-primary-text-color: hsl(241, 79%, 44%);

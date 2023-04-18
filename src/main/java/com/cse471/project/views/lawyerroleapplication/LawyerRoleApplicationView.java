@@ -181,7 +181,7 @@ public class LawyerRoleApplicationView extends VerticalLayout {
         lawyerRoleApplication.setBioForLawyerProfile(lawyerBio.getValue());
         lawyerRoleApplication.setIncludedApplicationMotivation(whyJoinUs.getValue());
         lawyerRoleApplication.setIncludedDocuments(documentUploadComponent.documentData);
-        if (documentUploadComponent.documentData.length != 0) {
+        if (documentUploadComponent.documentData != null && documentUploadComponent.documentData.length != 0) {
             if (documentUploadComponent.memoryBuffer.getFileName().endsWith(".pdf")) {
                 lawyerRoleApplication.setIncludedDocumentType(IncludedDocumentType.PDF);
             } else if (documentUploadComponent.memoryBuffer.getFileName().endsWith(".zip")) {

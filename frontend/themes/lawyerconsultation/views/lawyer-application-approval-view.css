@@ -1,0 +1,279 @@
+.lawyer-app-approval-view-main-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+
+.lawyer-app-approval-view-main-container {
+    padding-bottom: 3rem;
+}
+
+/* Style the card */
+.laav-a-application-card {
+    background-color: #fff;
+    box-shadow: 0px 0px 20px rgb(168, 159, 159);
+    border-radius: 20px;
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.laav-a-application-card:hover {
+    border: 2px solid #4aec6f;
+    animation: laav-box-shadow-animation 2s infinite ease-in-out alternate;
+}
+
+@keyframes laav-box-shadow-animation {
+    0% {
+        box-shadow: 0px 0px 20px rgb(168, 159, 159);
+    }
+    50% {
+        box-shadow: 0px 0px 20px rgb(255, 114, 0);
+    }
+    100% {
+        box-shadow: 0px 0px 20px rgb(7, 86, 7);
+    }
+}
+
+/* Style for the expand and collapse icon */
+.laav-a-tab::before {
+    content: '\25BC';
+    font-size: 16px;
+    margin-right: 5px;
+    transition: transform 0.2s;
+}
+
+.laav-a-tab[selected]::before {
+    content: '\25B2';
+    transform: rotate(180deg);
+}
+
+/* Style for the submitted application form */
+.submitted-application-form-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.submitted-application-form-expand {
+    height: auto;
+    transition: max-height 0.4s ease-in;
+}
+
+.laav-a-application-card:not(:last-child) {
+    margin-bottom: 3rem;
+}
+
+/* Style for the profile picture */
+.laav-a-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.2s ease-in-out;
+}
+
+.laav-a-profile-picture:hover {
+    transform: scale(1.5);
+}
+
+/* Style for the avatar */
+.laav-a-profile-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    transition: transform 0.2s ease-in-out;
+}
+
+.laav-a-profile-avatar:hover {
+    transform: scale(1.2);
+}
+
+/* Style for the tab */
+.laav-a-tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 0 0 transparent;
+    cursor: pointer;
+    border-radius: 1rem;
+    /*transition: box-shadow 0.2s ease-in-out;*/
+}
+
+.laav-a-tab:hover {
+    border: 2px solid #d71457;
+    box-shadow: 0 0 10px 5px rgba(255, 192, 203, 0.5);
+}
+
+/* Style for the tab when it's selected */
+.laav-a-tab[selected] {
+    background-color: #f1f1f1;
+    border-radius: 2rem;
+}
+
+/* Style for the tab content */
+.laav-a-tab-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Style for the applicant ID */
+.laav-a-application-user-id {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.laav-a-application-id-span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    background-color: #b5bf50;
+    padding: 4px 8px;
+    border-radius: 1rem;
+}
+
+/* Style for the applicant name */
+.laav-a-application-user-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px 8px;
+}
+
+/* Style for the application submission time */
+.laav-a-application-submission-time {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    background-color: #47c595;
+    padding: 4px 8px;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.laav-a-anchor {
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(to right, #0077c2, #0096c7);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.laav-a-anchor:hover {
+    background: linear-gradient(to right, #45a049, #7cc576);
+    transform: translateY(-3px);
+    border-radius: 25px;
+}
+
+.laav-a-anchor:active {
+    animation: laav-anchor-pulse 0.5s;
+}
+
+@keyframes laav-anchor-pulse {
+    0% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+    100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+
+/* Style the approval button */
+.laav-app-approval-button {
+    margin-top: 20px;
+    background: linear-gradient(to right, #56ab2f, #a8e063);
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Change button color on hover */
+.laav-app-approval-button:hover {
+    background: linear-gradient(to right, #FF70A6, #FF9770);
+    transform: translateY(-5px);
+    border-radius: 20px;
+}
+
+/* Make button grow on hover */
+.laav-app-approval-button:hover:active {
+    transform: scale(1.1) translateY(-5px);
+}
+
+.laav-app-reject-button {
+    margin-top: 20px;
+    background: linear-gradient(to right, #d516a9, #d5165f);
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Change button color on hover */
+.laav-app-reject-button:hover {
+    background: linear-gradient(to right, #FF70A6, #d5165f);
+    transform: translateY(5px);
+    border-radius: 20px;
+}
+
+/* Make button grow on hover */
+.laav-app-reject-button:hover:active {
+    transform: scale(1.1) translateY(-5px);
+}
+.laav-action-button-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 1rem;
+    margin: 1rem;
+    background-color: #f1f1f1;
+    padding: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.laav-action-button-layout:hover {
+    border: 2px solid #ffc107;
+    box-shadow: 0px 0px 10px rgba(255, 255, 0, 0.5);
+}
+
+.laav-action-button-layout button:first-child {
+    margin-right: auto;
+}
+
+.laav-action-button-layout button:last-child {
+    margin-left: auto;
+}
