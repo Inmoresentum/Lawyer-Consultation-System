@@ -1,15 +1,19 @@
 package com.cse471.project.views.lawyerapplicationapproval;
 
-import com.cse471.project.entity.IncludedDocumentType;
-import com.cse471.project.entity.LawyerRoleApplication;
-import com.cse471.project.entity.User;
+import com.cse471.project.entity.*;
+import com.cse471.project.security.AuthenticatedUser;
+import com.cse471.project.service.Email.EmailService;
+import com.cse471.project.service.Email.EmailUtils;
 import com.cse471.project.service.Lawyer.LawyerRoleApplicationService;
+import com.cse471.project.service.Lawyer.LawyerService;
+import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
@@ -27,6 +31,7 @@ import com.vaadin.flow.server.StreamResource;
 import javax.annotation.security.RolesAllowed;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static com.cse471.project.entity.LawyerType.*;
 
@@ -38,12 +43,24 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
 
     private final Div mainContainerDiv = new Div();
     private final LawyerRoleApplicationService lawyerRoleApplicationService;
+    private final LawyerService lawyerService;
+    private final EmailService emailService;
+    private final EmailUtils emailUtils;
+    private final UserService userService;
+    private final AuthenticatedUser reviewer;
     private final UI curUI;
     private final TextField searchApplicationViaId = new
             TextField("Search Application via Id");
+    private TextArea commentByReviewer;
+    private TextArea lawyerBio;
 
-    public LawyerApplicationApprovalView(LawyerRoleApplicationService lawyerRoleApplicationService) {
+    public LawyerApplicationApprovalView(LawyerRoleApplicationService lawyerRoleApplicationService, LawyerService lawyerService, EmailService emailService, EmailUtils emailUtils, UserService userService, AuthenticatedUser reviewer) {
         this.lawyerRoleApplicationService = lawyerRoleApplicationService;
+        this.lawyerService = lawyerService;
+        this.emailService = emailService;
+        this.emailUtils = emailUtils;
+        this.userService = userService;
+        this.reviewer = reviewer;
         curUI = UI.getCurrent();
         addClassName("lawyer-app-approval-view-main-page");
         searchAndFilterApplicationSection();
@@ -109,7 +126,7 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         applicationTab.add(label);
         applicationCard.add(applicationTab);
 
-        Div applicationLayout = createApplicationLayout(application, userWhoApplied);
+        Div applicationLayout = createApplicationLayout(applicationCard, application, userWhoApplied);
         applicationLayout.addClassName("submitted-application-form-collapse");
 
         applicationTab.getElement().addEventListener("click", e -> {
@@ -131,7 +148,7 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
     }
 
 
-    private Div createApplicationLayout(LawyerRoleApplication lawyerRoleApplication,
+    private Div createApplicationLayout(Div applicationCard, LawyerRoleApplication lawyerRoleApplication,
                                         User applicant) {
         Div layout = new Div();
         layout.addClassName("laav-application-layout-div");
@@ -141,13 +158,13 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         approveApplication.addThemeVariants(ButtonVariant.LUMO_SUCCESS,
                 ButtonVariant.LUMO_PRIMARY);
         approveApplication.addClickListener(event ->
-                handleApplicationApprovalRequest());
+                handleApplicationApprovalRequest(applicationCard, applicant, lawyerRoleApplication));
         var rejectApplication = new Button("Reject Application");
         rejectApplication.addClassName("laav-app-reject-button");
         rejectApplication.addThemeVariants(ButtonVariant.LUMO_SUCCESS,
                 ButtonVariant.LUMO_PRIMARY);
         rejectApplication.addClickListener(event ->
-                handleRejectApplicationRequest());
+                handleRejectApplicationRequest(applicationCard, applicant, lawyerRoleApplication));
         Div actionButtonLayout = new Div();
 
         actionButtonLayout.addClassName("laav-action-button-layout");
@@ -155,6 +172,24 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
 
         layout.add(actionButtonLayout);
         return layout;
+    }
+
+    private void handleRejectApplicationRequest(Div applicationCard, User user, LawyerRoleApplication application) {
+        var dialog = new ConfirmDialog();
+        dialog.setHeader("Reject?");
+        dialog.setText("Are you want to REJECT this application." +
+                "Make sure you have checked it through");
+
+        dialog.setCancelable(true);
+        dialog.addCancelListener(event -> dialog.close());
+        dialog.setCancelText("NOPE");
+
+        dialog.setConfirmText("REJECT");
+        dialog.setCloseOnEsc(true);
+
+        dialog.addConfirmListener(event -> rejectApplication(dialog, applicationCard,
+                user, application));
+        dialog.open();
     }
 
 
@@ -183,7 +218,7 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         email.setReadOnly(true);
         email.setHelperText("It's readonly");
 
-        var lawyerBio = new TextArea("Short Bio");
+        lawyerBio = new TextArea("Short Bio");
         lawyerBio.addClassName("lawyer-application-text-area");
         lawyerBio.setTooltipText("Carefully Check the BIO");
         lawyerBio.setHelperText("BIO Entered By the Applicant");
@@ -247,15 +282,101 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
                 lawyerRoleApplication.getIncludedDocuments().length != 0) {
             formLayout.add(anchor);
         }
+
+        commentByReviewer = new TextArea("Please add comment on the Application");
+        commentByReviewer.addClassName("lawyer-application-text-area");
+        commentByReviewer.setTooltipText("Comment on this APPLICATION");
+        commentByReviewer.setHelperText("Write a detailed review behind your decision");
+
+        formLayout.add(commentByReviewer);
+
         return formLayout;
     }
 
-    private void handleApplicationApprovalRequest() {
+    @SuppressWarnings("DuplicatedCode")
+    private void handleApplicationApprovalRequest(Div applicationCard, User user, LawyerRoleApplication application) {
+        var dialog = new ConfirmDialog();
+        dialog.setHeader("Approve?");
+        dialog.setText("Are you want to approve this application." +
+                "Make sure you have checked it through");
 
+        dialog.setCancelable(true);
+        dialog.addCancelListener(event -> dialog.close());
+        dialog.setCancelText("NOPE");
+
+        dialog.setConfirmText("APPROVE");
+        dialog.setCloseOnEsc(true);
+
+        dialog.addConfirmListener(event -> approveApplication(dialog, applicationCard,
+                user, application));
+        dialog.open();
     }
 
-    private void handleRejectApplicationRequest() {
+    private void approveApplication(ConfirmDialog dialog, Div applicationCard,
+                                    User user, LawyerRoleApplication application) {
+        // User entity
+        Set<Role> userRoles = user.getRoles();
+        userRoles.add(Role.LAWYER);
+        user.setRoles(userRoles);
+        user.setLastUpdateTime(LocalDateTime.now());
+        user.setLawyerRoleApplicationStatus(LawyerRoleApplicationStatus.ACCEPTED);
+        userService.update(user);
 
+        // Lawyer Role Application
+        application.setReviewed(true);
+        application.setReviewedTime(LocalDateTime.now());
+        User adminWhoReviewed = reviewer.get().orElseThrow();
+        application.setReviewer(adminWhoReviewed);
+        application.setApproved(true);
+        application.setCommentByReviewer(commentByReviewer.getValue());
+        try {
+            lawyerRoleApplicationService.updateLawyerApplication(application);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("can't update lawyerRoleApplication " +
+                    "Probably someone else made changes while you were reviewing");
+        }
+
+        // Lawyer entity
+        Lawyer lawyer = Lawyer.builder()
+                .lawyerBio(lawyerBio.getValue())
+                .lawyerTypeSet(application.getSelectedLawyerType())
+                .user(application.getUser())
+                .build();
+
+        lawyerService.updateLawyer(lawyer);
+        String approvalEmail = emailUtils
+                .buildLawyerApplicationApprovalNotification(user.getUsername());
+        emailService.send(user.getEmail(), "Lawyer Role Application", approvalEmail);
+        dialog.close();
+        mainContainerDiv.remove(applicationCard);
+    }
+
+    private void rejectApplication(ConfirmDialog dialog, Div applicationCard, User user, LawyerRoleApplication application) {
+        // User entity
+        user.setLastUpdateTime(LocalDateTime.now());
+        user.setLawyerRoleApplicationStatus(LawyerRoleApplicationStatus.REJECTED);
+        userService.update(user);
+
+        // Lawyer Role Application
+        application.setReviewed(true);
+        application.setReviewedTime(LocalDateTime.now());
+        User adminWhoReviewed = reviewer.get().orElseThrow();
+        application.setReviewer(adminWhoReviewed);
+        application.setApproved(false);
+        application.setCommentByReviewer(commentByReviewer.getValue());
+        try {
+            lawyerRoleApplicationService.updateLawyerApplication(application);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("can't update lawyerRoleApplication " +
+                    "Probably someone else made changes while you were reviewing");
+        }
+
+        String approvalEmail = emailUtils
+                .buildLawyerApplicationRejectionNotification(user.getUsername(),
+                        commentByReviewer.getValue());
+        emailService.send(user.getEmail(), "Lawyer Role Application", approvalEmail);
+        dialog.close();
+        mainContainerDiv.remove(applicationCard);
     }
 
     private void setUpSearchTextField() {
@@ -266,8 +387,7 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         searchApplicationViaId.setTooltipText("Click here to search");
         // We want to search for things as soon they are typed.
         searchApplicationViaId.setValueChangeMode(ValueChangeMode.EAGER);
-        searchApplicationViaId.addValueChangeListener(event -> {
-            System.out.println("Something");
-        });
+        searchApplicationViaId.addValueChangeListener(event ->
+                System.out.println("Something"));
     }
 }

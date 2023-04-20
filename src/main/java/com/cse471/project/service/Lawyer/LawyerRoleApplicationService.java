@@ -45,6 +45,7 @@ public class LawyerRoleApplicationService {
     public void updateLawyerApplication(LawyerRoleApplication lawyerRoleApplication) throws IllegalAccessException {
         if (lawyerRoleApplicationRepository.existsById(lawyerRoleApplication.getApplicationID())) {
             lawyerRoleApplicationRepository.save(lawyerRoleApplication);
+            return;
         }
         throw new IllegalAccessException("The Application Must exists in Database");
     }
