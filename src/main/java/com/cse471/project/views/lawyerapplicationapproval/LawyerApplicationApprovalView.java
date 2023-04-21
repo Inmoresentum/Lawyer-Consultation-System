@@ -175,6 +175,11 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
     }
 
     private void handleRejectApplicationRequest(Div applicationCard, User user, LawyerRoleApplication application) {
+        if (commentByReviewer.getValue().equals("")) {
+            commentByReviewer.setErrorMessage("This Field can't be empty");
+            commentByReviewer.setInvalid(true);
+            return;
+        }
         var dialog = new ConfirmDialog();
         dialog.setHeader("Reject?");
         dialog.setText("Are you want to REJECT this application." +
@@ -295,6 +300,11 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
 
     @SuppressWarnings("DuplicatedCode")
     private void handleApplicationApprovalRequest(Div applicationCard, User user, LawyerRoleApplication application) {
+        if (commentByReviewer.getValue().equals("")) {
+            commentByReviewer.setErrorMessage("This Field can't be empty");
+            commentByReviewer.setInvalid(true);
+            return;
+        }
         var dialog = new ConfirmDialog();
         dialog.setHeader("Approve?");
         dialog.setText("Are you want to approve this application." +
@@ -388,6 +398,10 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         // We want to search for things as soon they are typed.
         searchApplicationViaId.setValueChangeMode(ValueChangeMode.EAGER);
         searchApplicationViaId.addValueChangeListener(event ->
-                System.out.println("Something"));
+                handleSearchRequest());
+    }
+
+    private void handleSearchRequest() {
+
     }
 }
