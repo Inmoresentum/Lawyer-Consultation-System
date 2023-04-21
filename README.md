@@ -13,6 +13,9 @@
 <img src="https://img.shields.io/github/languages/top/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
 <img src="https://img.shields.io/github/last-commit/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
 <img src="https://img.shields.io/github/contributors/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
+<a href="https://github.com/Inmoresentum/Lawyer-Consultation-System/actions/workflows/build_checker.yml">
+<img src="https://github.com/Inmoresentum/Lawyer-Consultation-System/actions/workflows/build_checker.yml/badge.svg" alt="whatever">
+</a>
 </p>
 
 

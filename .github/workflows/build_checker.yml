@@ -23,4 +23,3 @@ jobs:
             echo "::error::Build failed!"
             exit 1
           fi
-
