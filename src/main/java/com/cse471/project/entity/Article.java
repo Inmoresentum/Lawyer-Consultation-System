@@ -1,8 +1,6 @@
 package com.cse471.project.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -12,6 +10,9 @@ import javax.persistence.*;
 @Setter
 @Table(name = "Article")
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

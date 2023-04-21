@@ -1,9 +1,7 @@
 package com.cse471.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.annotation.Nullable;
@@ -20,6 +18,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(access = AccessLevel.PUBLIC)
 public class User extends AbstractEntity {
     @Size(max = 12, min = 4)
     @Column(unique = true)
