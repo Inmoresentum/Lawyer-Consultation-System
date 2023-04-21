@@ -1,6 +1,7 @@
 package com.cse471.project.service.UserService;
 
 import com.cse471.project.entity.ForgotPasswordVerificationToken;
+import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.entity.UserVerificationToken;
 import com.cse471.project.repository.UserForgotPasswordVerificationRepository;
@@ -9,6 +10,7 @@ import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.service.Email.EmailService;
 import com.cse471.project.service.Email.EmailUtils;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
@@ -32,10 +34,12 @@ public class UserService {
     private final EmailService emailService;
     private final UserForgotPasswordVerificationRepository forgotPasswordTokeRepo;
 
+    @Transactional
     public Optional<User> get(Long id) {
         return userRepository.findById(id);
     }
 
+    @Transactional
     public User update(User entity) {
         return userRepository.save(entity);
     }
@@ -75,12 +79,17 @@ public class UserService {
         forgotPasswordTokeRepo.save(verificationToken);
     }
 
+    @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
     public Page<User> list(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public Page<User> list(Role role, Pageable pageable) {
+        return userRepository.findAllByRolesContaining(role, pageable);
     }
 
     public Page<User> list(Pageable pageable, Specification<User> filter) {
