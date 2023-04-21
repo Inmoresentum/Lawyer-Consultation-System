@@ -8,6 +8,7 @@ import com.cse471.project.service.Lawyer.LawyerRoleApplicationService;
 import com.cse471.project.service.Lawyer.LawyerService;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
@@ -21,6 +22,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -31,6 +33,8 @@ import com.vaadin.flow.server.StreamResource;
 import javax.annotation.security.RolesAllowed;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static com.cse471.project.entity.LawyerType.*;
@@ -53,6 +57,7 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
             TextField("Search Application via Id");
     private TextArea commentByReviewer;
     private TextArea lawyerBio;
+    private ArrayList<Component> listOfLawyerApplicationDiv = new ArrayList<>();
 
     public LawyerApplicationApprovalView(LawyerRoleApplicationService lawyerRoleApplicationService, LawyerService lawyerService, EmailService emailService, EmailUtils emailUtils, UserService userService, AuthenticatedUser reviewer) {
         this.lawyerRoleApplicationService = lawyerRoleApplicationService;
@@ -67,7 +72,9 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         mainContainerDiv.addClassName("lawyer-app-approval-view-main-container");
         var listOfAllApplication = lawyerRoleApplicationService.findAllLawyerApplicationYetTobeReviewed();
         for (var application : listOfAllApplication) {
-            mainContainerDiv.add(createAnApplicationCard(application));
+            Div anApplicationCard = createAnApplicationCard(application);
+            mainContainerDiv.add(anApplicationCard);
+            listOfLawyerApplicationDiv.add(anApplicationCard);
         }
         add(mainContainerDiv);
     }
@@ -96,6 +103,20 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         Div applicationCard = new Div();
         applicationCard.addClassName("laav-a-application-card");
         User userWhoApplied = application.getUser();
+        H4 status = new H4();
+        if (application.isReviewed()) {
+            if (application.isApproved()) {
+                status = new H4("Approved");
+                status.addClassName("laav-a-status-h4-accepted");
+            } else {
+                status = new H4("Rejected");
+                status.addClassName("laav-a-status-h4-rejected");
+            }
+        } else {
+            status = new H4("PENDING");
+            status.addClassName("laav-a-status-h4-pending");
+        }
+        applicationCard.add(status);
         Span applicationID = new Span();
         applicationID.setText(application.getApplicationID().toString());
         applicationID.addClassName("laav-a-application-id-span");
@@ -170,7 +191,9 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         actionButtonLayout.addClassName("laav-action-button-layout");
         actionButtonLayout.add(rejectApplication, approveApplication);
 
-        layout.add(actionButtonLayout);
+        if (!lawyerRoleApplication.isReviewed()) {
+            layout.add(actionButtonLayout);
+        }
         return layout;
     }
 
@@ -202,6 +225,23 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
                                         User applicant) {
         FormLayout formLayout = new FormLayout();
         formLayout.addClassName("lawyer-application-view-layout");
+
+        if (lawyerRoleApplication.isReviewed()) {
+            Div div = new Div();
+            div.addClassName("laav-reviewer-div");
+            Span span = new Span();
+            div.add(span);
+            span.addClassName("laav-reviewer-span");
+            span.add("This application was reviewed by ");
+            Span reviewer = new Span(lawyerRoleApplication.getReviewer().getUsername());
+            reviewer.addClassName("laav-reviewer-span-reviewer");
+            span.add(reviewer);
+            Span dateAndTime = new Span(" ON ");
+            dateAndTime.add(lawyerRoleApplication.getReviewedTime().toString());
+            dateAndTime.addClassName("laav-reviewer-span-review-time");
+            span.add(dateAndTime);
+            formLayout.add(div);
+        }
 
         var name = new TextField("Applicant name");
         name.addClassName("lawyer-application-username");
@@ -288,10 +328,19 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
             formLayout.add(anchor);
         }
 
-        commentByReviewer = new TextArea("Please add comment on the Application");
-        commentByReviewer.addClassName("lawyer-application-text-area");
-        commentByReviewer.setTooltipText("Comment on this APPLICATION");
-        commentByReviewer.setHelperText("Write a detailed review behind your decision");
+        if (!lawyerRoleApplication.isReviewed()) {
+            commentByReviewer = new TextArea("Please add comment on the Application");
+            commentByReviewer.addClassName("lawyer-application-text-area");
+            commentByReviewer.setTooltipText("Comment on this APPLICATION");
+            commentByReviewer.setHelperText("Write a detailed review behind your decision");
+        } else {
+            commentByReviewer = new TextArea("COMMENT BY THE REVIEWER");
+            commentByReviewer.addClassName("lawyer-application-text-area");
+            commentByReviewer.setTooltipText("Reason behind such decision");
+            commentByReviewer.setHelperText("This is READONLY");
+            commentByReviewer.setValue(lawyerRoleApplication.getCommentByReviewer());
+            commentByReviewer.setReadOnly(true);
+        }
 
         formLayout.add(commentByReviewer);
 
@@ -308,7 +357,7 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         var dialog = new ConfirmDialog();
         dialog.setHeader("Approve?");
         dialog.setText("Are you want to approve this application." +
-                "Make sure you have checked it through");
+                "Make sure you have CHECKED it through");
 
         dialog.setCancelable(true);
         dialog.addCancelListener(event -> dialog.close());
@@ -397,11 +446,34 @@ public class LawyerApplicationApprovalView extends VerticalLayout {
         searchApplicationViaId.setTooltipText("Click here to search");
         // We want to search for things as soon they are typed.
         searchApplicationViaId.setValueChangeMode(ValueChangeMode.EAGER);
+        String numberRegex = "\\d";
+        searchApplicationViaId.setAllowedCharPattern(numberRegex);
+        searchApplicationViaId.setMaxLength(10);
         searchApplicationViaId.addValueChangeListener(event ->
-                handleSearchRequest());
+                handleSearchRequest(event.getValue()));
     }
 
-    private void handleSearchRequest() {
-
+    private void handleSearchRequest(String value) {
+        if (value.equals("")) {
+            mainContainerDiv.remove(listOfLawyerApplicationDiv);
+            listOfLawyerApplicationDiv = new ArrayList<>();
+            List<LawyerRoleApplication> listOfFoundApplications = lawyerRoleApplicationService
+                    .findAllLawyerApplicationYetTobeReviewed();
+            for (var foundApplication : listOfFoundApplications) {
+                var applicationCard = createAnApplicationCard(foundApplication);
+                listOfLawyerApplicationDiv.add(applicationCard);
+                mainContainerDiv.add(applicationCard);
+            }
+            return;
+        }
+        mainContainerDiv.remove(listOfLawyerApplicationDiv);
+        listOfLawyerApplicationDiv = new ArrayList<>();
+        List<LawyerRoleApplication> listOfFoundApplications = lawyerRoleApplicationService
+                .findMatchingLawyerApplications(Long.parseLong(value));
+        for (var foundApplication : listOfFoundApplications) {
+            var applicationCard = createAnApplicationCard(foundApplication);
+            listOfLawyerApplicationDiv.add(applicationCard);
+            mainContainerDiv.add(applicationCard);
+        }
     }
 }

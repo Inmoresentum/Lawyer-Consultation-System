@@ -49,4 +49,9 @@ public class LawyerRoleApplicationService {
         }
         throw new IllegalAccessException("The Application Must exists in Database");
     }
+
+    public List<LawyerRoleApplication> findMatchingLawyerApplications(Long id) {
+        return lawyerRoleApplicationRepository
+                .findByApplicationIDLike(id);
+    }
 }
