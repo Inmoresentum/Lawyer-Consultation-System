@@ -365,7 +365,7 @@
     font-weight: bold;
     font-size: 1.2em;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     position: relative;
 }
@@ -414,3 +414,41 @@
         letter-spacing: normal;
     }
 }
+
+/*Custom component that Labia defined*/
+.register-view-custom-div {
+    background: linear-gradient(to bottom right, #f77062, #fe5196);
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 1s ease;
+}
+
+.some-text {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 650;
+    color: #fff;
+}
+
+.register-admin-email {
+    display: inline-block;
+    background: linear-gradient(to bottom right, #ff7200, #ec5748);
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    font-style: italic;
+    color: #fff;
+}
+
+.register-admin-email:hover {
+    background: linear-gradient(to bottom right, #fe5196, #d60093);
+    cursor: pointer;
+}
+
+.register-view-custom-div:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+

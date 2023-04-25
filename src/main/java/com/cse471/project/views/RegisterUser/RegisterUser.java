@@ -414,11 +414,10 @@ public class RegisterUser extends VerticalLayout {
         hl.setSpacing(false);
         hl.add(new Html("""
                 <div>
-                    <div style="display: flex; align-items: center;">
-                        <label for="agree" class="mail-focus" style="margin-left: 5px;">
-                            Those who are registering as an admin, please use the gsuit id which
-                            has been provided to you.
-                            
+                    <div class="register-view-custom-div" style="display: flex; align-items: center;">
+                        <label for="agree" class="some-text" style="margin-left: 5px;">
+                            Those who are registering as an admin,
+                             please use <span class="register-admin-email">@g.bracu.ac.bd</span>
                         </label>
                     </div>
                 </div>
