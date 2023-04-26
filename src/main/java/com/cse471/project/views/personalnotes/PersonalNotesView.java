@@ -38,7 +38,7 @@ import java.time.format.DateTimeFormatter;
 
 @PageTitle("Personal Notes")
 @Route(value = "personal-notes", layout = MainLayout.class)
-@RolesAllowed("ADMIN")
+@RolesAllowed({"ADMIN", "LAWYER", "USER"})
 public class PersonalNotesView extends Main {
     private final UserService userService;
     private Description lastModifiedDescription;
@@ -64,7 +64,7 @@ public class PersonalNotesView extends Main {
             editor.asHtml().setValue(
                     """     
                             <p><br></p>
-                            <h2 style="text-align: center">This is where we can take notes. They are <em><u>Safe</u></em> with us :)</h2>
+                            <h2 style="text-align: center">This is where you can take notes. They are <em><u>Safe</u></em> with us :)</h2>
                             <p><br></p>
                             """);
         } else {

@@ -77,10 +77,14 @@ public class UserListView extends Main implements HasComponents, HasStyle {
         selectBy.setValue(Role.USER);
 
         selectBy.addValueChangeListener(event -> {
-            // Todo: If user changes the value then fetch the
-            // new value from the DB.
-            // It will be both pageAble and sorted
-
+            userLists.removeAll();
+            var newlistOfUserWithPage = selectBy.getValue().equals(Role.USER) ? userService.list(PageRequest
+                    .of(curPage, PAGE_SIZE)) : userService.list(selectBy.getValue(), PageRequest.of(curPage, PAGE_SIZE));
+            totalPageCount = newlistOfUserWithPage.getTotalPages();
+            for (var user : newlistOfUserWithPage) {
+                UserListViewCard userListViewCard = new UserListViewCard(user);
+                userLists.add(userListViewCard);
+            }
         });
         loadPrevious.setEnabled(false);
         loadPrevious.addClassName("list-of-users-view-load-previous-button");
