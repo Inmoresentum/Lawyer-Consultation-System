@@ -8,7 +8,7 @@ import com.cse471.project.repository.UserRepository;
 import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.service.Email.EmailService;
 import com.cse471.project.service.Email.EmailUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
@@ -36,6 +36,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    @Transactional
     public User update(User entity) {
         return userRepository.save(entity);
     }
@@ -75,14 +76,17 @@ public class UserService {
         forgotPasswordTokeRepo.save(verificationToken);
     }
 
+    @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
+    @Transactional
     public Page<User> list(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
+    @Transactional
     public Page<User> list(Pageable pageable, Specification<User> filter) {
         return userRepository.findAll(filter, pageable);
     }
@@ -123,5 +127,14 @@ public class UserService {
         } catch (Exception e) {
             throw new IllegalStateException("Can't update the user");
         }
+    }
+
+    public void saveUserCreatedNotes(String htmlValue, User user) {
+        var mayBeUser = findByUserName(user.getUsername());
+        if (mayBeUser.isEmpty()) throw new IllegalStateException("User can't be emtpy!!");
+        User curUser = mayBeUser.get();
+        curUser.setPersonalNotesMadeUsingEditorInHTML(htmlValue);
+        curUser.setLastModifiedPersonalNotes(LocalDateTime.now());
+        userRepository.save(curUser);
     }
 }

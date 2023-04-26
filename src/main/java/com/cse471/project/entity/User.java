@@ -1,9 +1,7 @@
 package com.cse471.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.annotation.Nullable;
@@ -20,6 +18,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User extends AbstractEntity {
     @Size(max = 12, min = 4)
     @Column(unique = true)
@@ -53,6 +54,13 @@ public class User extends AbstractEntity {
     private boolean deactivatedByAdmin = false;
     @Column(columnDefinition = "TEXT")
     private String aboutYourSelf;
+    @Column(columnDefinition = "LONGTEXT", name = "personal_notes_made_using_editor_stored_in_HTML")
+    private String personalNotesMadeUsingEditorInHTML;
+
+    @CreatedDate
+    @Column(columnDefinition = "DATETIME", name = "last_modified_personal_notes")
+    private LocalDateTime lastModifiedPersonalNotes = LocalDateTime.now();
+
     @Column(name = "user_address")
     @Nullable
     private String address;

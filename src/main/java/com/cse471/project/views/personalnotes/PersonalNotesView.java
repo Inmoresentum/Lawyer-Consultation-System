@@ -1,12 +1,18 @@
 package com.cse471.project.views.personalnotes;
 
+import com.cse471.project.entity.User;
+import com.cse471.project.security.AuthenticatedUser;
+import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.html.DescriptionList.Description;
 import com.vaadin.flow.component.html.DescriptionList.Term;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.richtexteditor.RichTextEditor;
 import com.vaadin.flow.component.richtexteditor.RichTextEditorVariant;
-import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Accessibility;
@@ -25,33 +31,76 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.Overflow;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
-import javax.annotation.security.PermitAll;
+
+import javax.annotation.security.RolesAllowed;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @PageTitle("Personal Notes")
 @Route(value = "personal-notes", layout = MainLayout.class)
-@PermitAll
+@RolesAllowed("ADMIN")
 public class PersonalNotesView extends Main {
+    private final UserService userService;
+    private Description lastModifiedDescription;
+    private Description statusDescription;
+    private final UI curUI;
 
-    public PersonalNotesView() {
+    public PersonalNotesView(AuthenticatedUser mayBeUser, UserService userService) throws IllegalAccessException {
+        this.userService = userService;
+        this.curUI = UI.getCurrent();
+
+
         addClassNames(Display.FLEX, Flex.GROW, Height.FULL);
 
         // Editor
         RichTextEditor editor = new RichTextEditor();
         editor.addClassNames(Border.RIGHT, BorderColor.CONTRAST_10, Flex.GROW);
         editor.addThemeVariants(RichTextEditorVariant.LUMO_NO_BORDER);
-        editor.asDelta().setValue(
-                "[{\"insert\":\"High quality rich text editor for the web\"},{\"attributes\":{\"header\":2},\"insert\":\"\\n\"},{\"insert\":\"<vaadin-rich-text-editor> is a Web Component providing rich text editor functionality, part of the \"},{\"attributes\":{\"link\":\"https://vaadin.com/components\"},\"insert\":\"Vaadin components\"},{\"insert\":\".\\nIt handles the following formatting:\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"Bold\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"italic\":true},\"insert\":\"Italic\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"underline\":true},\"insert\":\"Underline\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"strike\":true},\"insert\":\"Strike-through\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"Headings (H1, H2, H3)\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"Lists (ordered and unordered)\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"Text align (left, center, right)\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"script\":\"sub\"},\"insert\":\"Sub\"},{\"insert\":\"script and \"},{\"attributes\":{\"script\":\"super\"},\"insert\":\"super\"},{\"insert\":\"script\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"link\":\"https://vaadin.com\"},\"insert\":\"Hyperlink\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"In addition to text formatting, additional content blocks can be added.\\nImages\"},{\"attributes\":{\"header\":3},\"insert\":\"\\n\"},{\"insert\":{\"image\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ8AAAA/CAYAAAD+BxoOAAAABGdBTUEAALGPC/xhBQAADqdJREFUeAHtXAlYVcUX/yEgO6hYam4oLoiGmpoIruW+Ly2EoqhopmWm5WelZqbmglZm2qYiuGXlRuZSppWV+0KK+5KC/hXFhX2z5ly87925974HypPLv+Z8H945Z5Yz77zfnTnnzDzt/mYEQcICBliglAE6hUphAckCAnwCCIZZQIDPMNMLxQJ8AgOGWUCAzzDTC8UCfAIDhllAgM8w0wvFAnwCA4ZZQIDPMNMLxQJ8AgOGWUCAzzDTC8UCfAIDhllAgM8w0wvFAnwCA4ZZQIDPMNMLxQ7CBLa1wOYtW7F12w8ICHgcgwcNhJ2dnUnB8RMnEDn3Q1y/cR3dunbB8IihpjpbFrZdz0XooQzcyL4rDetib4carqXQ/VEHTKztDA97W2p78LHsxGXSBzeeuieBKyQ0DPL93CmTJ6Jvn95Ss5ycHHTu1gNJSddN3WZMm4ru3bqaeFsVQg9nYFVitu5wQeUcsKuFG8yvhG6zYhGKbdeGZj5+/IQJeDRsPONlSkhI5IBH8oOHDsvVNn2GV3GEd2n9r/b35FxsTsq1qb4HHUx/hg862n+8313VLxLu3s3f9sgsVapUhne5cpyFAh5vwPG2YjqWd8D1Dh7I6+aFtU3dNMP+eSdPIzNCIMBXTFZ3dHTERx/Ow+MNGqBixYqIGDoYvXv1fKja6cvtU8EB9VRO3qXMkvGzHRFwPNSvnx+cVroVMVG8sBi4so68h5dXMrCHIoMvNzcXq9d8jatXr6JL587wr+dXoDl/+HE79h84iMDmzdCubVur7TMzM3EnJQWuLi5wd3e32rYwlXl5ebC3f/Bwj4KJxMREnDt/ATQWbafVq1VD6dKlC1SfkpqKqGXRSLqWhJ49u6NpkyZcnwQ27peLlyIrKxMvhITgYW3LnFIDmSKDb+p707F+Y6z0Eb7+Zi2+Xr0SVatWsfiRNsR+h0mTp0j1q1Z/hcjZM9GxQ3uu/a1bt7Bi1Wrs2bsPR48eAwGcqPJjj6Fv3954tl9flClThutjiaHociPTuWfvXhw6fIR9sVnw9PREw4YBeOG5Z9GyZbClrpycXoDo6OVYyeacykCkJE8PDzzzTD8GQEelWFN+bezr2LtvvySP3fQ9Vq2Ihl/duhJPnzFi+AhcvnxF4rf/tBOz3p/O2u+TXlQKWLKzs6QXsGFAADp36ij9lSplG88pk7mnQ+IysOVaDtp4O2BKHWc09LDN2BpD3BMUOdXSss1TuHPnjml8MsrsmTNMvLKQnZ2NTl174MaNGyZxzx7dMW3qFBO/Zes2zJw9B8nJN00ydcHJyQljx4xmq8Pz6iqOX7d+AyLnfYCUFB4sykY+1atj7pxZqF27llLMlf/YvRvj3pigAR3XSId5hr0kkye+JdWkpaWhRcs2XKuXR47A8GERkuzEyZN4LqQ/V18QU7tWLcyNnAX6DNYo+I80UJQr04jqTljUwFlmpeeShBwMPZJukpVi+cn+lR3xHgNhdRd+2zY1KmKhyNCuU6c2NwXaUhMSEjiZzGxgK6QSeCT388t/86m8lG1J4ye8ZRV41I5Wr/dnzcGCTxYRq0vT35+Jd959zyrwqOOFv/5C+NAIHGBugB79umsXXnl17H0DTz0WzVlNGcylkCk7O0cuFvp5+swZ9A8bBNqui0qlVfiiyD0mIRt1f07BuOOZSM6xvaNYZPCFsK1LSeQHRbHtSU3kK0VFx3BiV1dX0MpHRNvR/I8/4eoLYj7/crG0parb0Tb71Zpv1GKLPK2MI18ZjavXrnFt6EV5ffwEtt3pJ2y5xgYxNPd3p04rsvZ+lRwxqIrWb81i0cm8c1mouSMFM89mIcOcPSqyziKDr/3TTzGnm/fxaIVLTk7mJkcr4qVL/IrYj2X/yV+ifNjbEydLDryyE4392aIF2Lb5O3z+6UIW0HRSVktlWv2UqwrpnTZjJteOAozwQWGIiVqCzZs24sN5kWjQoD7XJiMjUwP+RZ99AZIrydHRAWH9Q/HRB3OlPyqT7GFSpUoVEdQiEE2eaAxnZ367JL3kGx87Fm9xCuovOV0n3HVhjaIaumBXkDuC2SmImm6zle/NE5mozUC4+FIObJEpVM9LrbNAnhze8IEDuHYEhuUrV3GyJUujOJ6+sIFh+T7Ovv0HNKvOqJdGYF7kbLQIDJTyYoHNn5Qc8HGvjeHG+R+Lsr/5dp1Jtu2HH0ERskx0trpowXzmI74qBRkUtDzVri2WL1uqCXS+Y0HAxYuXpK4UYKxdt14eRnpSxL0iZhneeH0si9LbSH9UXh4dJUXjXGMbMWSH72M34NOFC7B08ReI3bDWFKQoVezY+bOS5coVnPg9dd/tPFhawILL2kvHbxubuaG+Kj9IgyayyCQiLh0Bv6Qi9prZj+QUFpIpMvhIDyVL1dn7NWzbS0/Pd2B3797DHTVRH0rLVKhQgYrYsnWr9JT/qcOc/2ERQ2SWew5iQFevWrt++83UhgIWJdHqGhjYXCmSyvTSTHr7TdDWLxO5Bn8ePSqxJ1kAIEfZcv0oFiDI0akso2c9Pz9Qna2J5v3i8AguNVTh0UcxY/pUjarjbL6WaDDbTrkLDil5CPo9DaPjMxGXog/DHuwSQlxrdyxt6IqqtCyqKJ6N0XNfGlqxYOZkmv4Yqi4aVjuqpknBAspxhYaGcA1p5aDUC9GSqGVcHRmCtkGZEhMvy0XpGdi8OaylEILYaqikv+6tViQ7f+GCsgpBQS04Xsl4eXmhQX1/pQgnT52S+FOnznByYtq24aNVZQNrdcp291MObqE/91q+vpqXPePei643fjcGpFWNXdC0jAOc2A0Xoj03c/Hx+Sz02p+m10WSETjonPh0Ww9E+rugnM558S4WRfc7YI6SLQ6mU2ET8NG4z7PAQ7mKkCxmxQocORKH3Xv2EmuiViy3RgaUSb4FIvMezA+0Rup6a4ZXt1WPq05cy3m2vDztluJVxkvd3cRbqzM1us+Cm7v2XFYeorQTHxwUlDh3Z6DzYK6cs+obV7Hy8NzTiTVq4mUPHwspl1QdH5IbwAJTGN0WuvJiKdHatw8nvMYy+WPGvcHJiBkyOJyT0bmnko4eO6ZkNWV5azRVKO7MOTjwzvKxAsaKjz9uGkZZqFy5spKVyvFWnPqC9GgGK0bB9ht5bIVLxw52z48CB6LWLJE8tqYTYplvZ42OsG25y750tPsjFQeZr6imCgyZiwPMrou63hpvM/CRkjAWQKgjP3VeryG7ZPlE40bcnNRb4y+/7sKBg4e4NjJDwNv+0w6Z1Txpy1bSspjlSL6pn7BeyU5RKGDRI9+aNTTi+Z8s1ETk1IjSS/MXLNS0LymCzy9mI4/5szIFeNpjZ6Ab5tZzhr+7PgTOZ/yNAexeYONfU6VTD7mv/HR3sMM7LAF9pp0Hnva2l8X39dTXfF9DmBuTM9y1S2ezQKc0ZPAgjbRD+6c5h5i24dfYikmRq5J+2rETo1nCl75sS9SpYweu6ubNW4gYNgLKFY76U/Q994OPuLZKxsfHB082a6oUSUd9L416hUuiU/poxMiXraY6uEEMYC7T2ZmCaAvN9/wUwnvFpOy/8SoLRPx2pmAFu5CqdokcS9lhpI+TBLoptZ3g/mC4k7Txe5R2LvctCWdXxzfGbtJMmgaqwb5QvYsEBNpePXtg/YaNJn10vksJXjqHreFTnZ1EXMTt27dN9ZYKlA+j6JNuFct05uxZhPQPQ0UWXZd/pDzOnDnLpWPkduonuQfyWaxcR/5r1x69QXOmwMnSyim3LwlPHnqA672gQzk3WhfnX8jGpJOZSMk1r5LKNs+yRPQMP2fUYlfybUG2GUUxE9+aNdG6VUuFxFxURrhmaX7prQnjQWeVaqJz4yNxfxYKeNSXfD467/Tw0N6AIaDQRQVlHlCtT8kTkC3NmU5D/h+Ap/w81sqbWM5uzLEMXeC1Zf7h3pbuWPOEq82AR3OxOfhoUL2t9RG24vTo3o2qdYky93TyULduHd16a0JlDovaVWHBwtw5szXpCGtjyHXqsSg53ad3L7n6vp729mbz6kWjDvbmjacU287UZG/lxop6nmpePVZB/Pl09foIkG/4/ZNu2MH8w2Zsq7Y1ma1jw5EbN2oknSYohxzAjqHUkaiynsp0FWvV8miMeHGYxftxtKL1ZzlF5TWsuqrLDTQWnYis+3aN7pEc1RPRNjz65VHw9a2ZL2D/+vvXM5XlwrvvTGJHaZGoVq2qLNI86YiRfo3m4mI+/lLuAJRTVN8+oWtdMlGdsi/JlZcu5Hbyk3YYJSk/g1Je2HLIY47wv3ei4cO21WWNXHGolTu6PGJ+QQo7VmHbFflKlSVFdFuEgoYr7H5acHAQZs6YxiJhPqViqS/JaWukH9iQz0UnDZ4MdJUqVUJ7Fpy4sFWSDvsXLvoM9g72GBI+CG5ullMGdN5L55+HWc7RkW3Lnl6ebIv3RZvWraVk9uUrV7D6qzUo7+2N0BdCLL4kNI/97CgwjkXcp06dlnSWL++NRgxELYODJR/w0OHDiGU+byvmetARnJLI95w1OxLXkpKk1TR8oDnRTu127NyJ2XPmISMzA0MHhyNsgOUrVhdYMp3SWOfOnQe97LRrlC2rf8dRfaVqFAsYFtQ3vyTyHMnTu8ii3Gosn6ddh+VWtns+NPDZbopiJGsWoJdU77KBsk9hwafsUxzlh7LtFsfEhY58CxQEPGolJ5Zlm+kEu3JVsT4F+IrV3MWvbCs71YhP5YOJquoztuKflqTx4XmTBn0goZZdGriVhzB2OnE56y7SdHJ2AZ4lY80R4PsXojWK/R7jdJr+KVA79oNy+lF5SaCSMYuSYIl/0RwGsmtQm5NykJSVf1Kh/I+Cxvs6lZhPKqLdEvNV/PcmUjI2//+e3cUnZhYQ4BMwMMwCAnyGmV4oFuATGDDMAgJ8hpleKBbgExgwzAICfIaZXigW4BMYMMwCAnyGmV4oFuATGDDMAgJ8hpleKBbgExgwzAICfIaZXigW4BMYMMwCAnyGmV4oFuATGDDMAv8ABIKvgQJ6DIMAAAAASUVORK5CYII=\"}},{\"insert\":\"\\nBlockquotes\"},{\"attributes\":{\"header\":3},\"insert\":\"\\n\"},{\"insert\":\"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"},{\"attributes\":{\"blockquote\":true},\"insert\":\"\\n\"},{\"insert\":\"Code blocks\"},{\"attributes\":{\"header\":3},\"insert\":\"\\n\"},{\"insert\":\"<body>\"},{\"attributes\":{\"code-block\":true},\"insert\":\"\\n\"},{\"insert\":\"  <vaadin-rich-text-editor></vaadin-rich-text-editor>\"},{\"attributes\":{\"code-block\":true},\"insert\":\"\\n\"},{\"insert\":\"</body>\"},{\"attributes\":{\"code-block\":true},\"insert\":\"\\n\"},{\"insert\":\"\\n\"}]");
-
-        // Sidebar
+        if (mayBeUser.get().isEmpty()) throw new IllegalAccessException("User can't be empty");
+        var curUser = mayBeUser.get().get();
+        if (mayBeUser.get().isPresent() &&
+                (mayBeUser.get().get().getPersonalNotesMadeUsingEditorInHTML() == null ||
+                        mayBeUser.get().get().getPersonalNotesMadeUsingEditorInHTML().equals(""))) {
+            editor.asHtml().setValue(
+                    """     
+                            <p><br></p>
+                            <h2 style="text-align: center">This is where we can take notes. They are <em><u>Safe</u></em> with us :)</h2>
+                            <p><br></p>
+                            """);
+        } else {
+            editor.asHtml().setValue(mayBeUser.get().get().getPersonalNotesMadeUsingEditorInHTML());
+        }
+        editor.setValueChangeMode(ValueChangeMode.EAGER);
         editor.addValueChangeListener(event -> {
+            System.out.println("I am here in the value changed listener");
+            curUI.access(() -> {
+                System.out.println("I have modified the ui 1st time");
+                lastModifiedDescription.removeAll();
+                lastModifiedDescription.add(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+                statusDescription.removeAll();
+                statusDescription.add("Saving ");
+                statusDescription.add(new Icon(VaadinIcon.COG));
+            });
             System.out.println(editor.getHtmlValue());
+            // Schedule the task to be executed after 2 seconds
+            persistChange(curUser, editor);
+            curUI.access(() -> {
+                statusDescription.removeAll();
+                statusDescription.add("Saved ");
+                statusDescription.add(new Icon(VaadinIcon.CHECK_CIRCLE));
+            });
         });
-        add(editor, createSidebar());
+        // Sidebar
+        add(editor, createSidebar(curUser));
     }
 
-    private Section createSidebar() {
+    private void persistChange(User curUser, RichTextEditor editor) {
+        userService.saveUserCreatedNotes(editor.getHtmlValue(), curUser);
+    }
+
+    private Section createSidebar(User user) {
         Section sidebar = new Section();
-        sidebar.addClassNames(Background.CONTRAST_5, BoxSizing.BORDER, Display.FLEX, FlexDirection.COLUMN,
+        sidebar.addClassNames(Background.CONTRAST_10, BoxSizing.BORDER, Display.FLEX, FlexDirection.COLUMN,
                 Flex.SHRINK_NONE, Overflow.AUTO, Padding.LARGE);
         sidebar.setWidth("256px");
 
@@ -62,17 +111,49 @@ public class PersonalNotesView extends Main {
         dl.addClassNames(Display.FLEX, FlexDirection.COLUMN, Gap.LARGE, Margin.Bottom.SMALL, Margin.Top.NONE,
                 FontSize.SMALL);
 
-        dl.add(createItem("Owner", "My Name"), createItem("Created", "2021-08-14 14:48"),
-                createItem("Last modified", "2021-08-14 14:50"), createBadgeItem("Status", "Draft"));
-
-        Select select = new Select();
-        select.setLabel("Project");
-        select.setItems("My Project", "Your Project", "Their Project");
-        select.setValue("My Project");
+        dl.add(createItem("Owner", user.getName()), createItem("Created",
+                        user.getAccountCreated()
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))),
+                createLastModifiedItem("Last modified",
+                        user.getLastModifiedPersonalNotes()
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))),
+                createStatusItem("Status", "Saved"));
 
         // Add it all together
-        sidebar.add(title, dl, select);
+        sidebar.add(title, dl);
         return sidebar;
+    }
+
+    private Div createLastModifiedItem(String label, String value, String... themeNames) {
+        Div curDiv = new Div();
+        Term term = new Term(label);
+        term.addClassNames(FontWeight.MEDIUM, TextColor.SECONDARY);
+
+        curDiv.add(term);
+
+        lastModifiedDescription = new Description(value);
+        lastModifiedDescription.addClassName(Margin.Left.NONE);
+        for (String themeName : themeNames) {
+            lastModifiedDescription.getElement().getThemeList().add(themeName);
+        }
+        curDiv.add(lastModifiedDescription);
+        return curDiv;
+    }
+
+    private Div createStatusItem(String label, String value, String... themeNames) {
+        Div curDiv = new Div();
+        Term term = new Term(label);
+        term.addClassNames(FontWeight.MEDIUM, TextColor.SECONDARY);
+
+        curDiv.add(term);
+
+        statusDescription = new Description(value);
+        statusDescription.addClassName(Margin.Left.NONE);
+        for (String themeName : themeNames) {
+            statusDescription.getElement().getThemeList().add(themeName);
+        }
+        curDiv.add(statusDescription);
+        return curDiv;
     }
 
     private Div createItem(String label, String value) {
