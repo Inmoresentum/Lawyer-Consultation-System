@@ -1,8 +1,9 @@
 package com.cse471.project.views.dashboard;
 
 
+import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
-import com.cse471.project.views.dashboard.ServiceHealth.Status;
+import com.cse471.project.views.dashboard.AnalyticService.Status;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
@@ -30,6 +31,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.FontWeight;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
+
 import javax.annotation.security.RolesAllowed;
 
 @PageTitle("Dashboard")
@@ -38,13 +40,13 @@ import javax.annotation.security.RolesAllowed;
 @RolesAllowed("ADMIN")
 public class DashboardView extends Main {
 
-    public DashboardView() {
+    public DashboardView(UserService userService) {
         addClassName("dashboard-view");
 
         Board board = new Board();
-        board.addRow(new H1("Below are some test/example data!! Later will change it"));
-        board.addRow(createHighlight("Current users", "745", 33.7),
-                createHighlight("View events", "54.6k", -112.45),
+
+        board.addRow(createHighlight("Current users", userService.getTotalNumberOfUsers().toString(), 33.7),
+                createHighlight("View events", "54.6k", 112.45),
                 createHighlight("Conversion rate", "18%", 3.9),
                 createHighlight("Custom metric", "-123.45", 0.0));
         board.addRow(createViewEvents());
@@ -93,11 +95,11 @@ public class DashboardView extends Main {
         // Header
         Select year = new Select();
         year.setItems("2011", "2012", "2013", "2014", "2015", "2016",
-                "2017", "2018", "2019", "2020", "2021");
-        year.setValue("2021");
+                "2017", "2018", "2019", "2020", "2021", "2022", "2023");
+        year.setValue("2022");
         year.setWidth("100px");
 
-        HorizontalLayout header = createHeader("View events", "City/month");
+        HorizontalLayout header = createHeader("Number Of Viewers", "Month");
         header.add(year);
 
         // Chart
@@ -110,7 +112,7 @@ public class DashboardView extends Main {
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
         conf.addxAxis(xAxis);
 
-        conf.getyAxis().setTitle("Values");
+        conf.getyAxis().setTitle("Viewers");
 
         PlotOptionsAreaspline plotOptions = new PlotOptionsAreaspline();
         plotOptions.setPointPlacement(PointPlacement.ON);
@@ -118,15 +120,15 @@ public class DashboardView extends Main {
         conf.addPlotOptions(plotOptions);
 
         // Todo: Later change the values that we will fetch from the database
-        conf.addSeries(new ListSeries("Berlin", 189, 191, 291, 396, 501,
+        conf.addSeries(new ListSeries("Dhaka", 189, 191, 291, 396, 501,
                 403, 609, 712, 729, 942, 1044, 1247));
-        conf.addSeries(new ListSeries("London", 138, 246, 248, 348, 352,
+        conf.addSeries(new ListSeries("Sylhet", 138, 246, 248, 348, 352,
                 353, 463, 573, 778, 779, 885, 887));
-        conf.addSeries(new ListSeries("New York", 65, 65, 166, 171, 293,
+        conf.addSeries(new ListSeries("Rajshahi", 65, 65, 166, 171, 293,
                 302, 308, 317, 427, 429, 535, 636));
-        conf.addSeries(new ListSeries("Tokyo", 0, 11, 17, 123, 130, 142,
+        conf.addSeries(new ListSeries("Outside of Bangladesh", 0, 11, 17, 123, 130, 142,
                 248, 349, 452, 454, 458, 462));
-
+        conf.getyAxis().setTitle("Places/Viewers");
         // Add it all together
         VerticalLayout viewEvents = new VerticalLayout(header, chart);
         viewEvents.addClassName(Padding.LARGE);
@@ -139,37 +141,37 @@ public class DashboardView extends Main {
 
     private Component createServiceHealth() {
         // Header
-        HorizontalLayout header = createHeader("Service health", "Input / output");
+        HorizontalLayout header = createHeader("Critical Violence", "Number of Incidents");
 
         // Grid
-        Grid<ServiceHealth> grid = new Grid<>();
+        Grid<AnalyticService> grid = new Grid<>();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setAllRowsVisible(true);
 
-        grid.addColumn(new ComponentRenderer<>(serviceHealth -> {
+        grid.addColumn(new ComponentRenderer<>(analyticService -> {
             Span status = new Span();
-            String statusText = getStatusDisplayName(serviceHealth);
+            String statusText = getStatusDisplayName(analyticService);
             status.getElement().setAttribute("aria-label", "Status: " + statusText);
             status.getElement().setAttribute("title", "Status: " + statusText);
-            status.getElement().getThemeList().add(getStatusTheme(serviceHealth));
+            status.getElement().getThemeList().add(getStatusTheme(analyticService));
             return status;
         })).setHeader("").setFlexGrow(0).setAutoWidth(true);
-        grid.addColumn(ServiceHealth::getCity).setHeader("City").setFlexGrow(1);
-        grid.addColumn(ServiceHealth::getInput).setHeader("Input").setAutoWidth(true).setTextAlign(ColumnTextAlign.END);
-        grid.addColumn(ServiceHealth::getOutput).setHeader("Output").setAutoWidth(true)
+        grid.addColumn(AnalyticService::getCity).setHeader("City").setFlexGrow(1);
+        grid.addColumn(AnalyticService::getInput).setHeader("Reported Cases").setAutoWidth(true).setTextAlign(ColumnTextAlign.END);
+        grid.addColumn(AnalyticService::getOutput).setHeader("Critical Cases").setAutoWidth(true)
                 .setTextAlign(ColumnTextAlign.END);
 
-        grid.setItems(new ServiceHealth(Status.EXCELLENT, "Münster", 324, 1540),
-                new ServiceHealth(Status.OK, "Cluj-Napoca", 311, 1320),
-                new ServiceHealth(Status.FAILING, "Ciudad Victoria", 300, 1219));
+        grid.setItems(new AnalyticService(Status.FAILING, "Dhaka", 324, 1540),
+                new AnalyticService(Status.OK, "Comilla", 50, 12),
+                new AnalyticService(Status.EXCELLENT, "Sylhet", 10, 2));
 
         // Add it all together
-        VerticalLayout serviceHealth = new VerticalLayout(header, grid);
-        serviceHealth.addClassName(Padding.LARGE);
-        serviceHealth.setPadding(false);
-        serviceHealth.setSpacing(false);
-        serviceHealth.getElement().getThemeList().add("spacing-l");
-        return serviceHealth;
+        VerticalLayout container = new VerticalLayout(header, grid);
+        container.addClassName(Padding.LARGE);
+        container.setPadding(false);
+        container.setSpacing(false);
+        container.getElement().getThemeList().add("spacing-l");
+        return container;
     }
 
     private Component createResponseTimes() {
@@ -217,8 +219,8 @@ public class DashboardView extends Main {
         return header;
     }
 
-    private String getStatusDisplayName(ServiceHealth serviceHealth) {
-        Status status = serviceHealth.getStatus();
+    private String getStatusDisplayName(AnalyticService analyticService) {
+        Status status = analyticService.getStatus();
         if (status == Status.OK) {
             return "Ok";
         } else if (status == Status.FAILING) {
@@ -230,8 +232,8 @@ public class DashboardView extends Main {
         }
     }
 
-    private String getStatusTheme(ServiceHealth serviceHealth) {
-        Status status = serviceHealth.getStatus();
+    private String getStatusTheme(AnalyticService analyticService) {
+        Status status = analyticService.getStatus();
         String theme = "badge primary small";
         if (status == Status.EXCELLENT) {
             theme += " success";

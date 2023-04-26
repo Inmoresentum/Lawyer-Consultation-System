@@ -41,6 +41,10 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    public Long getTotalNumberOfUsers() {
+        return userRepository.count();
+    }
+
     @Transactional
     public void registerUser(User user, String password) {
         user.setHashedPassword(passwordEncoder.encode(password));

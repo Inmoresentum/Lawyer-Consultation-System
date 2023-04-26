@@ -1,9 +1,6 @@
 package com.cse471.project.views.dashboard;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * Simple DTO class for the inbox list to demonstrate complex object data
@@ -12,7 +9,10 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class ServiceHealth {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AnalyticService {
 
     private Status status;
 
@@ -28,11 +28,7 @@ public class ServiceHealth {
         EXCELLENT, OK, FAILING
     }
 
-    public ServiceHealth() {
-
-    }
-
-    public ServiceHealth(Status status, String city, int input, int output) {
+    public AnalyticService(Status status, String city, int input, int output) {
         this.status = status;
         this.city = city;
         this.input = input;
