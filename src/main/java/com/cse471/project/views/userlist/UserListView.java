@@ -1,5 +1,6 @@
 package com.cse471.project.views.userlist;
 
+import com.cse471.project.entity.Role;
 import com.cse471.project.service.UserService.UserService;
 import com.cse471.project.views.MainLayout;
 import com.vaadin.flow.component.HasComponents;
@@ -70,12 +71,12 @@ public class UserListView extends Main implements HasComponents, HasStyle {
         description.addClassNames(Margin.Bottom.XLARGE, Margin.Top.NONE, TextColor.SECONDARY);
         headerContainer.add(header, description);
 
-        Select<String> sortBy = new Select<>();
-        sortBy.setLabel("Sort by");
-        sortBy.setItems("Admin", "Lawyer", "Members");
-        sortBy.setValue("Members");
+        Select<Role> selectBy = new Select<>();
+        selectBy.setLabel("Select by");
+        selectBy.setItems(Role.ADMIN, Role.LAWYER, Role.USER);
+        selectBy.setValue(Role.USER);
 
-        sortBy.addValueChangeListener(event -> {
+        selectBy.addValueChangeListener(event -> {
             // Todo: If user changes the value then fetch the
             // new value from the DB.
             // It will be both pageAble and sorted
@@ -90,8 +91,8 @@ public class UserListView extends Main implements HasComponents, HasStyle {
             curPage--;
             loadMoreButton.setEnabled(true);
             userLists.removeAll();
-            var newlistOfUserWithPage = userService.list(PageRequest
-                    .of(curPage, PAGE_SIZE));
+            var newlistOfUserWithPage = selectBy.getValue().equals(Role.USER) ? userService.list(PageRequest
+                    .of(curPage, PAGE_SIZE)) : userService.list(selectBy.getValue(), PageRequest.of(curPage, PAGE_SIZE));
             totalPageCount = newlistOfUserWithPage.getTotalPages();
             for (var user : newlistOfUserWithPage) {
                 UserListViewCard userListViewCard = new UserListViewCard(user);
@@ -105,7 +106,7 @@ public class UserListView extends Main implements HasComponents, HasStyle {
         userLists = new OrderedList();
         userLists.addClassNames(Gap.MEDIUM, Display.GRID,
                 ListStyleType.NONE, Margin.NONE, Padding.NONE);
-        container.add(headerContainer, sortBy);
+        container.add(headerContainer, selectBy);
         add(container, loadPrevious, userLists);
         loadMoreButton.addClassName("user-list-view-load-more-button");
         loadMoreButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
@@ -116,8 +117,8 @@ public class UserListView extends Main implements HasComponents, HasStyle {
             curPage++;
             loadPrevious.setEnabled(true);
             userLists.removeAll();
-            var newlistOfUserWithPage = userService.list(PageRequest
-                    .of(curPage, PAGE_SIZE));
+            var newlistOfUserWithPage = selectBy.getValue().equals(Role.USER) ? userService.list(PageRequest
+                    .of(curPage, PAGE_SIZE)) : userService.list(selectBy.getValue(), PageRequest.of(curPage, PAGE_SIZE));
             totalPageCount = newlistOfUserWithPage.getTotalPages();
             for (var user : newlistOfUserWithPage) {
                 UserListViewCard userListViewCard = new UserListViewCard(user);

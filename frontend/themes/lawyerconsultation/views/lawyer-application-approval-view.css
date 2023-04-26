@@ -41,6 +41,74 @@
     }
 }
 
+.laav-a-status-h4-accepted {
+    color: green;
+    animation-name: laav-h4-pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.laav-a-status-h4-rejected {
+    color: red;
+    text-decoration: line-through;
+}
+
+.laav-a-status-h4-pending {
+    color: orange;
+    font-style: italic;
+}
+
+@keyframes laav-h4-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.laav-reviewer-div {
+    position: relative;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #ffcc33, #cc99ff);
+    animation: laav-span-div-gradient 5s infinite;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.laav-reviewer-span {
+    display: inline-block;
+    font-weight: bold;
+    color: white;
+    font-size: 16px;
+}
+
+.laav-reviewer-span-reviewer {
+    color: #ea0b0b;
+    font-style: italic;
+}
+
+.laav-reviewer-span-review-time {
+    color: #7f00ff;
+    font-size: 14px;
+}
+
+@keyframes laav-span-div-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 /* Style for the expand and collapse icon */
 .laav-a-tab::before {
     content: '\25BC';
@@ -254,6 +322,7 @@
 .laav-app-reject-button:hover:active {
     transform: scale(1.1) translateY(-5px);
 }
+
 .laav-action-button-layout {
     display: flex;
     justify-content: space-between;

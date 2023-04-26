@@ -1,0 +1,25 @@
+name: Maven Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+      - name: Build with Maven
+        run: mvn -B clean package -DskipTests --file pom.xml
+      - name: Check if build successful
+        run: |
+          if [ "$?" -ne 0 ]; then
+            echo "::error::Build failed!"
+            exit 1
+          fi

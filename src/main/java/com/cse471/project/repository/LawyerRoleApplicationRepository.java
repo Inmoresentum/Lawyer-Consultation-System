@@ -14,5 +14,5 @@ public interface LawyerRoleApplicationRepository
 
     List<LawyerRoleApplication> findByIsReviewedFalse();
 
-    List<LawyerRoleApplication> findLawyerRoleApplicationsByApplicationIDContaining(String ID);
+    List<LawyerRoleApplication> findByApplicationIDLike(Long applicationID);
 }

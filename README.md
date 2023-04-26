@@ -13,6 +13,9 @@
 <img src="https://img.shields.io/github/languages/top/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
 <img src="https://img.shields.io/github/last-commit/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
 <img src="https://img.shields.io/github/contributors/Inmoresentum/Lawyer-Consultation-System" alt="whatever">
+<a href="https://github.com/Inmoresentum/Lawyer-Consultation-System/actions/workflows/build_checker.yml">
+<img src="https://github.com/Inmoresentum/Lawyer-Consultation-System/actions/workflows/build_checker.yml/badge.svg" alt="whatever">
+</a>
 </p>
 
 
@@ -80,7 +83,7 @@ to set up, please follow these steps:
    To check run `git --version` in your
    terminal.
    ```shell
-    git clone https://github.com/Inmoresentum/Lawyer-Consultation-System
+    git clone https://github.com/Inmoresentum/Lawyer-Consultation-System.git
    ```
 
 2. Change directory to the project directory
@@ -112,4 +115,4 @@ please try to create bug reports that are:
 - _reproducible._ include steps to reproduce the problem.
 - _specific._ include as much detail as possible: which version, what environment, etc.
 - _unique._ do not duplicate existing opened issues.
-- _scoped to a single bug._ one bug per report.
+- _scoped to a **single bug**._ one bug per report.

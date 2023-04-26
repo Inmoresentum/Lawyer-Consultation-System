@@ -20,7 +20,7 @@ import java.util.Set;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(access = AccessLevel.PUBLIC)
 public class User extends AbstractEntity {
     @Size(max = 12, min = 4)
     @Column(unique = true)
@@ -54,13 +54,6 @@ public class User extends AbstractEntity {
     private boolean deactivatedByAdmin = false;
     @Column(columnDefinition = "TEXT")
     private String aboutYourSelf;
-    @Column(columnDefinition = "LONGTEXT", name = "personal_notes_made_using_editor_stored_in_HTML")
-    private String personalNotesMadeUsingEditorInHTML;
-
-    @CreatedDate
-    @Column(columnDefinition = "DATETIME", name = "last_modified_personal_notes")
-    private LocalDateTime lastModifiedPersonalNotes = LocalDateTime.now();
-
     @Column(name = "user_address")
     @Nullable
     private String address;

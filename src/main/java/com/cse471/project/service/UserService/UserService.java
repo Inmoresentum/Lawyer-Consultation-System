@@ -1,6 +1,7 @@
 package com.cse471.project.service.UserService;
 
 import com.cse471.project.entity.ForgotPasswordVerificationToken;
+import com.cse471.project.entity.Role;
 import com.cse471.project.entity.User;
 import com.cse471.project.entity.UserVerificationToken;
 import com.cse471.project.repository.UserForgotPasswordVerificationRepository;
@@ -8,6 +9,7 @@ import com.cse471.project.repository.UserRepository;
 import com.cse471.project.repository.UserVerificationTokenRepository;
 import com.cse471.project.service.Email.EmailService;
 import com.cse471.project.service.Email.EmailUtils;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,7 @@ public class UserService {
     private final EmailService emailService;
     private final UserForgotPasswordVerificationRepository forgotPasswordTokeRepo;
 
+    @Transactional
     public Optional<User> get(Long id) {
         return userRepository.findById(id);
     }
@@ -39,10 +42,6 @@ public class UserService {
     @Transactional
     public User update(User entity) {
         return userRepository.save(entity);
-    }
-
-    public Long getTotalNumberOfUsers() {
-        return userRepository.count();
     }
 
     @Transactional
@@ -85,12 +84,14 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    @Transactional
     public Page<User> list(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
-    @Transactional
+    public Page<User> list(Role role, Pageable pageable) {
+        return userRepository.findAllByRolesContaining(role, pageable);
+    }
+
     public Page<User> list(Pageable pageable, Specification<User> filter) {
         return userRepository.findAll(filter, pageable);
     }
@@ -131,14 +132,5 @@ public class UserService {
         } catch (Exception e) {
             throw new IllegalStateException("Can't update the user");
         }
-    }
-
-    public void saveUserCreatedNotes(String htmlValue, User user) {
-        var mayBeUser = findByUserName(user.getUsername());
-        if (mayBeUser.isEmpty()) throw new IllegalStateException("User can't be emtpy!!");
-        User curUser = mayBeUser.get();
-        curUser.setPersonalNotesMadeUsingEditorInHTML(htmlValue);
-        curUser.setLastModifiedPersonalNotes(LocalDateTime.now());
-        userRepository.save(curUser);
     }
 }

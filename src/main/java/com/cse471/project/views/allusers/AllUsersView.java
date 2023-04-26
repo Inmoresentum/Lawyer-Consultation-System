@@ -269,7 +269,7 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         name.setPrefixComponent(new Icon(VaadinIcon.USERS));
 
         username = new TextField("Username");
-        username.setEnabled(false);
+        username.setReadOnly(true);
         username.setRequired(true);
         username.setHelperText("This is the username and it can't be changed");
         username.setTooltipText("This field can't be changed");
@@ -291,12 +291,12 @@ public class AllUsersView extends Div implements BeforeEnterObserver {
         dateOfBirth = new DatePicker("Date Of Birth");
 
         accountVerificationStatus = new Checkbox("Account Verified?");
-        accountVerificationStatus.setEnabled(false);
+        accountVerificationStatus.setReadOnly(true);
         accountVerificationStatus.setTooltipText("Indicate verification status");
 
         deactivateAccount = new Checkbox("Deactivate Account?");
         accountCreated = new DateTimePicker("Time of account creation");
-        accountCreated.setEnabled(false);
+        accountCreated.setReadOnly(true);
 
         address = new TextField("Address");
         address.setRequired(true);

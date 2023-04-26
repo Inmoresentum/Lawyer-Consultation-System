@@ -12,7 +12,9 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class LawyerRoleApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
@@ -38,11 +40,15 @@ public class LawyerRoleApplication {
 
     @Enumerated(EnumType.STRING)
     private IncludedDocumentType includedDocumentType;
-
+    @Column(name = "Application_got_approved")
+    private boolean isApproved;
+    @Column(name = "Application_got_reviewed")
     private boolean isReviewed = false;
     @Column(name = "When_the_form_was_reviewd_by_the_admin")
     private LocalDateTime reviewedTime;
 
+    @OneToOne
+    private User reviewer;
     @Column(name = "comment_by_reviewer", columnDefinition = "TEXT")
     private String commentByReviewer;
 }
