@@ -133,4 +133,15 @@ public class UserService {
             throw new IllegalStateException("Can't update the user");
         }
     }
+
+    public Long getTotalNumberOfUsers() {
+        return userRepository.count();
+    }
+
+    public void saveUserCreatedNotes(String htmlValue, User user) {
+        var curUser = userRepository.findByUsername(user.getUsername());
+        curUser.setLastModifiedPersonalNotes(LocalDateTime.now());
+        curUser.setPersonalNotesMadeUsingEditorInHTML(htmlValue);
+        userRepository.save(curUser);
+    }
 }

@@ -54,6 +54,14 @@ public class User extends AbstractEntity {
     private boolean deactivatedByAdmin = false;
     @Column(columnDefinition = "TEXT")
     private String aboutYourSelf;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String personalNotesMadeUsingEditorInHTML;
+
+    @CreatedDate
+    @Column(columnDefinition = "DATETIME")
+    private LocalDateTime lastModifiedPersonalNotes = LocalDateTime.now();
+
     @Column(name = "user_address")
     @Nullable
     private String address;
