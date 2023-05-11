@@ -91,7 +91,7 @@ to set up, please follow these steps:
     ```shell
     cd Lawyer-Consultation-System
     ```
-   or open this directory with your favourite **code editor** or **ide**
+   or open this directory with your favourite `code editor` or `IDE`
    which will download all the dependencies for maven.
    We used [IntelliJ IDEA](https://www.jetbrains.com/idea/) but other code
    `editors` or `IDES` will also do the job.
