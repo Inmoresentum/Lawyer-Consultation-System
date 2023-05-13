@@ -69,7 +69,7 @@ you will have to install the following things.
    ```shell
     npm --version
    ```
-4. A valid **vaadin** pro `subscription` or `student subscription`
+4. A valid **vaadin pro** `subscription` or `student subscription`
 
    For more information, visit [vaadin](https://vaadin.com/)
 
@@ -91,10 +91,10 @@ to set up, please follow these steps:
     ```shell
     cd Lawyer-Consultation-System
     ```
-   or open this directory with your favourite **code editor** or **ide**
+   or open this directory with your favourite `code editor` or `IDE`
    which will download all the dependencies for maven.
    We used [IntelliJ IDEA](https://www.jetbrains.com/idea/) but other code
-   `editors` and `IDES` will also do the job.
+   `editors` or `IDES` will also do the job.
 
 3. Click the `play` icon which will start the spring boot application
    and will recursively download all the `npm` dependencies.
